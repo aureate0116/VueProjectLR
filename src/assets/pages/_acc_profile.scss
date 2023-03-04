@@ -1,0 +1,19 @@
+.rightContent{
+   .profilePhoto {
+        width: 50%;
+        
+   }
+
+   @include media-breakpoint-up(md) { 
+    .profilePhoto{
+        width: 25%;
+        text-align: center;
+    }
+   }
+}
+
+.profilePhoto .userImg{
+    width: 10rem;
+    height: 10rem;
+    font-size: 100px;
+}

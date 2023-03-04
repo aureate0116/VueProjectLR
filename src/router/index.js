@@ -10,7 +10,7 @@ const router = createRouter({
       children: [
         {
           path: "",
-          component: () => import("../views/front/HomeView.vue"),
+          component: () => import("../views/front/IndexView.vue"),
         },
         {
           path: "resource-list",

@@ -1,0 +1,649 @@
+<template>
+  <!-- 1 bannerBlock -->
+  <div class="container-fluid px-3 py-5 p-lg-0 bg-primary">
+    <div
+      class="bannerBlock container p-0 p-lg-8 p-md-4 d-flex align-items-center justify-content-center justify-content-lg-between"
+    >
+      <div class="bannerLeft">
+        <div class="text-white fs-2 d-flex flex-wrap align-items-center">
+          <span>幫助想成為</span>
+          <span id="bannerText" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner px-2 text-center">
+              <span
+                class="carousel-item active text-decoration-underline"
+                data-bs-interval="3000"
+              >
+                前端工程師
+              </span>
+              <span
+                class="carousel-item text-decoration-underline"
+                data-bs-interval="3000"
+              >
+                後端工程師
+              </span>
+              <span
+                class="carousel-item text-decoration-underline"
+                data-bs-interval="3000"
+              >
+                全端工程師
+              </span>
+              <span
+                class="carousel-item text-decoration-underline"
+                data-bs-interval="3000"
+              >
+                資料工程師
+              </span>
+              <!-- <span class="carousel-item text-decoration-underline" data-bs-interval="3000"> 開發維運工程師 </span>
+                            <span class="carousel-item text-decoration-underline" data-bs-interval="3000"> 行動應用工程師 </span>
+                            <span class="carousel-item text-decoration-underline" data-bs-interval="3000"> 產品測試工程師 </span> -->
+            </div>
+          </span>
+          <span>的你</span>
+        </div>
+        <div class="text-white fs-2">
+          <p>輕鬆找到<span class="text-secondary"> 可靠的 </span>學習資源 !</p>
+        </div>
+
+        <!-- search -->
+        <div class="bg-light input-group rounded-3 my-3">
+          <a class="btn lh-1" href="#" role="button"
+            ><span class="material-icons material-icons-outlined"
+              >search</span
+            ></a
+          >
+          <input
+            class="form-control border-0 bg-light"
+            type="text"
+            placeholder="JavaScript"
+          />
+        </div>
+
+        <!-- 推薦關鍵字 -->
+        <!-- <ul class="d-flex fs-7 text-center">
+                    <li class="me-2"><a href="#" class="text-light"> JavaScript </a></li>
+                    <li class="me-2"><a href="#" class="text-light"> Python </a></li>
+                    <li class="me-2"><a href="#" class="text-light"> HTML </a></li>
+                </ul> -->
+      </div>
+
+      <img src="@/assets/images/banner01.png" alt="banner" />
+    </div>
+  </div>
+
+  <!-- 2 painpoint -->
+  <div
+    class="painpoint container px-3 py-5 p-lg-8 d-flex align-items-center flex-column flex-md-row"
+  >
+    <div
+      data-aos="zoom-in"
+      data-aos-duration="1000"
+      class="me-md-4 me-0 text-center"
+    >
+      <img width="70%" src="@/assets/images/banner02.png" alt="painpoint" />
+    </div>
+    <div class="painpointRight mt-5 mt-md-0">
+      <h3 class="fw-bold text-dark">
+        找到具參考價值的學習資源前<br />往往需要經過一番 N 折?
+      </h3>
+
+      <div class="swiper mySwiper2 mt-6">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <h4 class="fontTeko">Search</h4>
+            <p>
+              「JS學習資源」、「JavaScript免費資源」、「前端開發推薦課程」...
+              您是否總是要使用「各種」關鍵字搜尋才能找到適合自己的學習資源？
+            </p>
+          </div>
+          <div class="swiper-slide">
+            <h4 class="fontTeko">Multiple Pagination</h4>
+            <p>
+              搜尋後開啟各種分頁瀏覽，除了佔資源，還有很高機率開起釣魚網站，大幅提高瀏覽風險
+            </p>
+          </div>
+          <div class="swiper-slide">
+            <h4 class="fontTeko">Reading & Filter</h4>
+            <p>
+              由於網路學習資源實在太多了，您需要花很多時間瀏覽、篩選網頁內容，您是否懷疑「怎麼知道這些教學正確、可被參考且適合自己」
+              ?
+            </p>
+          </div>
+          <div class="swiper-slide">
+            <h4 class="fontTeko">Collect & Finding</h4>
+            <p>
+              您可能會將篩選後的資源存在瀏覽器頁籤、某個數位筆記本或其他地方。但當時儲存資源的時候是否有好好分類呢
+              ? 您是否還找的到當初存的資源嗎 ?
+            </p>
+          </div>
+        </div>
+        <!-- <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div> -->
+      </div>
+      <div thumbsSlider="" class="swiper mySwiper mt-3">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide text-center">
+            <img src="@/assets/images/icon_search.png" alt="search" />
+            <p>考驗聯想力</p>
+          </div>
+          <div class="swiper-slide text-center">
+            <img src="@/assets/images/icon_risk.png" alt="risk" />
+            <p>提高瀏覽風險</p>
+          </div>
+          <div class="swiper-slide text-center">
+            <img src="@/assets/images/icon_time.png" alt="time" />
+            <p>考驗耐性與判斷力</p>
+          </div>
+          <div class="swiper-slide text-center">
+            <img src="@/assets/images/icon_brain.png" alt="brain" />
+            <p>考驗記憶力</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 solution -->
+  <div class="container-fluid p-0 bg-primary">
+    <div class="solution container py-5 p-lg-8">
+      <h3 class="fw-bold text-white text-center mb-6">
+        解決你搜尋學習資源的困擾
+      </h3>
+      <div class="row">
+        <div class="col-md-3">
+          <div
+            data-aos="fade-right"
+            data-aos-duration="1000"
+            data-aos-easing="ease-in-sine"
+            class="content text-center bg-white p-6 p-md-4 rounded-3 m-4 m-md-1"
+          >
+            <img src="@/assets/images/icon_file.png" alt="輕鬆查找" />
+            <h4 class="text-primary fw-bold my-3">輕鬆查找</h4>
+            <p>降低連到無關網頁機率<br />簡化你查找資源的時間</p>
+          </div>
+        </div>
+        <div data-aos="zoom-in-down" data-aos-duration="1000" class="col-md-3">
+          <div
+            class="content text-center bg-white p-6 p-md-4 rounded-3 m-4 m-md-1"
+          >
+            <img src="@/assets/images/icon_review.png" alt="輕鬆判別" />
+            <h4 class="text-primary fw-bold my-3">輕鬆判別</h4>
+            <p>資源評價機制，讓你輕鬆判別該資源是否具參考價值</p>
+          </div>
+        </div>
+        <div data-aos="fade-down" data-aos-duration="1000" class="col-md-3">
+          <div
+            class="content text-center bg-white p-6 p-md-4 rounded-3 m-4 m-md-1"
+          >
+            <img src="@/assets/images/icon_bookmark.png" alt="輕鬆收藏" />
+            <h4 class="text-primary fw-bold my-3">輕鬆收藏</h4>
+            <p>專屬的學習資源庫，簡化你的管理流程</p>
+          </div>
+        </div>
+        <div data-aos="fade-left" data-aos-duration="1000" class="col-md-3">
+          <div
+            class="content text-center bg-white p-6 p-md-4 rounded-3 m-4 m-md-1"
+          >
+            <img src="@/assets/images/icon_flag.png" alt="輕鬆募集" />
+            <h4 class="text-primary fw-bold my-3">輕鬆募集</h4>
+            <p>減少連結到非相關網頁的機率，簡化你查找資源的時間</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end 3 solution -->
+
+  <!-- 4 goodRate 好評推薦 -->
+  <router-view>
+    <div class="goodRate container py-5 p-lg-8">
+      <ul
+        class="nav nav-pills mb-3 d-flex align-items-center"
+        id="pills-tab"
+        role="tablist"
+      >
+        <li><h3 class="fs-5 mb-0 fw-bold me-4">好評推薦</h3></li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link active"
+            data-bs-toggle="pill"
+            type="button"
+            role="tab"
+            aria-controls="pills-home"
+            aria-selected="true"
+            @click="changeTabData('goodRate', 'JavaScript')"
+          >
+            JavaScript
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            data-bs-toggle="pill"
+            type="button"
+            role="tab"
+            aria-controls="pills-profile"
+            aria-selected="false"
+            @click="changeTabData('goodRate', 'HTML/CSS')"
+          >
+            HTML/CSS
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            data-bs-toggle="pill"
+            type="button"
+            role="tab"
+            aria-controls="pills-contact"
+            aria-selected="false"
+            @click="changeTabData('goodRate', 'Python')"
+          >
+            Python
+          </button>
+        </li>
+      </ul>
+
+      <div
+        class="tab-content border border-primary p-3 rounded-3"
+        id="pills-tabContent"
+      >
+        <div
+          class="tab-pane fade show active"
+          role="tabpanel"
+          aria-labelledby="goodRate1-tab"
+        >
+          <div class="row">
+            <div
+              class="col-md-6 col-lg-4"
+              v-for="resourceItem in goodRateTabData"
+              :key="resourceItem.id"
+            >
+              <div class="d-flex p-2 align-items-center">
+                <div class="row">
+                  <div class="col-6" v-if="resourceItem.imgUrl != ''">
+                    <img
+                      :src="`/images/resources_cover/${resourceItem.imgUrl}`"
+                      :alt="resourceItem.title"
+                    />
+                  </div>
+                  <div class="col-6" v-else>
+                    <img
+                      :src="`/images/resources_cover/noimgCover.jpg`"
+                      :alt="resourceItem.title"
+                    />
+                  </div>
+                  <div class="col-6">
+                    <h4 class="ellipsis">{{ resourceItem.title }}</h4>
+                    <div
+                      class="d-flex justify-content-between align-items-center"
+                    >
+                      <div
+                        v-if="
+                          resourceItem.commentSum == 0 ||
+                          resourceItem.commentSum == undefined
+                        "
+                      >
+                        <span class="fs-8 text-gray">尚無評價</span>
+                      </div>
+                      <div v-else>
+                        <span class="fs-7 fw-bold text-secondary">{{
+                          resourceItem.averageScore
+                        }}</span>
+                        <ul
+                          class="d-flex align-items-center lh-1 text-secondary"
+                        >
+                          {{
+                            resourceItem.averageScore[0]
+                          }}
+                          {{
+                            resourceItem.averageScore[1]
+                          }}
+                          {{
+                            resourceItem.averageScore[2]
+                          }}
+                          <!-- <star-component></star-component> -->
+                          <li>
+                            <span
+                              v-for="star in resourceItem.averageScore"
+                              :key="star + 1"
+                              class="material-icons material-icons-sharp fs-8"
+                              >star</span
+                            >
+                          </li>
+
+                          <li v-if="resourceItem.averageScore[2] <= 2">
+                            <span
+                              v-for="star in 5 - resourceItem.averageScore[0]"
+                              :key="star + 2"
+                              class="material-icons material-icons-sharp fs-8"
+                              >star_outline</span
+                            >
+                          </li>
+
+                          <li
+                            v-else-if="
+                              resourceItem.averageScore[2] >= 3 &&
+                              resourceItem.averageScore[2] <= 7
+                            "
+                          >
+                            <span
+                              class="material-icons material-icons-sharp fs-8"
+                              >star_half</span
+                            >
+                          </li>
+
+                          <li v-else-if="resourceItem.averageScore[2] >= 8">
+                            <span
+                              v-for="star in 5 -
+                              resourceItem.averageScore[0] -
+                              1"
+                              :key="star + 3"
+                              class="material-icons material-icons-sharp fs-8"
+                              >star</span
+                            >
+                          </li>
+                        </ul>
+
+                        <span class="fs-8 text-secondary"
+                          >({{ resourceItem.commentSum }})</span
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end 4 goodRate-->
+
+    <!-- 5 freeResources 免費資源 -->
+    <div class="freeResources container py-5 p-lg-8 pt-lg-0">
+      <ul
+        class="nav nav-pills mb-3 d-flex align-items-center"
+        id="pills-tab"
+        role="tablist"
+      >
+        <li><h3 class="fs-5 mb-0 fw-bold me-4">最新免費資源</h3></li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link active"
+            data-bs-toggle="pill"
+            type="button"
+            role="tab"
+            aria-controls="pills-home"
+            aria-selected="true"
+            @click="changeTabData('free', '線上課程')"
+          >
+            線上課程
+          </button>
+        </li>
+
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            data-bs-toggle="pill"
+            type="button"
+            role="tab"
+            aria-controls="pills-contact"
+            aria-selected="false"
+            @click="changeTabData('free', '文章')"
+          >
+            文章
+          </button>
+        </li>
+      </ul>
+
+      <div
+        class="tab-content border border-primary p-3 rounded-3"
+        id="pills-tabContent"
+      >
+        <div
+          class="tab-pane fade show active"
+          role="tabpanel"
+          aria-labelledby="resourceType1-tab"
+        >
+          <div class="row">
+            <div
+              class="col-lg-2 col-6"
+              v-for="resourceItem in freeTabData"
+              :key="resourceItem.id"
+            >
+              <div>
+                <div class="text-center" v-if="resourceItem.imgUrl != ''">
+                  <img
+                    :src="`/images/resources_cover/${resourceItem.imgUrl}`"
+                    :alt="resourceItem.title"
+                  />
+                </div>
+                <div class="text-center" v-else>
+                  <img
+                    :src="`/images/resources_cover/noimgCover.jpg`"
+                    :alt="resourceItem.title"
+                  />
+                </div>
+
+                <div class="p-2">
+                  <h4 class="fs-7 ellipsis">{{ resourceItem.title }}</h4>
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <div
+                      v-if="
+                        resourceItem.commentSum == 0 ||
+                        resourceItem.commentSum == undefined
+                      "
+                    >
+                      <span class="fs-8 text-gray">尚無評價</span>
+                    </div>
+                    <div v-else>
+                      <span class="fs-7 fw-bold me-lg-2 text-secondary">{{
+                        resourceItem.averageScore
+                      }}</span>
+                      <ul class="d-flex align-items-center lh-1 text-secondary">
+                        <li>
+                          <span
+                            v-for="star in resourceItem.averageScore"
+                            :key="star + 1"
+                            class="material-icons material-icons-sharp fs-8"
+                            >star</span
+                          >
+                        </li>
+
+                        <li v-if="resourceItem.averageScore[2] <= 2">
+                          <span
+                            v-for="star in 5 - resourceItem.averageScore[0]"
+                            :key="star + 2"
+                            class="material-icons material-icons-sharp fs-8"
+                            >star_outline</span
+                          >
+                        </li>
+
+                        <li
+                          v-else-if="
+                            resourceItem.averageScore[2] >= 3 &&
+                            resourceItem.averageScore[2] <= 7
+                          "
+                        >
+                          <span class="material-icons material-icons-sharp fs-8"
+                            >star_half</span
+                          >
+                        </li>
+
+                        <li v-else-if="resourceItem.averageScore[2] >= 8">
+                          <span
+                            v-for="star in 5 - resourceItem.averageScore[0] - 1"
+                            :key="star + 3"
+                            class="material-icons material-icons-sharp fs-8"
+                            >star</span
+                          >
+                        </li>
+                      </ul>
+
+                      <span class="fs-8 text-secondary"
+                        >({{ resourceItem.commentSum }})</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end 5 freeResources  -->
+
+    <!-- hotTopic -->
+    <div class="hotTopic container py-5 p-lg-8 pt-lg-0">
+      <h3 class="fs-5 fw-bold mb-4">熱門主題</h3>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="topicItem text-center my-2 p-4 rounded-3">
+            <router-link to="/resource-list">
+              <h4 class="fw-bold">HTML/CSS</h4></router-link
+            >
+            <!-- <a href="./resource_list.html?topics=HTML/CSS" >
+                        <h4 class="fw-bold">HTML/CSS</h4>
+                        </a> -->
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="topicItem text-center my-2 p-4 rounded-3">
+            <router-link to="/resource-list">
+              <h4 class="fw-bold">JavaScript</h4></router-link
+            >
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="topicItem text-center my-2 p-4 rounded-3">
+            <router-link to="/resource-list">
+              <h4 class="fw-bold">Python</h4></router-link
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end hotTopic -->
+  </router-view>
+</template>
+
+<script>
+const { VITE_API_PATH } = import.meta.env;
+
+export default {
+  data() {
+    return {
+      resourcesData: [],
+      commentsData: [],
+      resourcesObj: {}, // 存放各筆資源的 評論數、平均分數
+      goodRateTabData: [], // 好評推薦
+      freeTabData: [], // 最新免費資源
+    };
+  },
+  methods: {
+    getResources() {
+      this.$http
+        .get(`${VITE_API_PATH}/resources`)
+        .then((res) => {
+          this.resourcesData = res.data;
+          this.goodRateTabData = this.resourcesData
+            .filter((value) => {
+              return value.topics === "JavaScript";
+            })
+            .slice(-6);
+          this.freeTabData = this.resourcesData
+            .filter((value) => {
+              return value.type === "線上課程" && value.price === "免費";
+            })
+            .slice(-6);
+
+          this.getComments();
+          console.log(this.resourcesData);
+          console.log(this.getComments());
+          console.log(this.getAverageScore());
+          document.title = "Eng!neer 程式學習資源網";
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getComments() {
+      this.$http
+        .get(`${VITE_API_PATH}/comments`)
+        .then((res) => {
+          this.commentsData = res.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    // 取得各筆資源的 評論數、平均分數
+    getAverageScore() {
+      this.commentsData.forEach((item) => {
+        if (this.resourcesObj[item.resourceId] === undefined) {
+          this.resourcesObj[item.resourceId] = {
+            commentSum: 1,
+            scoreSum: item.score,
+            averageScore: item.score,
+          };
+          this.$http
+            .patch(`${VITE_API_PATH}/resources/${item.resourceId}`, {
+              averageScore: item.score,
+              commentSum: 1,
+            })
+            .then((res) => {
+              console.log("res", res.data);
+              console.log("更新後的資源資料", this.resourcesData);
+            });
+        } else {
+          this.resourcesObj[item.resourceId].commentSum += 1;
+          this.resourcesObj[item.resourceId].scoreSum += item.score;
+          this.resourcesObj[item.resourceId].averageScore = (
+            this.resourcesObj[item.resourceId].scoreSum /
+            this.resourcesObj[item.resourceId].commentSum
+          ).toFixed(1);
+
+          this.$http
+            .patch(`${VITE_API_PATH}/resources/${item.resourceId}`, {
+              averageScore:
+                this.resourcesObj[item.resourceId].averageScore.toFixed(1),
+              commentSum: this.resourcesObj[item.resourceId].commentSum,
+            })
+            .then((res) => {
+              console.log("res", res.data);
+              // console.log("更新後的資源資料", this.resourcesData);
+            });
+        }
+
+        console.log("resourcesData", this.resourcesData);
+        console.log("resourcesObj", this.resourcesObj);
+      });
+    },
+    changeTabData(blockItem, classify) {
+      if (blockItem === "goodRate") {
+        this.goodRateTabData = this.resourcesData
+          .filter((value) => {
+            return value.topics === classify;
+          })
+          .slice(-6);
+      } else if (blockItem === "free") {
+        this.freeTabData = this.resourcesData
+          .filter((value) => {
+            return value.type === classify && value.price === "免費";
+          })
+          .slice(-6);
+      }
+    },
+  },
+  components: {
+    // starComponent,
+  },
+  mounted() {
+    this.getResources();
+    this.getComments();
+  },
+};
+</script>
