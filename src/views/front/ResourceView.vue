@@ -13,7 +13,7 @@
       <div class="imageNBrief rounded-3 border p-3 bg-white">
         <img
           class="d-md-block"
-          src="../../../public/images/icon_image.png"
+          src="@/assets/images/icon_image.png"
           alt="linkImg"
         />
         <div class="mt-md-3 text-dark">
@@ -127,7 +127,7 @@
               <h3 class="userInfo card-title fs-7 d-flex align-items-center">
                 <img
                   class="rounded-circle"
-                  src="../../../public/images/icon_image.png"
+                  src="@/assets/images/icon_image.png"
                   alt=""
                 />
                 <p class="mb-0 mx-2 text-start">
@@ -219,7 +219,7 @@
                 >
                   <img
                     class="rounded-circle"
-                    src="../../../public/images/icon_image.png"
+                    src="@/assets/images/icon_image.png"
                     alt=""
                   />
                   <p class="mb-0 mx-2 text-start">
@@ -369,7 +369,7 @@
                 >
                   <img
                     class="rounded-circle"
-                    src="../../../public/images/icon_image.png"
+                    src="@/assets/images/icon_image.png"
                     alt=""
                   />
                   <p class="mb-0 mx-2 text-start">
@@ -525,7 +525,7 @@
                 >
                   <img
                     class="rounded-circle"
-                    src="../../../public/images/icon_image.png"
+                    src="@/assets/images/icon_image.png"
                     alt=""
                   />
                   <p class="mb-0 mx-2 text-start">
@@ -715,7 +715,7 @@
                         >
                           <img
                             class="rounded-circle"
-                            src="../../../public/images/icon_image.png"
+                            src="@/assets/images/icon_image.png"
                             alt=""
                           />
                           <p class="mb-0 mx-2 text-start">
@@ -887,7 +887,7 @@
                         >
                           <img
                             class="rounded-circle"
-                            src="../../../public/images/icon_image.png"
+                            src="@/assets/images/icon_image.png"
                             alt=""
                           />
                           <p class="mb-0 mx-2 text-start">
@@ -1059,7 +1059,7 @@
                         >
                           <img
                             class="rounded-circle"
-                            src="../../../public/images/icon_image.png"
+                            src="@/assets/images/icon_image.png"
                             alt=""
                           />
                           <p class="mb-0 mx-2 text-start">
@@ -1231,7 +1231,7 @@
                         >
                           <img
                             class="rounded-circle"
-                            src="../../../public/images/icon_image.png"
+                            src="@/assets/images/icon_image.png"
                             alt=""
                           />
                           <p class="mb-0 mx-2 text-start">
@@ -1411,9 +1411,11 @@
 </template>
 
 <script>
-// const { VITE_API_PATH } = import.meta.env;
+// 取得資源資料
+import { mapState, mapActions } from "pinia";
+import resourcesStore from "../../stores/resourcesStore";
+
 import resources from "../front/IndexView.vue";
-// import commentsData from "../front/IndexView.vue";
 
 export default {
   data() {
@@ -1424,86 +1426,24 @@ export default {
     };
   },
   methods: {
-    // getResources() {
-    //   this.$http
-    //     .get(`${VITE_API_PATH}/resources`)
-    //     .then((res) => {
-    //       this.resourcesData = res.data;
-    //       this.goodRateTabData = this.resourcesData
-    //         .filter((value) => {
-    //           return value.topics === "JavaScript";
-    //         })
-    //         .slice(-6);
-    //       this.freeTabData = this.resourcesData
-    //         .filter((value) => {
-    //           return value.type === "線上課程" && value.price === "免費";
-    //         })
-    //         .slice(-6);
-    //       this.getComments();
-    //       console.log(this.resourcesData);
-    //       console.log(this.getComments());
-    //       console.log(this.getAverageScore());
-    //       document.title = "Eng!neer 程式學習資源網";
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // },
-    // getComments() {
-    //   this.$http
-    //     .get(`${VITE_API_PATH}/comments`)
-    //     .then((res) => {
-    //       this.commentsData = res.data;
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-    // },
-    // // 取得各筆資源的 評論數、平均分數
-    // getAverageScore() {
-    //   this.commentsData.forEach((item) => {
-    //     if (this.resourcesObj[item.resourceId] === undefined) {
-    //       this.resourcesObj[item.resourceId] = {
-    //         commentSum: 1,
-    //         scoreSum: item.score,
-    //         averageScore: item.score,
-    //       };
-    //       this.$http
-    //         .patch(`${VITE_API_PATH}/resources/${item.resourceId}`, {
-    //           averageScore: item.score,
-    //           commentSum: 1,
-    //         })
-    //         .then((res) => {
-    //           console.log("res", res.data);
-    //           console.log("更新後的資源資料", this.resourcesData);
-    //         });
-    //     } else {
-    //       this.resourcesObj[item.resourceId].commentSum += 1;
-    //       this.resourcesObj[item.resourceId].scoreSum += item.score;
-    //       this.resourcesObj[item.resourceId].averageScore = (
-    //         this.resourcesObj[item.resourceId].scoreSum /
-    //         this.resourcesObj[item.resourceId].commentSum
-    //       ).toFixed(1);
-    //       this.$http
-    //         .patch(`${VITE_API_PATH}/resources/${item.resourceId}`, {
-    //           averageScore:
-    //             this.resourcesObj[item.resourceId].averageScore.toFixed(1),
-    //           commentSum: this.resourcesObj[item.resourceId].commentSum,
-    //         })
-    //         .then((res) => {
-    //           console.log("res", res.data);
-    //           // console.log("更新後的資源資料", this.resourcesData);
-    //         });
-    //     }
-    //     console.log("resourcesData", this.resourcesData);
-    //     console.log("resourcesObj", this.resourcesObj);
-    //   });
-    // },
+    ...mapActions(resourcesStore, [
+      "getResources",
+      "getComments",
+      "getAverageScore",
+    ]),
+  },
+  computed: {
+    ...mapState(resourcesStore, [
+      "resourcesData",
+      "commentsData",
+      "resourcesObj",
+    ]),
   },
   mounted() {
     // this.getResources();
     // this.getComments();
     console.log(resources);
+    console.log(this.resourcesData);
     // console.log(resources.methods.getResources());
   },
 };

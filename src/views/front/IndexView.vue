@@ -1,4 +1,6 @@
 <template>
+  <loading :active="isLoading" />
+
   <!-- 1 bannerBlock -->
   <div class="container-fluid px-3 py-5 p-lg-0 bg-primary">
     <div
@@ -10,7 +12,7 @@
           <span id="bannerText" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner px-2 text-center">
               <span
-                class="carousel-item active text-decoration-underline"
+                class="carousel-item active text-secondary"
                 data-bs-interval="3000"
               >
                 前端工程師
@@ -74,71 +76,83 @@
   <div
     class="painpoint container px-3 py-5 p-lg-8 d-flex align-items-center flex-column flex-md-row"
   >
-    <div
+    <div class="me-md-4 me-0 text-center">
+      <img class="w-75" src="@/assets/images/banner02.png" alt="painpoint" />
+    </div>
+    <!-- <div
       data-aos="zoom-in"
       data-aos-duration="1000"
       class="me-md-4 me-0 text-center"
     >
       <img width="70%" src="@/assets/images/banner02.png" alt="painpoint" />
-    </div>
+    </div> -->
     <div class="painpointRight mt-5 mt-md-0">
-      <h3 class="fw-bold text-dark">
+      <h3 class="fw-bold text-dark mb-6">
         找到具參考價值的學習資源前<br />往往需要經過一番 N 折?
       </h3>
 
-      <div class="swiper mySwiper2 mt-6">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide">
-            <h4 class="fontTeko">Search</h4>
-            <p>
-              「JS學習資源」、「JavaScript免費資源」、「前端開發推薦課程」...
-              您是否總是要使用「各種」關鍵字搜尋才能找到適合自己的學習資源？
-            </p>
-          </div>
-          <div class="swiper-slide">
-            <h4 class="fontTeko">Multiple Pagination</h4>
-            <p>
-              搜尋後開啟各種分頁瀏覽，除了佔資源，還有很高機率開起釣魚網站，大幅提高瀏覽風險
-            </p>
-          </div>
-          <div class="swiper-slide">
-            <h4 class="fontTeko">Reading & Filter</h4>
-            <p>
-              由於網路學習資源實在太多了，您需要花很多時間瀏覽、篩選網頁內容，您是否懷疑「怎麼知道這些教學正確、可被參考且適合自己」
-              ?
-            </p>
-          </div>
-          <div class="swiper-slide">
-            <h4 class="fontTeko">Collect & Finding</h4>
-            <p>
-              您可能會將篩選後的資源存在瀏覽器頁籤、某個數位筆記本或其他地方。但當時儲存資源的時候是否有好好分類呢
-              ? 您是否還找的到當初存的資源嗎 ?
-            </p>
-          </div>
-        </div>
-        <!-- <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div> -->
-      </div>
-      <div thumbsSlider="" class="swiper mySwiper mt-3">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide text-center">
-            <img src="@/assets/images/icon_search.png" alt="search" />
-            <p>考驗聯想力</p>
-          </div>
-          <div class="swiper-slide text-center">
-            <img src="@/assets/images/icon_risk.png" alt="risk" />
-            <p>提高瀏覽風險</p>
-          </div>
-          <div class="swiper-slide text-center">
-            <img src="@/assets/images/icon_time.png" alt="time" />
-            <p>考驗耐性與判斷力</p>
-          </div>
-          <div class="swiper-slide text-center">
-            <img src="@/assets/images/icon_brain.png" alt="brain" />
-            <p>考驗記憶力</p>
-          </div>
-        </div>
-      </div>
+      <swiper
+        :spaceBetween="10"
+        :autoplay="{
+          delay: 3000,
+          disableOnInteraction: false,
+        }"
+        :thumbs="{ swiper: thumbsSwiper }"
+        :modules="modules"
+        class="mySwiper2"
+      >
+        <swiper-slide>
+          <h4 class="fontTeko">Search</h4>
+          <p>
+            「JS學習資源」、「JavaScript免費資源」、「前端開發推薦課程」...
+            您是否總是要使用「各種」關鍵字搜尋才能找到適合自己的學習資源？
+          </p>
+        </swiper-slide>
+        <swiper-slide>
+          <h4 class="fontTeko">Multiple Pagination</h4>
+          <p>
+            搜尋後開啟各種分頁瀏覽，除了佔資源，還有很高機率開起釣魚網站，大幅提高瀏覽風險
+          </p>
+        </swiper-slide>
+        <swiper-slide>
+          <h4 class="fontTeko">Reading & Filter</h4>
+          <p>
+            由於網路學習資源實在太多了，您需要花很多時間瀏覽、篩選網頁內容，您是否懷疑「怎麼知道這些教學正確、可被參考且適合自己」
+            ?
+          </p>
+        </swiper-slide>
+        <swiper-slide>
+          <h4 class="fontTeko">Collect & Finding</h4>
+          <p>
+            您可能會將篩選後的資源存在瀏覽器頁籤、某個數位筆記本或其他地方。但當時儲存資源的時候是否有好好分類呢
+            ? 您是否還找的到當初存的資源嗎 ?
+          </p>
+        </swiper-slide>
+      </swiper>
+
+      <swiper
+        @swiper="setThumbsSwiper"
+        :spaceBetween="10"
+        :slidesPerView="4"
+        :freeMode="true"
+        :watchSlidesProgress="true"
+        :modules="modules"
+        class="mySwiper"
+      >
+        <swiper-slide class="text-center"
+          ><img src="@/assets/images/icon_search.png" alt="search" />
+          <p>考驗聯想力</p></swiper-slide
+        ><swiper-slide class="text-center"
+          ><img src="@/assets/images/icon_risk.png" alt="risk" />
+          <p>提高瀏覽風險</p></swiper-slide
+        ><swiper-slide class="text-center">
+          <img src="@/assets/images/icon_time.png" alt="time" />
+          <p>考驗耐性與判斷力</p></swiper-slide
+        ><swiper-slide class="text-center">
+          <img src="@/assets/images/icon_brain.png" alt="brain" />
+          <p>考驗記憶力</p></swiper-slide
+        >
+      </swiper>
     </div>
   </div>
 
@@ -208,7 +222,7 @@
             data-bs-toggle="pill"
             type="button"
             role="tab"
-            aria-controls="pills-home"
+            aria-controls="pills-JavaScript"
             aria-selected="true"
             @click="changeTabData('goodRate', 'JavaScript')"
           >
@@ -221,7 +235,7 @@
             data-bs-toggle="pill"
             type="button"
             role="tab"
-            aria-controls="pills-profile"
+            aria-controls="pills-HTMLCSS"
             aria-selected="false"
             @click="changeTabData('goodRate', 'HTML/CSS')"
           >
@@ -234,7 +248,7 @@
             data-bs-toggle="pill"
             type="button"
             role="tab"
-            aria-controls="pills-contact"
+            aria-controls="pills-Python"
             aria-selected="false"
             @click="changeTabData('goodRate', 'Python')"
           >
@@ -243,10 +257,7 @@
         </li>
       </ul>
 
-      <div
-        class="tab-content border border-primary p-3 rounded-3"
-        id="pills-tabContent"
-      >
+      <div class="tab-content border border-primary p-3 rounded-3">
         <div
           class="tab-pane fade show active"
           role="tabpanel"
@@ -261,47 +272,54 @@
               <div class="d-flex p-2 align-items-center">
                 <div class="row">
                   <div class="col-6" v-if="resourceItem.imgUrl != ''">
-                    <img
-                      :src="`/images/resources_cover/${resourceItem.imgUrl}`"
-                      :alt="resourceItem.title"
-                    />
+                    <router-link
+                      :to="`/resource?id=` + resourceItem.id"
+                      target="_blank"
+                    >
+                      <img
+                        :src="
+                          '/VueProjectLR/images/resources_cover/' +
+                          resourceItem.imgUrl
+                        "
+                        :alt="resourceItem.title"
+                    /></router-link>
                   </div>
                   <div class="col-6" v-else>
-                    <img
-                      :src="`/images/resources_cover/noimgCover.jpg`"
-                      :alt="resourceItem.title"
-                    />
+                    <router-link
+                      :to="`/resource?id=` + resourceItem.id"
+                      target="_blank"
+                    >
+                      <img
+                        :src="`/VueProjectLR/images/resources_cover/noimgCover.jpg`"
+                        :alt="resourceItem.title"
+                      />
+                    </router-link>
                   </div>
                   <div class="col-6">
-                    <h4 class="ellipsis">{{ resourceItem.title }}</h4>
+                    <h4 class="ellipsis">
+                      <router-link
+                        :to="`/resource?id=` + resourceItem.id"
+                        target="_blank"
+                      >
+                        {{ resourceItem.title }}
+                      </router-link>
+                    </h4>
                     <div
                       class="d-flex justify-content-between align-items-center"
                     >
                       <div
                         v-if="
-                          resourceItem.commentSum == 0 ||
-                          resourceItem.commentSum == undefined
+                          resourceItem.commentSum === 0 ||
+                          resourceItem.commentSum === undefined
                         "
                       >
                         <span class="fs-8 text-gray">尚無評價</span>
                       </div>
-                      <div v-else>
+                      <div v-else class="d-flex align-items-center">
                         <span class="fs-7 fw-bold text-secondary">{{
                           resourceItem.averageScore
                         }}</span>
-                        <ul
-                          class="d-flex align-items-center lh-1 text-secondary"
-                        >
-                          {{
-                            resourceItem.averageScore[0]
-                          }}
-                          {{
-                            resourceItem.averageScore[1]
-                          }}
-                          {{
-                            resourceItem.averageScore[2]
-                          }}
-                          <!-- <star-component></star-component> -->
+                        <ul class="d-flex mx-1 lh-1 text-secondary">
                           <li>
                             <span
                               v-for="star in resourceItem.averageScore"
@@ -411,16 +429,19 @@
               v-for="resourceItem in freeTabData"
               :key="resourceItem.id"
             >
-              <div>
+              <router-link
+                :to="`/resource?id=` + resourceItem.id"
+                target="_blank"
+              >
                 <div class="text-center" v-if="resourceItem.imgUrl != ''">
                   <img
-                    :src="`/images/resources_cover/${resourceItem.imgUrl}`"
+                    :src="`/VueProjectLR/images/resources_cover/${resourceItem.imgUrl}`"
                     :alt="resourceItem.title"
                   />
                 </div>
                 <div class="text-center" v-else>
                   <img
-                    :src="`/images/resources_cover/noimgCover.jpg`"
+                    :src="`/VueProjectLR/images/resources_cover/noimgCover.jpg`"
                     :alt="resourceItem.title"
                   />
                 </div>
@@ -438,11 +459,11 @@
                     >
                       <span class="fs-8 text-gray">尚無評價</span>
                     </div>
-                    <div v-else>
+                    <div v-else class="d-flex align-items-center">
                       <span class="fs-7 fw-bold me-lg-2 text-secondary">{{
                         resourceItem.averageScore
                       }}</span>
-                      <ul class="d-flex align-items-center lh-1 text-secondary">
+                      <ul class="d-flex mx-1 lh-1 text-secondary">
                         <li>
                           <span
                             v-for="star in resourceItem.averageScore"
@@ -488,7 +509,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </router-link>
             </div>
           </div>
         </div>
@@ -502,24 +523,21 @@
       <div class="row">
         <div class="col-md-4">
           <div class="topicItem text-center my-2 p-4 rounded-3">
-            <router-link to="/resource-list">
+            <router-link to="/resource-list?topic=HTML/CSS" target="_blank">
               <h4 class="fw-bold">HTML/CSS</h4></router-link
             >
-            <!-- <a href="./resource_list.html?topics=HTML/CSS" >
-                        <h4 class="fw-bold">HTML/CSS</h4>
-                        </a> -->
           </div>
         </div>
         <div class="col-md-4">
           <div class="topicItem text-center my-2 p-4 rounded-3">
-            <router-link to="/resource-list">
+            <router-link to="/resource-list?topic=JavaScript">
               <h4 class="fw-bold">JavaScript</h4></router-link
             >
           </div>
         </div>
         <div class="col-md-4">
           <div class="topicItem text-center my-2 p-4 rounded-3">
-            <router-link to="/resource-list">
+            <router-link to="/resource-list?topic=Python">
               <h4 class="fw-bold">Python</h4></router-link
             >
           </div>
@@ -531,119 +549,120 @@
 </template>
 
 <script>
-const { VITE_API_PATH } = import.meta.env;
+import { mapState, mapActions } from "pinia";
+import resourcesStore from "../../stores/resourcesStore";
+import LoadingComponent from "@/components/LoadingComponent.vue";
+
+import { Swiper, SwiperSlide } from "swiper/vue";
+import { Autoplay, Navigation, Thumbs } from "swiper";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/free-mode";
+import "swiper/css/navigation";
+import "swiper/css/thumbs";
 
 export default {
   data() {
     return {
-      resourcesData: [],
-      commentsData: [],
-      resourcesObj: {}, // 存放各筆資源的 評論數、平均分數
+      isLoading: true,
       goodRateTabData: [], // 好評推薦
       freeTabData: [], // 最新免費資源
+      thumbsSwiper: null,
+      modules: [Autoplay, Navigation, Thumbs],
     };
   },
   methods: {
-    getResources() {
-      this.$http
-        .get(`${VITE_API_PATH}/resources`)
-        .then((res) => {
-          this.resourcesData = res.data;
-          this.goodRateTabData = this.resourcesData
-            .filter((value) => {
-              return value.topics === "JavaScript";
-            })
-            .slice(-6);
-          this.freeTabData = this.resourcesData
-            .filter((value) => {
-              return value.type === "線上課程" && value.price === "免費";
-            })
-            .slice(-6);
-
-          this.getComments();
-          console.log(this.resourcesData);
-          console.log(this.getComments());
-          console.log(this.getAverageScore());
-          document.title = "Eng!neer 程式學習資源網";
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-    getComments() {
-      this.$http
-        .get(`${VITE_API_PATH}/comments`)
-        .then((res) => {
-          this.commentsData = res.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-    // 取得各筆資源的 評論數、平均分數
-    getAverageScore() {
-      this.commentsData.forEach((item) => {
-        if (this.resourcesObj[item.resourceId] === undefined) {
-          this.resourcesObj[item.resourceId] = {
-            commentSum: 1,
-            scoreSum: item.score,
-            averageScore: item.score,
-          };
-          this.$http
-            .patch(`${VITE_API_PATH}/resources/${item.resourceId}`, {
-              averageScore: item.score,
-              commentSum: 1,
-            })
-            .then((res) => {
-              console.log("res", res.data);
-              console.log("更新後的資源資料", this.resourcesData);
-            });
-        } else {
-          this.resourcesObj[item.resourceId].commentSum += 1;
-          this.resourcesObj[item.resourceId].scoreSum += item.score;
-          this.resourcesObj[item.resourceId].averageScore = (
-            this.resourcesObj[item.resourceId].scoreSum /
-            this.resourcesObj[item.resourceId].commentSum
-          ).toFixed(1);
-
-          this.$http
-            .patch(`${VITE_API_PATH}/resources/${item.resourceId}`, {
-              averageScore:
-                this.resourcesObj[item.resourceId].averageScore.toFixed(1),
-              commentSum: this.resourcesObj[item.resourceId].commentSum,
-            })
-            .then((res) => {
-              console.log("res", res.data);
-              // console.log("更新後的資源資料", this.resourcesData);
-            });
-        }
-
-        console.log("resourcesData", this.resourcesData);
-        console.log("resourcesObj", this.resourcesObj);
-      });
-    },
+    ...mapActions(resourcesStore, [
+      "getResources",
+      "getComments",
+      "getAverageScore",
+    ]),
     changeTabData(blockItem, classify) {
       if (blockItem === "goodRate") {
         this.goodRateTabData = this.resourcesData
           .filter((value) => {
-            return value.topics === classify;
+            return value.topics === classify; // && value.commentSum != 0
           })
-          .slice(-6);
+          .slice(0, 6);
+        // if (this.goodRateTabData.length < 6) {
+        //   this.goodRateTabData.push(
+        //     this.resourcesData
+        //       .filter((value) => {
+        //         return value.topics === classify;
+        //       })
+        //       .slice(0, 6 - this.goodRateTabData.length)
+        //   );
+        // }
       } else if (blockItem === "free") {
         this.freeTabData = this.resourcesData
           .filter((value) => {
             return value.type === classify && value.price === "免費";
           })
-          .slice(-6);
+          .slice(0, 6);
       }
+    },
+    setThumbsSwiper(swiper) {
+      this.thumbsSwiper = swiper;
     },
   },
   components: {
-    // starComponent,
+    loading: LoadingComponent,
+    Swiper,
+    SwiperSlide,
+  },
+  computed: {
+    ...mapState(resourcesStore, [
+      "resourcesData",
+      "commentsData",
+      "resourcesObj",
+      "goodRateTabData",
+      "freeTabData",
+    ]),
   },
   mounted() {
-    this.getResources();
-    this.getComments();
+    this.isLoading = true;
+    Promise.all([
+      this.getResources(),
+      this.getComments(),
+      this.getAverageScore(),
+    ])
+      .then(() => {
+        // console.log(res);
+        this.goodRateTabData = this.resourcesData
+          .filter((value) => {
+            return value.topics === "JavaScript"; // && value.commentSum != 0
+          })
+          .slice(0, 6);
+        this.freeTabData = this.resourcesData
+          .filter((value) => {
+            return value.type === "線上課程" && value.price === "免費";
+          })
+          .slice(0, 6);
+        this.isLoading = false;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    document.title = "Eng!neer 程式學習資源網";
+    console.log("resourcesObj", this.resourcesObj);
+    console.log("commentsData", this.commentsData);
+
+    // if (this.goodRateTabData == undefined || this.freeTabData == undefined) {
+    //   this.isLoading = true;
+    // } else {
+    //   //location.reload();
+    //   this.isLoading = false;
+    // }
   },
+  // mounted() {
+  //   // this.isLoading = true;
+  //   if (this.goodRateTabData == undefined || this.freeTabData == undefined) {
+  //     this.isLoading = true;
+  //   } else {
+  //     //location.reload();
+  //     this.isLoading = false;
+  //   }
+  // },
 };
 </script>

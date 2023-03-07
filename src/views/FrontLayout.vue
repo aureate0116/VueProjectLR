@@ -54,29 +54,29 @@ export default {
                     aria-labelledby="resourceBrowse"
                   >
                     <li>
-                      <router-link to="/resource-list/:topicid"
-                        >resource-list</router-link
-                      >
-                      <!-- <a
+                      <router-link
+                        target="_blank"
                         class="dropdown-item"
-                        href="./resource_list.html?topics=JavaScript"
-                        >JavaScript</a
-                      > -->
-                    </li>
-                    <!-- <li>
-                      <a
-                        class="dropdown-item"
-                        href="./resource_list.html?topics=HTML/CSS"
-                        >HTML/CSS</a
+                        to="/resource-list?topic=JavaScript"
+                        >JavaScript</router-link
                       >
                     </li>
                     <li>
-                      <a
+                      <router-link
+                        target="_blank"
                         class="dropdown-item"
-                        href="./resource_list.html?topics=Python"
-                        >Python</a
+                        to="/resource-list?topic=HTML/CSS"
+                        >HTML/CSS</router-link
                       >
-                    </li> -->
+                    </li>
+                    <li>
+                      <router-link
+                        target="_blank"
+                        class="dropdown-item"
+                        to="/resource-list?topic=Python"
+                        >Pyton</router-link
+                      >
+                    </li>
                   </ul>
                 </li>
 
