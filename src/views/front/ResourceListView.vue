@@ -8,7 +8,7 @@ export default {
     return {
       isLoading: true,
       topic: this.$route.query.topic, //取得路由中 ?topic= 值
-      // topicsResData: [], //保留該主題的資料
+      topicsResData: [], //保留該主題的資料
       // foundationTabData: [], //tab 內的資料
       foundationTabClassify: "初階",
       renderList: [], //渲染清單
@@ -65,7 +65,7 @@ export default {
       "getResources",
       "getComments",
       "getAverageScore",
-      "getfoundationTabData",
+      //"getfoundationTabData",
     ]),
     changeTabData(item) {
       this.foundationTabClassify = item;
@@ -136,40 +136,40 @@ export default {
       "resourcesData",
       "commentsData",
       "resourcesObj",
-      "topicsResData",
-      "foundationTabData",
+      // "topicsResData",
+      // "foundationTabData",
     ]),
-    // foundationTabData() {
-    //   return this.topicsResData
-    //     .filter((value) => {
-    //       if (this.foundationTabClassify === "初階") {
-    //         return value.level === this.foundationTabClassify;
-    //       } else if (this.foundationTabClassify === "免費") {
-    //         return value.price === this.foundationTabClassify;
-    //       } else {
-    //         return this.topicsResData;
-    //       }
-    //     })
-    //     .slice(-6);
-    // },
+    foundationTabData() {
+      return this.topicsResData
+        .filter((value) => {
+          if (this.foundationTabClassify === "初階") {
+            return value.level === this.foundationTabClassify;
+          } else if (this.foundationTabClassify === "免費") {
+            return value.price === this.foundationTabClassify;
+          } else {
+            return this.topicsResData;
+          }
+        })
+        .slice(-6);
+    },
   },
   mounted() {
     if (this.topic === null || this.topic === undefined) {
       this.$router.push("/");
     }
     this.getResources();
-    // this.getfoundationTabData();
-    // this.topicsResData = this.resourcesData.filter((value) => {
-    //   return (
-    //     value.topics.toLowerCase().replace(/[^a-zA-Z0-9]/g, "") ===
-    //     this.topic.toLowerCase().replace(/[^a-zA-Z0-9]/g, "")
-    //   );
-    // });
+    //this.getfoundationTabData();
+    this.topicsResData = this.resourcesData.filter((value) => {
+      return (
+        value.topics.toLowerCase().replace(/[^a-zA-Z0-9]/g, "") ===
+        this.topic.toLowerCase().replace(/[^a-zA-Z0-9]/g, "")
+      );
+    });
     console.log("topicsResData list", this.topicsResData);
 
     this.foundationTabData = this.topicsResData
       .filter((value) => {
-        return value.level === "初階";
+        return value.level === "初階 ";
       })
       .slice(0, 6);
     console.log("入門推薦 list", this.foundationTabData);
@@ -185,7 +185,6 @@ export default {
       this.isLoading = false;
     }
 
-    this.isLoading = false;
     document.title = "Eng!neer 程式學習資源網 " + this.topic;
   },
 };

@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-// import router from "./router";
 import axios from "axios";
 // import VueAxios from "vue-axios";
 const { VITE_API_PATH } = import.meta.env;
@@ -9,12 +8,9 @@ const resourcesStore = defineStore("resources", {
     resourcesData: [],
     commentsData: [],
     resourcesObj: {},
-    // goodRateTabData: [],
-    // freeTabData: [],
-    topicsResData: [],
-    foundationTabData: [],
+    // topicsResData: [],
+    // foundationTabData: [],
     loading: true,
-    // query: null, //query
   }),
   actions: {
     getResources() {
@@ -32,7 +28,7 @@ const resourcesStore = defineStore("resources", {
           //     return value.type === "線上課程" && value.price === "免費";
           //   })
           //   .slice(-6);
-          this.getfoundationTabData();
+          //this.getfoundationTabData();
           this.getComments();
           // console.log(this.resourcesData);
           // console.log(this.getComments());
@@ -52,23 +48,23 @@ const resourcesStore = defineStore("resources", {
           console.log(error);
         });
     },
-    getfoundationTabData() {
-      const topic = this.$route.query.topic;
-      if (!topic) return; // 檢查 topic 是否存在
+    // getfoundationTabData() {
+    //   const topic = this.$route.query.topic;
+    //   if (!topic) return; // 檢查 topic 是否存在
 
-      this.topicsResData = this.resourcesData.filter((value) => {
-        return (
-          value.topics.toLowerCase().replace(/[^a-zA-Z0-9]/g, "") ===
-          topic.toLowerCase().replace(/[^a-zA-Z0-9]/g, "")
-        );
-      });
+    //   this.topicsResData = this.resourcesData.filter((value) => {
+    //     return (
+    //       value.topics.toLowerCase().replace(/[^a-zA-Z0-9]/g, "") ===
+    //       topic.toLowerCase().replace(/[^a-zA-Z0-9]/g, "")
+    //     );
+    //   });
 
-      this.foundationTabData = this.topicsResData
-        .filter((value) => {
-          return value.level === "初階";
-        })
-        .slice(0, 6);
-    },
+    //   this.foundationTabData = this.topicsResData
+    //     .filter((value) => {
+    //       return value.level === "初階";
+    //     })
+    //     .slice(0, 6);
+    // },
     // 取得各筆資源的 評論數、平均分數
     getAverageScore() {
       this.resourcesObj = {}; // 每次重新計算
