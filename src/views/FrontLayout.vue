@@ -55,7 +55,6 @@ export default {
                   >
                     <li>
                       <router-link
-                        target="_blank"
                         class="dropdown-item"
                         to="/resource-list?topic=JavaScript"
                         >JavaScript</router-link
@@ -63,7 +62,6 @@ export default {
                     </li>
                     <li>
                       <router-link
-                        target="_blank"
                         class="dropdown-item"
                         to="/resource-list?topic=HTML/CSS"
                         >HTML/CSS</router-link
@@ -71,7 +69,6 @@ export default {
                     </li>
                     <li>
                       <router-link
-                        target="_blank"
                         class="dropdown-item"
                         to="/resource-list?topic=Python"
                         >Pyton</router-link

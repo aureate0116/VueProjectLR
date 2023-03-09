@@ -602,6 +602,16 @@ export default {
       this.thumbsSwiper = swiper;
     },
   },
+  watch: {
+    resourcesData() {
+      if (this.resourcesData.length === 0) {
+        this.isLoading = true;
+      } else {
+        this.$router.push("/");
+        this.isLoading = false;
+      }
+    },
+  },
   components: {
     LoadingComponent,
     Swiper,
@@ -645,12 +655,12 @@ export default {
       })
       .slice(0, 6);
 
-    if (this.resourcesData === null || this.resourcesData === undefined) {
-      this.isLoading = true;
-    } else {
-      this.$router.push("/");
-      this.isLoading = false;
-    }
+    // if (this.resourcesData.length === 0) {
+    //   this.isLoading = true;
+    // } else {
+    //   this.$router.push("/");
+    //   this.isLoading = false;
+    // }
 
     document.title = "Eng!neer 程式學習資源網";
     console.log("resourcesObj", this.resourcesObj);

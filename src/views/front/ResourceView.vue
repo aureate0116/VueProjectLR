@@ -1,4 +1,6 @@
 <template>
+  <loading-component :is-loading="isLoading" />
+
   <!-- banner  -->
   <div
     class="container-fluid py-5 p-lg-5 py-md-8 bg-darkTiffany d-none d-md-block"
@@ -1414,15 +1416,15 @@
 // 取得資源資料
 import { mapState, mapActions } from "pinia";
 import resourcesStore from "../../stores/resourcesStore";
+import LoadingComponent from "@/components/LoadingComponent.vue";
 
-import resources from "../front/IndexView.vue";
+// import resources from "../front/IndexView.vue";
 
 export default {
   data() {
     return {
-      //   resourcesData: [],
-      //   commentsData: [],
-      //   resourcesObj: {}, // 存放各筆資源的 評論數、平均分數
+      isLoading: true,
+      topic: this.$route.query.topic, //取得路由中 ?topic= 值
     };
   },
   methods: {
@@ -1432,6 +1434,9 @@ export default {
       "getAverageScore",
     ]),
   },
+  components: {
+    LoadingComponent,
+  },
   computed: {
     ...mapState(resourcesStore, [
       "resourcesData",
@@ -1440,11 +1445,14 @@ export default {
     ]),
   },
   mounted() {
-    // this.getResources();
-    // this.getComments();
-    console.log(resources);
-    console.log(this.resourcesData);
-    // console.log(resources.methods.getResources());
+    if (this.resourcesData.length === 0) {
+      this.isLoading = true;
+    } else {
+      //location.reload();
+      this.isLoading = false;
+      console.log(this.resourcesData);
+    }
+    // console.log(this.resourcesData);
   },
 };
 </script>

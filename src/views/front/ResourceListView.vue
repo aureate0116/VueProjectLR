@@ -59,6 +59,13 @@ export default {
       }
       this.filterResources();
     },
+    // $route(to) {
+    //   // 处理路由参数或 query 的变化
+    //   this.topic = to.query.topic;
+    //   console.log(to.query);
+    //   this.topicsData();
+    //   this.filterResources();
+    // },
   },
   methods: {
     ...mapActions(resourcesStore, [
@@ -69,8 +76,6 @@ export default {
     ]),
     changeTabData(item) {
       this.foundationTabClassify = item;
-      // if (blockItem === "fundation") {
-      // }
     },
     filterResources() {
       console.log("filterResources is called");
@@ -127,6 +132,15 @@ export default {
       this.checkObj.lang.splice(0, this.checkObj.type.length);
       this.filterResources();
     },
+    // topicsData() {
+    //   this.topicsResData = this.resourcesData.filter((value) => {
+    //     return (
+    //       value.topics.toLowerCase().replace(/[^a-zA-Z0-9]/g, "") ===
+    //       this.topic.toLowerCase().replace(/[^a-zA-Z0-9]/g, "")
+    //     );
+    //   });
+    //   console.log("topicsResData list", this.topicsResData);
+    // },
   },
   components: {
     LoadingComponent,
@@ -153,12 +167,8 @@ export default {
         .slice(-6);
     },
   },
-  mounted() {
-    if (this.topic === null || this.topic === undefined) {
-      this.$router.push("/");
-    }
-    this.getResources();
-    //this.getfoundationTabData();
+  created() {
+    // this.topicsData();
     this.topicsResData = this.resourcesData.filter((value) => {
       return (
         value.topics.toLowerCase().replace(/[^a-zA-Z0-9]/g, "") ===
@@ -166,7 +176,6 @@ export default {
       );
     });
     console.log("topicsResData list", this.topicsResData);
-
     this.foundationTabData = this.topicsResData
       .filter((value) => {
         return value.level === "初階 ";
@@ -175,6 +184,11 @@ export default {
     console.log("入門推薦 list", this.foundationTabData);
 
     this.renderList = [...this.topicsResData];
+  },
+  mounted() {
+    if (this.topic === null || this.topic === undefined) {
+      this.$router.push("/");
+    }
     if (
       this.foundationTabData === null ||
       this.foundationTabData === undefined
@@ -185,7 +199,7 @@ export default {
       this.isLoading = false;
     }
 
-    document.title = "Eng!neer 程式學習資源網 " + this.topic;
+    document.title = "Eng!neer 程式學習資源網" + this.topic;
   },
 };
 </script>
@@ -240,7 +254,7 @@ export default {
       <div class="tab-content border border-primary p-3 p-md- rounded-3">
         <!--start tab-pane 1-->
         <div
-          class="tab-pane fade"
+          class="tab-pane fade show active"
           role="tabpanel"
           aria-labelledby="resourceType1-tab"
         >
@@ -440,7 +454,11 @@ export default {
               {{ renderList.length }} 個結果
             </span>
             <a role="button" id="clearFilterBtn" @click="clearFilter()">
-              <span class="clearBtnText text-primary">清除篩選條件</span>
+              <span
+                v-if="renderList.length === topicsResData.length"
+                class="clearBtnText text-primary"
+              ></span>
+              <span v-else class="clearBtnText text-primary">清除篩選條件</span>
             </a>
           </div>
           <!-- <div class="col-lg-5 "></div> -->
