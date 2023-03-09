@@ -212,13 +212,14 @@
     <div class="goodRate container py-5 p-lg-8">
       <ul
         class="nav nav-pills mb-3 d-flex align-items-center"
-        id="pills-tab"
+        id="pills-tab1"
         role="tablist"
       >
         <li><h3 class="fs-5 mb-0 fw-bold me-4">好評推薦</h3></li>
         <li class="nav-item" role="presentation">
           <button
-            class="nav-link active"
+            class="nav-link"
+            :class="{ active: 'JavaScript' === goodRateClassify }"
             data-bs-toggle="pill"
             type="button"
             role="tab"
@@ -232,6 +233,7 @@
         <li class="nav-item" role="presentation">
           <button
             class="nav-link"
+            :class="{ active: 'HTML/CSS' === goodRateClassify }"
             data-bs-toggle="pill"
             type="button"
             role="tab"
@@ -245,6 +247,7 @@
         <li class="nav-item" role="presentation">
           <button
             class="nav-link"
+            :class="{ active: 'Python' === goodRateClassify }"
             data-bs-toggle="pill"
             type="button"
             role="tab"
@@ -266,6 +269,9 @@
           <div class="row">
             <div
               class="col-md-6 col-lg-4"
+              :class="{
+                'show active': resourceItem.topics === goodRateClassify,
+              }"
               v-for="resourceItem in goodRateTabData"
               :key="resourceItem.id"
             >
@@ -387,7 +393,8 @@
         <li><h3 class="fs-5 mb-0 fw-bold me-4">最新免費資源</h3></li>
         <li class="nav-item" role="presentation">
           <button
-            class="nav-link active"
+            class="nav-link"
+            :class="{ active: '線上課程' === freeTabClassify }"
             data-bs-toggle="pill"
             type="button"
             role="tab"
@@ -402,6 +409,7 @@
         <li class="nav-item" role="presentation">
           <button
             class="nav-link"
+            :class="{ active: '文章' === freeTabClassify }"
             data-bs-toggle="pill"
             type="button"
             role="tab"
@@ -426,6 +434,9 @@
           <div class="row">
             <div
               class="col-lg-2 col-6"
+              :class="{
+                'show active': resourceItem.type === freeTabClassify,
+              }"
               v-for="resourceItem in freeTabData"
               :key="resourceItem.id"
             >
@@ -566,10 +577,12 @@ export default {
   data() {
     return {
       isLoading: true,
-      goodRateTabData: [], // 好評推薦
-      freeTabData: [], // 最新免費資源
+      // goodRateTabData: [], // 好評推薦
+      // freeTabData: [], // 最新免費資源
       thumbsSwiper: null,
       modules: [Autoplay, Navigation, Thumbs],
+      goodRateClassify: "JavaScript",
+      freeTabClassify: "線上課程",
     };
   },
   methods: {
@@ -578,28 +591,11 @@ export default {
       "getComments",
       "getAverageScore",
     ]),
-    changeTabData(blockItem, classify) {
+    changeTabData(blockItem, item) {
       if (blockItem === "goodRate") {
-        this.goodRateTabData = this.resourcesData
-          .filter((value) => {
-            return value.topics === classify; // && value.commentSum != 0
-          })
-          .slice(0, 6);
-        // if (this.goodRateTabData.length < 6) {
-        //   this.goodRateTabData.push(
-        //     this.resourcesData
-        //       .filter((value) => {
-        //         return value.topics === classify;
-        //       })
-        //       .slice(0, 6 - this.goodRateTabData.length)
-        //   );
-        // }
+        this.goodRateClassify = item;
       } else if (blockItem === "free") {
-        this.freeTabData = this.resourcesData
-          .filter((value) => {
-            return value.type === classify && value.price === "免費";
-          })
-          .slice(0, 6);
+        this.freeTabClassify = item;
       }
     },
     setThumbsSwiper(swiper) {
@@ -616,53 +612,40 @@ export default {
       "resourcesData",
       "commentsData",
       "resourcesObj",
-      "goodRateTabData",
-      "freeTabData",
+      // "goodRateTabData",
+      // "freeTabData",
     ]),
+    goodRateTabData() {
+      return this.resourcesData
+        .filter((value) => {
+          return value.topics === this.goodRateClassify;
+        })
+        .slice(0, 6);
+    },
+    freeTabData() {
+      return this.resourcesData
+        .filter((value) => {
+          return value.type === this.freeTabClassify && value.price === "免費";
+        })
+        .slice(0, 6);
+    },
   },
   mounted() {
-    this.isLoading = true;
-    Promise.all([
-      this.getResources(),
-      this.getComments(),
-      this.getAverageScore(),
-    ])
-      .then(() => {
-        // console.log(res);
-        this.goodRateTabData = this.resourcesData
-          .filter((value) => {
-            return value.topics === "JavaScript"; // && value.commentSum != 0
-          })
-          .slice(0, 6);
-        this.freeTabData = this.resourcesData
-          .filter((value) => {
-            return value.type === "線上課程" && value.price === "免費";
-          })
-          .slice(0, 6);
-        this.isLoading = false;
+    this.getResources();
+    this.goodRateTabData = this.resourcesData
+      .filter((value) => {
+        return value.topics === "JavaScript"; // && value.commentSum != 0
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .slice(0, 6);
+    this.freeTabData = this.resourcesData
+      .filter((value) => {
+        return value.type === "線上課程" && value.price === "免費";
+      })
+      .slice(0, 6);
+    this.isLoading = false;
     document.title = "Eng!neer 程式學習資源網";
     console.log("resourcesObj", this.resourcesObj);
-    console.log("commentsData", this.commentsData);
-
-    // if (this.goodRateTabData == undefined || this.freeTabData == undefined) {
-    //   this.isLoading = true;
-    // } else {
-    //   //location.reload();
-    //   this.isLoading = false;
-    // }
+    console.log("commentsData", this.resourcesData);
   },
-  // mounted() {
-  //   // this.isLoading = true;
-  //   if (this.goodRateTabData == undefined || this.freeTabData == undefined) {
-  //     this.isLoading = true;
-  //   } else {
-  //     //location.reload();
-  //     this.isLoading = false;
-  //   }
-  // },
 };
 </script>
