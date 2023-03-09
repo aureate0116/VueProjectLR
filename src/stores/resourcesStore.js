@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
+// import router from "./router";
 import axios from "axios";
 // import VueAxios from "vue-axios";
-
 const { VITE_API_PATH } = import.meta.env;
 
 const resourcesStore = defineStore("resources", {
@@ -11,6 +11,10 @@ const resourcesStore = defineStore("resources", {
     resourcesObj: {},
     // goodRateTabData: [],
     // freeTabData: [],
+    topicsResData: [],
+    foundationTabData: [],
+    loading: true,
+    // query: null, //query
   }),
   actions: {
     getResources() {
@@ -28,7 +32,7 @@ const resourcesStore = defineStore("resources", {
           //     return value.type === "線上課程" && value.price === "免費";
           //   })
           //   .slice(-6);
-
+          this.getfoundationTabData();
           this.getComments();
           // console.log(this.resourcesData);
           // console.log(this.getComments());
@@ -37,67 +41,6 @@ const resourcesStore = defineStore("resources", {
         .catch((err) => {
           console.log(err);
         });
-
-      // axios
-      //   .get(`${VITE_API_PATH}/resources`)
-      //   .then((res) => {
-      //     this.resourcesData = res.data;
-      //     this.goodRateTabData = this.resourcesData
-      //       .filter((value) => {
-      //         return value.topics === "JavaScript";
-      //       })
-      //       .slice(-6);
-      //     this.freeTabData = this.resourcesData
-      //       .filter((value) => {
-      //         return value.type === "線上課程" && value.price === "免費";
-      //       })
-      //       .slice(-6);
-
-      //     return this.resourcesData;
-      //   })
-      //   .then(() => {
-      //     return this.goodRateTabData;
-      //   })
-      //   .then(() => {
-      //     return this.getComments();
-      //   })
-      //   .then(() => {
-      //     return this.getAverageScore();
-      //   })
-      //   .then(() => {
-      //     document.title = "Eng!neer 程式學習資源網";
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //   });
-
-      //   axios
-      //     .get(`${VITE_API_PATH}/resources`)
-      //     .then((res) => {
-      //       this.resourcesData = res.data;
-      //       this.goodRateTabData = this.resourcesData
-      //         .filter((value) => {
-      //           return value.topics === "JavaScript";
-      //         })
-      //         .slice(-6);
-      //       this.freeTabData = this.resourcesData
-      //         .filter((value) => {
-      //           return value.type === "線上課程" && value.price === "免費";
-      //         })
-      //         .slice(-6);
-
-      //       return this.getComments();
-      //     })
-      //     .then(() => {
-      //       return this.getAverageScore();
-      //     })
-      //     .then(() => {
-      //       document.title = "Eng!neer 程式學習資源網";
-      //     })
-      //     .catch((err) => {
-      //       console.log(err);
-      //     });
-      // },
     },
     getComments() {
       axios
@@ -108,6 +51,23 @@ const resourcesStore = defineStore("resources", {
         .catch((error) => {
           console.log(error);
         });
+    },
+    getfoundationTabData() {
+      const topic = this.$route.query.topic;
+      if (!topic) return; // 檢查 topic 是否存在
+
+      this.topicsResData = this.resourcesData.filter((value) => {
+        return (
+          value.topics.toLowerCase().replace(/[^a-zA-Z0-9]/g, "") ===
+          topic.toLowerCase().replace(/[^a-zA-Z0-9]/g, "")
+        );
+      });
+
+      this.foundationTabData = this.topicsResData
+        .filter((value) => {
+          return value.level === "初階";
+        })
+        .slice(0, 6);
     },
     // 取得各筆資源的 評論數、平均分數
     getAverageScore() {

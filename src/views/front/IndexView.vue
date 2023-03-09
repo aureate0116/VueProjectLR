@@ -1,5 +1,5 @@
 <template>
-  <loading :active="isLoading" />
+  <loading-component :is-loading="isLoading" />
 
   <!-- 1 bannerBlock -->
   <div class="container-fluid px-3 py-5 p-lg-0 bg-primary">
@@ -603,7 +603,7 @@ export default {
     },
   },
   components: {
-    loading: LoadingComponent,
+    LoadingComponent,
     Swiper,
     SwiperSlide,
   },
@@ -632,6 +632,8 @@ export default {
   },
   mounted() {
     this.getResources();
+    // this.getComments();
+    // this.getAverageScore();
     this.goodRateTabData = this.resourcesData
       .filter((value) => {
         return value.topics === "JavaScript"; // && value.commentSum != 0
@@ -642,7 +644,14 @@ export default {
         return value.type === "線上課程" && value.price === "免費";
       })
       .slice(0, 6);
-    this.isLoading = false;
+
+    if (this.resourcesData === null || this.resourcesData === undefined) {
+      this.isLoading = true;
+    } else {
+      this.$router.push("/");
+      this.isLoading = false;
+    }
+
     document.title = "Eng!neer 程式學習資源網";
     console.log("resourcesObj", this.resourcesObj);
     console.log("commentsData", this.resourcesData);

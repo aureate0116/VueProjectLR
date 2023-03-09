@@ -8,8 +8,8 @@ export default {
     return {
       isLoading: true,
       topic: this.$route.query.topic, //取得路由中 ?topic= 值
-      topicsResData: [], //保留該主題的資料
-      //foundationTabData: [], //tab 內的資料
+      // topicsResData: [], //保留該主題的資料
+      // foundationTabData: [], //tab 內的資料
       foundationTabClassify: "初階",
       renderList: [], //渲染清單
       filterGroup: {
@@ -65,6 +65,7 @@ export default {
       "getResources",
       "getComments",
       "getAverageScore",
+      "getfoundationTabData",
     ]),
     changeTabData(item) {
       this.foundationTabClassify = item;
@@ -128,39 +129,42 @@ export default {
     },
   },
   components: {
-    loading: LoadingComponent,
+    LoadingComponent,
   },
   computed: {
     ...mapState(resourcesStore, [
       "resourcesData",
       "commentsData",
       "resourcesObj",
+      "topicsResData",
+      "foundationTabData",
     ]),
-    foundationTabData() {
-      return this.topicsResData
-        .filter((value) => {
-          if (this.foundationTabClassify === "初階") {
-            return value.level === this.foundationTabClassify;
-          } else if (this.foundationTabClassify === "免費") {
-            return value.price === this.foundationTabClassify;
-          } else {
-            return this.topicsResData;
-          }
-        })
-        .slice(-6);
-    },
+    // foundationTabData() {
+    //   return this.topicsResData
+    //     .filter((value) => {
+    //       if (this.foundationTabClassify === "初階") {
+    //         return value.level === this.foundationTabClassify;
+    //       } else if (this.foundationTabClassify === "免費") {
+    //         return value.price === this.foundationTabClassify;
+    //       } else {
+    //         return this.topicsResData;
+    //       }
+    //     })
+    //     .slice(-6);
+    // },
   },
   mounted() {
     if (this.topic === null || this.topic === undefined) {
       this.$router.push("/");
     }
     this.getResources();
-    this.topicsResData = this.resourcesData.filter((value) => {
-      return (
-        value.topics.toLowerCase().replace(/[^a-zA-Z0-9]/g, "") ===
-        this.topic.toLowerCase().replace(/[^a-zA-Z0-9]/g, "")
-      );
-    });
+    // this.getfoundationTabData();
+    // this.topicsResData = this.resourcesData.filter((value) => {
+    //   return (
+    //     value.topics.toLowerCase().replace(/[^a-zA-Z0-9]/g, "") ===
+    //     this.topic.toLowerCase().replace(/[^a-zA-Z0-9]/g, "")
+    //   );
+    // });
     console.log("topicsResData list", this.topicsResData);
 
     this.foundationTabData = this.topicsResData
@@ -171,6 +175,16 @@ export default {
     console.log("入門推薦 list", this.foundationTabData);
 
     this.renderList = [...this.topicsResData];
+    if (
+      this.foundationTabData === null ||
+      this.foundationTabData === undefined
+    ) {
+      this.isLoading = true;
+    } else {
+      //location.reload();
+      this.isLoading = false;
+    }
+
     this.isLoading = false;
     document.title = "Eng!neer 程式學習資源網 " + this.topic;
   },
@@ -178,7 +192,7 @@ export default {
 </script>
 
 <template>
-  <loading :active="isLoading" />
+  <loading-component :is-loading="isLoading" />
   <!-- banner-->
   <div class="container-fluid px-3 py-5 p-lg-0 bg-primary">
     <div class="bannerBlock container p-0 p-lg-8 p-md-4">
@@ -227,7 +241,7 @@ export default {
       <div class="tab-content border border-primary p-3 p-md- rounded-3">
         <!--start tab-pane 1-->
         <div
-          class="tab-pane fade show active"
+          class="tab-pane fade"
           role="tabpanel"
           aria-labelledby="resourceType1-tab"
         >
