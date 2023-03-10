@@ -59,13 +59,26 @@ export default {
       }
       this.filterResources();
     },
-    // $route(to) {
-    //   // 处理路由参数或 query 的变化
-    //   this.topic = to.query.topic;
-    //   console.log(to.query);
-    //   this.topicsData();
-    //   this.filterResources();
-    // },
+    resourcesData() {
+      if (this.resourcesData.length == 0) {
+        alert("沒有取得 resourcesData");
+      }
+      // this.topicsResData = this.resourcesData.filter((value) => {
+      //   return (
+      //     value.topics.toLowerCase().replace(/[^a-zA-Z0-9]/g, "") ===
+      //     this.topic.toLowerCase().replace(/[^a-zA-Z0-9]/g, "")
+      //   );
+      // });
+
+      this.foundationTabData = this.topicsResData
+        .filter((value) => {
+          return value.level === "初階 ";
+        })
+        .slice(0, 6);
+      console.log("入門推薦 list", this.foundationTabData);
+
+      this.renderList = [...this.topicsResData];
+    },
   },
   methods: {
     ...mapActions(resourcesStore, [
@@ -168,7 +181,7 @@ export default {
     },
   },
   created() {
-    // this.topicsData();
+    console.log(this.resourcesData);
     this.topicsResData = this.resourcesData.filter((value) => {
       return (
         value.topics.toLowerCase().replace(/[^a-zA-Z0-9]/g, "") ===
@@ -176,12 +189,13 @@ export default {
       );
     });
     console.log("topicsResData list", this.topicsResData);
-    this.foundationTabData = this.topicsResData
-      .filter((value) => {
-        return value.level === "初階 ";
-      })
-      .slice(0, 6);
-    console.log("入門推薦 list", this.foundationTabData);
+
+    // this.foundationTabData = this.topicsResData
+    //   .filter((value) => {
+    //     return value.level === "初階 ";
+    //   })
+    //   .slice(0, 6);
+    // console.log("入門推薦 list", this.foundationTabData);
 
     this.renderList = [...this.topicsResData];
   },
