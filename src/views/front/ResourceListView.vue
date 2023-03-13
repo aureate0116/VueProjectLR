@@ -59,25 +59,30 @@ export default {
       }
       this.filterResources();
     },
-    resourcesData() {
-      if (this.resourcesData.length == 0) {
-        alert("沒有取得 resourcesData");
-      }
-      // this.topicsResData = this.resourcesData.filter((value) => {
-      //   return (
-      //     value.topics.toLowerCase().replace(/[^a-zA-Z0-9]/g, "") ===
-      //     this.topic.toLowerCase().replace(/[^a-zA-Z0-9]/g, "")
-      //   );
-      // });
+    resourcesData(newValue) {
+      this.topicsResData = newValue.filter((value) => {
+        return (
+          value.topics.toLowerCase().replace(/[^a-zA-Z0-9]/g, "") ===
+          this.topic.toLowerCase().replace(/[^a-zA-Z0-9]/g, "")
+        );
+      });
 
       this.foundationTabData = this.topicsResData
         .filter((value) => {
           return value.level === "初階 ";
         })
         .slice(0, 6);
-      console.log("入門推薦 list", this.foundationTabData);
+      // console.log("入門推薦 list", this.foundationTabData);
 
       this.renderList = [...this.topicsResData];
+      if (
+        this.renderList === undefined ||
+        this.foundationTabData === undefined
+      ) {
+        this.isLoading = true;
+      } else {
+        this.isLoading = false;
+      }
     },
   },
   methods: {
@@ -180,38 +185,21 @@ export default {
         .slice(-6);
     },
   },
-  created() {
-    console.log(this.resourcesData);
-    this.topicsResData = this.resourcesData.filter((value) => {
-      return (
-        value.topics.toLowerCase().replace(/[^a-zA-Z0-9]/g, "") ===
-        this.topic.toLowerCase().replace(/[^a-zA-Z0-9]/g, "")
-      );
-    });
-    console.log("topicsResData list", this.topicsResData);
-
-    // this.foundationTabData = this.topicsResData
-    //   .filter((value) => {
-    //     return value.level === "初階 ";
-    //   })
-    //   .slice(0, 6);
-    // console.log("入門推薦 list", this.foundationTabData);
-
-    this.renderList = [...this.topicsResData];
-  },
+  created() {},
   mounted() {
+    this.getResources();
     if (this.topic === null || this.topic === undefined) {
       this.$router.push("/");
     }
-    if (
-      this.foundationTabData === null ||
-      this.foundationTabData === undefined
-    ) {
-      this.isLoading = true;
-    } else {
-      //location.reload();
-      this.isLoading = false;
-    }
+    // if (
+    //   this.foundationTabData === null ||
+    //   this.foundationTabData === undefined
+    // ) {
+    //   this.isLoading = true;
+    // } else {
+    //   //location.reload();
+    //   this.isLoading = false;
+    // }
 
     document.title = "Eng!neer 程式學習資源網" + this.topic;
   },

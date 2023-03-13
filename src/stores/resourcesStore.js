@@ -8,8 +8,6 @@ const resourcesStore = defineStore("resources", {
     resourcesData: [],
     commentsData: [],
     resourcesObj: {},
-    // topicsResData: [],
-    // foundationTabData: [],
     loading: true,
   }),
   actions: {

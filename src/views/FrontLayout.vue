@@ -1,15 +1,64 @@
 <script>
 import { RouterView, RouterLink } from "vue-router";
+const { VITE_API_PATH } = import.meta.env;
+import { mapState } from "pinia";
+import userStore from "../stores/userStore";
 
 export default {
+  data() {
+    return {
+      userInfo: null,
+      userEmail: localStorage.getItem("userEmail"),
+    };
+  },
   components: {
     RouterView,
     RouterLink,
+  },
+  computed: {
+    ...mapState(userStore, ["isLogin"]),
+  },
+  watch: {
+    userInfo() {
+      if (this.userInfo === null || this.userInfo === undefined) {
+        console.log("沒有登入資料");
+        this.isLogin = false;
+      } else {
+        //console.log(this.userInfo);
+        console.log("有登入資料");
+        this.isLogin = true;
+      }
+    },
+  },
+  created() {
+    this.getUserData();
+  },
+  methods: {
+    //...mapActions(userStore, ["getUserData"]),
+    getUserData() {
+      this.$http
+        .get(`${VITE_API_PATH}/users?email=${this.userEmail}`)
+        .then((res) => {
+          this.userInfo = res.data[0];
+          this.isLogin = true;
+          console.log("userEmail:", this.userEmail);
+          //console.log("目前為登入狀態");
+          console.log(this.userInfo);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
+  mounted() {
+    // console.log("document.cookie", document.cookie);
   },
 };
 </script>
 
 <template>
+  <!-- <LoginView @login-success="onLoginSuccess"></LoginView> -->
+
   <router-link to="/">Home</router-link> |
   <router-link to="/resource-list">resource-list</router-link> |
   <router-link to="/resource">resource</router-link> |
@@ -102,27 +151,29 @@ export default {
               </ul>
 
               <!-- 登入前 -->
-              <ul class="navbar-nav beforeLogin ms-lg-3">
-                <li class="nav-item d-flex">
-                  <router-link
-                    class="nav-link btn btn-primary mx-lg-2 px-2 text-white"
-                    to="/login"
-                    >登入</router-link
-                  >
-                  <router-link
-                    class="nav-link btn btn-secondary mx-lg-2 mx-2 px-2 text-white"
-                    to="/signup"
-                    >註冊</router-link
-                  >
-                </li>
-              </ul>
-
+              <div v-if="isLogin === false">
+                <ul class="navbar-nav beforeLogin ms-lg-3">
+                  <li class="nav-item d-flex">
+                    <router-link
+                      class="nav-link btn btn-primary mx-lg-2 px-2 text-white"
+                      to="/login"
+                      >登入</router-link
+                    >
+                    <router-link
+                      class="nav-link btn btn-secondary mx-lg-2 mx-2 px-2 text-white"
+                      to="/signup"
+                      >註冊</router-link
+                    >
+                  </li>
+                </ul>
+              </div>
               <!-- 登入後 -->
-              <div class="desktopMenu ms-lg-3">
+              <div v-else class="desktopMenu ms-lg-3">
                 <ul
                   class="afterLogin justify-content-end navbar-nav d-lg-flex align-items-lg-center lh-1"
                 >
                   <li class="nav-item">
+                    123
                     <!-- <span class="material-icons text-danger">notifications</span> -->
                     <!-- <span class="material-icons material-icons-outlined text-dark">notifications_none</span> -->
                   </li>

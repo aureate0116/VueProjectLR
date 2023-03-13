@@ -8,6 +8,8 @@ import axios from "axios";
 import VueAxios from "vue-axios";
 
 import LoadingComponent from "@/components/LoadingComponent.vue";
+// import TimeStamp from "@/components/TimeStamp.vue";
+
 // import resourcesStore from "@/stores/resourcesStore";
 
 import "./assets/all.scss";
