@@ -214,146 +214,141 @@ export default {
       <h2 class="text-white text-center">{{ topic }}</h2>
     </div>
   </div>
-  <router-view>
-    <!-- foundation 入門推薦 -->
-    <div class="container py-5 p-lg-8">
-      <ul
-        class="nav nav-pills mb-3 d-flex align-items-center"
-        id="pills-tab2"
-        role="tablist"
-      >
-        <li><h3 class="fs-5 mb-0 fw-bold me-4">入門推薦</h3></li>
-        <li class="nav-item" role="presentation">
-          <button
-            class="nav-link"
-            :class="{ active: '初階' === foundationTabClassify }"
-            data-bs-toggle="pill"
-            type="button"
-            role="tab"
-            aria-controls="pills-fundation"
-            aria-selected="true"
-            @click="changeTabData('初階')"
-          >
-            初階
-          </button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button
-            class="nav-link"
-            :class="{ active: '免費' === foundationTabClassify }"
-            data-bs-toggle="pill"
-            type="button"
-            role="tab"
-            aria-controls="pills-freeItem"
-            aria-selected="false"
-            @click="changeTabData('免費')"
-          >
-            免費
-          </button>
-        </li>
-      </ul>
-
-      <div class="tab-content border border-primary p-3 p-md- rounded-3">
-        <!--start tab-pane 1-->
-        <div
-          class="tab-pane fade show active"
-          role="tabpanel"
-          aria-labelledby="resourceType1-tab"
+  <!-- foundation 入門推薦 -->
+  <div class="container py-5 p-lg-8">
+    <ul
+      class="nav nav-pills mb-3 d-flex align-items-center"
+      id="pills-tab2"
+      role="tablist"
+    >
+      <li><h3 class="fs-5 mb-0 fw-bold me-4">入門推薦</h3></li>
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link"
+          :class="{ active: '初階' === foundationTabClassify }"
+          data-bs-toggle="pill"
+          type="button"
+          role="tab"
+          aria-controls="pills-fundation"
+          aria-selected="true"
+          @click="changeTabData('初階')"
         >
-          <div class="row">
-            <div
-              class="col-md-6 col-lg-4"
-              v-for="resourceItem in foundationTabData"
-              :key="resourceItem.id"
-            >
-              <div class="d-flex p-2 align-items-center">
-                <div class="row">
-                  <div class="col-6" v-if="resourceItem.imgUrl != ''">
-                    <img
-                      :src="
-                        '/VueProjectLR/images/resources_cover/' +
-                        resourceItem.imgUrl
-                      "
-                      :alt="resourceItem.title"
-                    />
-                  </div>
-                  <div class="col-6" v-else>
-                    <img
-                      :src="`/VueProjectLR/images/resources_cover/noimgCover.jpg`"
-                      :alt="resourceItem.title"
-                    />
-                  </div>
-                  <div class="col-6">
-                    <h4 class="ellipsis fs-7">
-                      <router-link
-                        :to="`/resource?id=` + resourceItem.id"
-                        target="_blank"
-                      >
-                        {{ resourceItem.title }}
-                      </router-link>
-                    </h4>
-                    <div
-                      class="d-flex justify-content-between align-items-center"
+          初階
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link"
+          :class="{ active: '免費' === foundationTabClassify }"
+          data-bs-toggle="pill"
+          type="button"
+          role="tab"
+          aria-controls="pills-freeItem"
+          aria-selected="false"
+          @click="changeTabData('免費')"
+        >
+          免費
+        </button>
+      </li>
+    </ul>
+
+    <div class="tab-content border border-primary p-3 p-md- rounded-3">
+      <!--start tab-pane 1-->
+      <div
+        class="tab-pane fade show active"
+        role="tabpanel"
+        aria-labelledby="resourceType1-tab"
+      >
+        <div class="row">
+          <div
+            class="col-md-6 col-lg-4"
+            v-for="resourceItem in foundationTabData"
+            :key="resourceItem.id"
+          >
+            <div class="d-flex p-2 align-items-center">
+              <div class="row">
+                <div class="col-6" v-if="resourceItem.imgUrl != ''">
+                  <img
+                    :src="
+                      '/VueProjectLR/images/resources_cover/' +
+                      resourceItem.imgUrl
+                    "
+                    :alt="resourceItem.title"
+                  />
+                </div>
+                <div class="col-6" v-else>
+                  <img
+                    :src="`/VueProjectLR/images/resources_cover/noimgCover.jpg`"
+                    :alt="resourceItem.title"
+                  />
+                </div>
+                <div class="col-6">
+                  <h4 class="ellipsis fs-7">
+                    <router-link
+                      :to="`/resource?id=` + resourceItem.id"
+                      target="_blank"
                     >
-                      <div
-                        v-if="
-                          resourceItem.commentSum == 0 ||
-                          resourceItem.commentSum == undefined
-                        "
-                      >
-                        <span class="fs-8 text-gray">尚無評價</span>
-                      </div>
-                      <div v-else class="d-flex align-items-center">
-                        <span class="fs-7 fw-bold text-secondary">{{
-                          resourceItem.averageScore
-                        }}</span>
-                        <ul class="d-flex mx-1 lh-1 text-secondary">
-                          <li>
-                            <span
-                              v-for="star in resourceItem.averageScore"
-                              :key="star + 1"
-                              class="material-icons material-icons-sharp fs-8"
-                              >star</span
-                            >
-                          </li>
-
-                          <li v-if="resourceItem.averageScore[2] <= 2">
-                            <span
-                              v-for="star in 5 - resourceItem.averageScore[0]"
-                              :key="star + 2"
-                              class="material-icons material-icons-sharp fs-8"
-                              >star_outline</span
-                            >
-                          </li>
-
-                          <li
-                            v-else-if="
-                              resourceItem.averageScore[2] >= 3 &&
-                              resourceItem.averageScore[2] <= 7
-                            "
+                      {{ resourceItem.title }}
+                    </router-link>
+                  </h4>
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <div
+                      v-if="
+                        resourceItem.commentSum == 0 ||
+                        resourceItem.commentSum == undefined
+                      "
+                    >
+                      <span class="fs-8 text-gray">尚無評價</span>
+                    </div>
+                    <div v-else class="d-flex align-items-center">
+                      <span class="fs-7 fw-bold text-secondary">{{
+                        resourceItem.averageScore
+                      }}</span>
+                      <ul class="d-flex mx-1 lh-1 text-secondary">
+                        <li>
+                          <span
+                            v-for="star in resourceItem.averageScore"
+                            :key="star + 1"
+                            class="material-icons material-icons-sharp fs-8"
+                            >star</span
                           >
-                            <span
-                              class="material-icons material-icons-sharp fs-8"
-                              >star_half</span
-                            >
-                          </li>
+                        </li>
 
-                          <li v-else-if="resourceItem.averageScore[2] >= 8">
-                            <span
-                              v-for="star in 5 -
-                              resourceItem.averageScore[0] -
-                              1"
-                              :key="star + 3"
-                              class="material-icons material-icons-sharp fs-8"
-                              >star</span
-                            >
-                          </li>
-                        </ul>
+                        <li v-if="resourceItem.averageScore[2] <= 2">
+                          <span
+                            v-for="star in 5 - resourceItem.averageScore[0]"
+                            :key="star + 2"
+                            class="material-icons material-icons-sharp fs-8"
+                            >star_outline</span
+                          >
+                        </li>
 
-                        <span class="fs-8 text-secondary"
-                          >({{ resourceItem.commentSum }})</span
+                        <li
+                          v-else-if="
+                            resourceItem.averageScore[2] >= 3 &&
+                            resourceItem.averageScore[2] <= 7
+                          "
                         >
-                      </div>
+                          <span class="material-icons material-icons-sharp fs-8"
+                            >star_half</span
+                          >
+                        </li>
+
+                        <li v-else-if="resourceItem.averageScore[2] >= 8">
+                          <span
+                            v-for="star in 5 - resourceItem.averageScore[0] - 1"
+                            :key="star + 3"
+                            class="material-icons material-icons-sharp fs-8"
+                            >star</span
+                          >
+                        </li>
+                      </ul>
+
+                      <span class="fs-8 text-secondary"
+                        >({{ resourceItem.commentSum }})</span
+                      >
                     </div>
                   </div>
                 </div>
@@ -361,254 +356,255 @@ export default {
             </div>
           </div>
         </div>
-        <!--end tab-pane 1-->
       </div>
+      <!--end tab-pane 1-->
     </div>
-    <!-- end  foundation  -->
+  </div>
+  <!-- end  foundation  -->
 
-    <!-- releative -->
-    <div class="hotTopic relatedContainer container py-5 p-lg-8 pt-lg-0">
-      <h3 class="fs-5 fw-bold mb-4">相關主題</h3>
-      <div class="row relatedTopic" v-if="topic === 'JavaScript'">
-        <div class="col">
-          <div class="topicItem text-center my-2 p-3 rounded-3">
-            <router-link to="/resource-list?topic=HTML/CSS" target="_blank">
-              <h4 class="fw-bold">HTML/CSS</h4></router-link
-            >
-          </div>
-        </div>
-        <div class="col">
-          <div class="topicItem text-center my-2 p-3 rounded-3">
-            <router-link to="/resource-list?topic=Python">
-              <h4 class="fw-bold">Python</h4></router-link
-            >
-          </div>
+  <!-- releative -->
+  <div class="hotTopic relatedContainer container py-5 p-lg-8 pt-lg-0">
+    <h3 class="fs-5 fw-bold mb-4">相關主題</h3>
+    <div class="row relatedTopic" v-if="topic === 'JavaScript'">
+      <div class="col">
+        <div class="topicItem text-center my-2 p-3 rounded-3">
+          <router-link to="/resource-list?topic=HTML/CSS" target="_blank">
+            <h4 class="fw-bold">HTML/CSS</h4></router-link
+          >
         </div>
       </div>
-      <div class="row relatedTopic" v-else-if="topic === 'HTML/CSS'">
-        <div class="col">
-          <div class="topicItem text-center my-2 p-3 rounded-3">
-            <router-link to="/resource-list?topic=JavaScript" target="_blank">
-              <h4 class="fw-bold">JavaScript</h4></router-link
-            >
-          </div>
-        </div>
-      </div>
-      <div class="row relatedTopic" v-else>
-        <div class="col">
-          <div class="topicItem text-center my-2 p-3 rounded-3">
-            <router-link to="/resource-list?topic=JavaScript" target="_blank">
-              <h4 class="fw-bold">JavaScript</h4></router-link
-            >
-          </div>
+      <div class="col">
+        <div class="topicItem text-center my-2 p-3 rounded-3">
+          <router-link to="/resource-list?topic=Python">
+            <h4 class="fw-bold">Python</h4></router-link
+          >
         </div>
       </div>
     </div>
-    <!-- end releative -->
+    <div class="row relatedTopic" v-else-if="topic === 'HTML/CSS'">
+      <div class="col">
+        <div class="topicItem text-center my-2 p-3 rounded-3">
+          <router-link to="/resource-list?topic=JavaScript" target="_blank">
+            <h4 class="fw-bold">JavaScript</h4></router-link
+          >
+        </div>
+      </div>
+    </div>
+    <div class="row relatedTopic" v-else>
+      <div class="col">
+        <div class="topicItem text-center my-2 p-3 rounded-3">
+          <router-link to="/resource-list?topic=JavaScript" target="_blank">
+            <h4 class="fw-bold">JavaScript</h4></router-link
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end releative -->
 
-    <!-- filterList -->
-    <div class="filterList container py-5 p-lg-8 d-lg-flex border-top">
-      <h3 class="fs-5 fw-bold mb-4 d-lg-none">篩選</h3>
+  <!-- filterList -->
+  <div class="filterList container py-5 p-lg-8 d-lg-flex border-top">
+    <h3 class="fs-5 fw-bold mb-4 d-lg-none">篩選</h3>
 
+    <div
+      class="filter bg-white rounded-3 p-4 me-lg-4 d-flex flex-wrap flex-lg-column flex-column justify-content-between justify-content-lg-start flex-sm-row"
+    >
       <div
-        class="filter bg-white rounded-3 p-4 me-lg-4 d-flex flex-wrap flex-lg-column flex-column justify-content-between justify-content-lg-start flex-sm-row"
+        class="filterGroup border-bottom mb-3 pb-3"
+        v-for="(items, group) in filterGroup"
+        :key="group"
       >
-        <div
-          class="filterGroup border-bottom mb-3 pb-3"
-          v-for="(items, group) in filterGroup"
-          :key="group"
-        >
-          <h3 class="fs-6">
-            {{
-              group === "type"
-                ? "資源性質"
-                : group === "level"
-                ? "適用等級"
-                : group === "price"
-                ? "價格"
-                : group === "lang"
-                ? "語系"
-                : group
-            }}
-          </h3>
-          <div v-for="(item, index) in items" :key="index">
-            <div class="input-group filterItem">
-              <input
-                type="checkbox"
-                class="me-2"
-                :id="item"
-                :value="item"
-                v-model="checkObj[group]"
-              />
-              <label :for="item" class="me-2">{{ item }}</label>
-            </div>
+        <h3 class="fs-6">
+          {{
+            group === "type"
+              ? "資源性質"
+              : group === "level"
+              ? "適用等級"
+              : group === "price"
+              ? "價格"
+              : group === "lang"
+              ? "語系"
+              : group
+          }}
+        </h3>
+        <div v-for="(item, index) in items" :key="index">
+          <div class="input-group filterItem">
+            <input
+              type="checkbox"
+              class="me-2"
+              :id="item"
+              :value="item"
+              v-model="checkObj[group]"
+            />
+            <label :for="item" class="me-2">{{ item }}</label>
           </div>
         </div>
       </div>
-      <!--filterList-->
+    </div>
+    <!--filterList-->
 
-      <div class="resourceList">
-        <div
-          class="row d-lg-flex align-items-center mb-5 mb-lg-0 justify-content-between"
-        >
-          <div class="col-md-5 fs-8 mb-3 mb-md-0">
-            <span class="resultNumber me-3">
-              {{ renderList.length }} 個結果
-            </span>
-            <a role="button" id="clearFilterBtn" @click="clearFilter()">
-              <span
-                v-if="renderList.length === topicsResData.length"
-                class="clearBtnText text-primary"
-              ></span>
-              <span v-else class="clearBtnText text-primary">清除篩選條件</span>
-            </a>
-          </div>
-          <!-- <div class="col-lg-5 "></div> -->
-          <div class="col-md-3 d-flex align-items-end">
-            <div class="input-group">
-              <select
-                class="form-select form-select-sm"
-                id="resourceSort"
-                v-model="sortRenderList"
-              >
-                <option value="heightRate">最高評價</option>
-                <option value="new">最新</option>
-              </select>
-            </div>
+    <div class="resourceList">
+      <div
+        class="row d-lg-flex align-items-center mb-5 mb-lg-0 justify-content-between"
+      >
+        <div class="col-md-5 fs-8 mb-3 mb-md-0">
+          <span class="resultNumber me-3">
+            {{ renderList.length }} 個結果
+          </span>
+          <a role="button" id="clearFilterBtn" @click="clearFilter()">
+            <span
+              v-if="renderList.length === topicsResData.length"
+              class="clearBtnText text-primary"
+            ></span>
+            <span v-else class="clearBtnText text-primary">清除篩選條件</span>
+          </a>
+        </div>
+        <!-- <div class="col-lg-5 "></div> -->
+        <div class="col-md-3 d-flex align-items-end">
+          <div class="input-group">
+            <select
+              class="form-select form-select-sm"
+              id="resourceSort"
+              v-model="sortRenderList"
+            >
+              <option value="heightRate">最高評價</option>
+              <option value="new">最新</option>
+            </select>
           </div>
         </div>
+      </div>
 
-        <!-- 資源列表 -->
-        <div class="row">
-          <div class="col resourceItem" v-if="renderList.length === 0">
-            沒有符合條件的項目
-          </div>
-          <div class="col resourceItem" v-else>
-            <div
-              class="row my-3"
-              v-for="resourceItem in renderList"
-              :key="resourceItem.id"
-            >
-              <!-- 圖片 -->
-              <div class="col-2" v-if="resourceItem.imgUrl != ''">
+      <!-- 資源列表 -->
+      <div class="row">
+        <div class="col resourceItem" v-if="renderList.length === 0">
+          沒有符合條件的項目
+        </div>
+        <div class="col resourceItem" v-else>
+          <div
+            class="row my-3"
+            v-for="resourceItem in renderList"
+            :key="resourceItem.id"
+          >
+            <!-- 圖片 -->
+            <div class="col-2" v-if="resourceItem.imgUrl != ''">
+              <router-link
+                :to="`/resource?id=` + resourceItem.id"
+                target="_blank"
+              >
+                <img
+                  :src="
+                    '/VueProjectLR/images/resources_cover/' +
+                    resourceItem.imgUrl
+                  "
+                  :alt="resourceItem.title"
+              /></router-link>
+            </div>
+            <div class="col-2" v-else>
+              <router-link
+                :to="`/resource?id=` + resourceItem.id"
+                target="_blank"
+              >
+                <img
+                  :src="`/VueProjectLR/images/resources_cover/noimgCover.jpg`"
+                  :alt="resourceItem.title"
+                />
+              </router-link>
+            </div>
+            <!-- 標題 + 星星 -->
+            <div class="col-6">
+              <h4 class="ellipsis fs-7">
                 <router-link
                   :to="`/resource?id=` + resourceItem.id"
                   target="_blank"
                 >
-                  <img
-                    :src="
-                      '/VueProjectLR/images/resources_cover/' +
-                      resourceItem.imgUrl
-                    "
-                    :alt="resourceItem.title"
-                /></router-link>
+                  {{ resourceItem.title }}
+                </router-link>
+              </h4>
+              <div class="d-flex justify-content-between align-items-center">
+                <div
+                  v-if="
+                    resourceItem.commentSum === 0 ||
+                    resourceItem.commentSum === undefined
+                  "
+                >
+                  <span class="fs-8 text-gray">尚無評價</span>
+                </div>
+                <div v-else class="d-flex align-items-center">
+                  <span class="fs-7 fw-bold text-secondary">{{
+                    resourceItem.averageScore
+                  }}</span>
+                  <ul class="d-flex mx-1 lh-1 text-secondary">
+                    <li>
+                      <span
+                        v-for="star in resourceItem.averageScore"
+                        :key="star + 1"
+                        class="material-icons material-icons-sharp fs-8"
+                        >star</span
+                      >
+                    </li>
+
+                    <li v-if="resourceItem.averageScore[2] <= 2">
+                      <span
+                        v-for="star in 5 - resourceItem.averageScore[0]"
+                        :key="star + 2"
+                        class="material-icons material-icons-sharp fs-8"
+                        >star_outline</span
+                      >
+                    </li>
+
+                    <li
+                      v-else-if="
+                        resourceItem.averageScore[2] >= 3 &&
+                        resourceItem.averageScore[2] <= 7
+                      "
+                    >
+                      <span class="material-icons material-icons-sharp fs-8"
+                        >star_half</span
+                      >
+                    </li>
+
+                    <li v-else-if="resourceItem.averageScore[2] >= 8">
+                      <span
+                        v-for="star in 5 - resourceItem.averageScore[0] - 1"
+                        :key="star + 3"
+                        class="material-icons material-icons-sharp fs-8"
+                        >star</span
+                      >
+                    </li>
+                  </ul>
+
+                  <span class="fs-8 text-secondary"
+                    >({{ resourceItem.commentSum }})</span
+                  >
+                </div>
               </div>
-              <div class="col-2" v-else>
-                <router-link
-                  :to="`/resource?id=` + resourceItem.id"
+            </div>
+            <div class="col-4">
+              <div class="d-flex flex-column flex-lg-row align-items-end">
+                <a
+                  :href="resourceItem.url"
                   target="_blank"
+                  type="button"
+                  class="btn btn-tiffany my-2 mx-2 w-75"
                 >
-                  <img
-                    :src="`/VueProjectLR/images/resources_cover/noimgCover.jpg`"
-                    :alt="resourceItem.title"
-                  />
+                  前往資源
+                </a>
+                <router-link
+                  target="_blank"
+                  :to="`/resource?id=${resourceItem.id}`"
+                  type="button"
+                  class="btn btn-yellowBrown w-75 mx-2 my-2"
+                >
+                  查看評論
                 </router-link>
               </div>
-              <!-- 標題 + 星星 -->
-              <div class="col-6">
-                <h4 class="ellipsis fs-7">
-                  <router-link
-                    :to="`/resource?id=` + resourceItem.id"
-                    target="_blank"
-                  >
-                    {{ resourceItem.title }}
-                  </router-link>
-                </h4>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div
-                    v-if="
-                      resourceItem.commentSum === 0 ||
-                      resourceItem.commentSum === undefined
-                    "
-                  >
-                    <span class="fs-8 text-gray">尚無評價</span>
-                  </div>
-                  <div v-else class="d-flex align-items-center">
-                    <span class="fs-7 fw-bold text-secondary">{{
-                      resourceItem.averageScore
-                    }}</span>
-                    <ul class="d-flex mx-1 lh-1 text-secondary">
-                      <li>
-                        <span
-                          v-for="star in resourceItem.averageScore"
-                          :key="star + 1"
-                          class="material-icons material-icons-sharp fs-8"
-                          >star</span
-                        >
-                      </li>
-
-                      <li v-if="resourceItem.averageScore[2] <= 2">
-                        <span
-                          v-for="star in 5 - resourceItem.averageScore[0]"
-                          :key="star + 2"
-                          class="material-icons material-icons-sharp fs-8"
-                          >star_outline</span
-                        >
-                      </li>
-
-                      <li
-                        v-else-if="
-                          resourceItem.averageScore[2] >= 3 &&
-                          resourceItem.averageScore[2] <= 7
-                        "
-                      >
-                        <span class="material-icons material-icons-sharp fs-8"
-                          >star_half</span
-                        >
-                      </li>
-
-                      <li v-else-if="resourceItem.averageScore[2] >= 8">
-                        <span
-                          v-for="star in 5 - resourceItem.averageScore[0] - 1"
-                          :key="star + 3"
-                          class="material-icons material-icons-sharp fs-8"
-                          >star</span
-                        >
-                      </li>
-                    </ul>
-
-                    <span class="fs-8 text-secondary"
-                      >({{ resourceItem.commentSum }})</span
-                    >
-                  </div>
-                </div>
-              </div>
-              <div class="col-4">
-                <div class="d-flex flex-column flex-lg-row align-items-end">
-                  <a
-                    :href="resourceItem.url"
-                    target="_blank"
-                    type="button"
-                    class="btn btn-tiffany my-2 mx-2 w-75"
-                  >
-                    前往資源
-                  </a>
-                  <router-link
-                    target="_blank"
-                    :to="`/resource?id=${resourceItem.id}`"
-                    type="button"
-                    class="btn btn-yellowBrown w-75 mx-2 my-2"
-                  >
-                    查看評論
-                  </router-link>
-                </div>
-              </div>
             </div>
-            <!--end row-->
           </div>
+          <!--end row-->
         </div>
+      </div>
 
-        <!-- <div class="d-flex justify-content-center">
+      <!-- <div class="d-flex justify-content-center">
           <nav aria-label="Page navigation me-auto">
             <ul class="pagination">
               <li class="page-item">
@@ -627,9 +623,8 @@ export default {
             </ul>
           </nav>
         </div> -->
-      </div>
-      <!--resourceList-->
     </div>
-  </router-view>
+    <!--resourceList-->
+  </div>
   <!-- end filterList -->
 </template>

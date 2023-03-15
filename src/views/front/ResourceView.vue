@@ -1,7 +1,6 @@
 <template>
   <router-view @click="closeCollapse">
     <loading-component :is-loading="isLoading" />
-    {{ theResourceData }}
     <!-- banner  -->
     <div
       class="container-fluid py-5 p-lg-5 py-md-8 bg-darkTiffany d-none d-md-block"
@@ -57,7 +56,7 @@
                     <span class="fs-7 fw-bold text-secondary">{{
                       resourceItem.averageScore
                     }}</span>
-                    <ul class="d-flex mx-1 lh-1 text-secondary">
+                    <!-- <ul class="d-flex mx-1 lh-1 text-secondary">
                       <li>
                         <span
                           v-for="star in resourceItem.averageScore"
@@ -95,7 +94,7 @@
                           >star</span
                         >
                       </li>
-                    </ul>
+                    </ul> -->
 
                     <span class="fs-8 text-secondary"
                       >({{ resourceItem.commentSum }})</span
@@ -115,16 +114,111 @@
             <h2 class="fs-5 fw-bold mt-md-0 mt-3">
               {{ theResourceData.title }}
             </h2>
-            <div class="d-flex flex-wrap align-items-center text-secondary">
-              <!-- <span class="fs-5 fw-bold me-lg-2">3.2</span>
-                        <ul class="d-flex align-items-center lh-1 me-lg-2">
-                            <li><span class="material-icons material-icons-sharp fs-7">star</span></li>
-                            <li><span class="material-icons material-icons-sharp fs-7">star</span></li>
-                            <li><span class="material-icons material-icons-sharp fs-7">star</span></li>
-                            <li><span class="material-icons material-icons-sharp fs-7">star_half</span></li>
-                            <li><span class="material-icons material-icons-sharp fs-7">star_outline</span></li>
-                        </ul>                                
-                        <span class="fs-8">(35)</span> -->
+            <div class="d-flex flex-row align-items-center text-secondary">
+              <span
+                class="fs-7 fw-bold text-secondary"
+                v-if="theResourceData.commentSum !== 0"
+                >{{ theResourceData.averageScore }}</span
+              >
+              <!-- <span v-else class="fs-7 fw-bold text-secondary"></span> -->
+              <div v-if="theResourceData.averageScore !== undefined">
+                <div v-if="theResourceData.commentSum !== 0" class="d-flex">
+                  <!-- star -->
+                  <ul class="d-flex align-items-center lh-1 me-lg-2">
+                    <li>
+                      <span
+                        v-for="star in parseInt(
+                          theResourceData.averageScore.toString().charAt(0)
+                        )"
+                        :key="star + 1"
+                        class="material-icons material-icons-sharp fs-8"
+                        >star</span
+                      >
+                    </li>
+
+                    <li
+                      v-if="
+                        parseInt(
+                          theResourceData.averageScore.toString().charAt(2)
+                        ) <= 2 ||
+                        isNaN(
+                          parseInt(
+                            theResourceData.averageScore.toString().charAt(2)
+                          )
+                        ) ||
+                        typeof parseInt(
+                          theResourceData.averageScore.toString().charAt(2)
+                        ) === 'undefined'
+                      "
+                    >
+                      <span
+                        v-for="star in 5 -
+                        parseInt(
+                          theResourceData.averageScore.toString().charAt(0)
+                        )"
+                        :key="star"
+                        class="material-icons material-icons-sharp fs-8"
+                        >star_outline</span
+                      >
+                    </li>
+                    <!-- 3~7 -->
+                    <li
+                      v-else-if="
+                        parseInt(
+                          theResourceData.averageScore.toString().charAt(2)
+                        ) >= 3 &&
+                        parseInt(
+                          theResourceData.averageScore.toString().charAt(2)
+                        ) <= 7
+                      "
+                    >
+                      <span class="material-icons material-icons-sharp fs-8"
+                        >star_half</span
+                      >
+
+                      <span
+                        v-for="star in 5 -
+                        parseInt(
+                          theResourceData.averageScore.toString().charAt(0)
+                        ) -
+                        1"
+                        :key="star"
+                        class="material-icons material-icons-sharp fs-8"
+                        >star_outline</span
+                      >
+                    </li>
+                    <!-- >=8 -->
+                    <li
+                      v-else-if="
+                        parseInt(
+                          theResourceData.averageScore.toString().charAt(2)
+                        ) >= 8
+                      "
+                    >
+                      <span class="material-icons material-icons-sharp fs-8"
+                        >star</span
+                      >
+
+                      <span
+                        v-for="star in 5 -
+                        parseInt(
+                          theResourceData.averageScore.toString().charAt(0)
+                        ) -
+                        1"
+                        :key="star"
+                        class="material-icons material-icons-sharp fs-8"
+                        >star_half</span
+                      >
+                    </li>
+                  </ul>
+                  <span class="fs-8 text-secondary"
+                    >({{ theResourceData.commentSum }}){{
+                      theResCommentsData.length
+                    }}</span
+                  >
+                </div>
+                <div v-else><span class="fs-8 text-gray">尚無評論</span></div>
+              </div>
             </div>
             <div class="classify fs-8">
               <ul class="d-flex">
@@ -197,11 +291,13 @@
               role="button"
               aria-expanded="false"
               aria-controls="collapseComment"
+              @click="checkLoginComment"
             >
               立即評論
             </button>
 
             <div
+              v-if="isLogin"
               class="commentContent collapse border border-2 rounded-3 p-lg-4 my-2 p-2"
               id="collapseComment"
             >
@@ -210,53 +306,29 @@
               >
                 <!--card card-body -->
                 <h3 class="userInfo card-title fs-7 d-flex align-items-center">
-                  <img
-                    class="rounded-circle"
-                    src="@/assets/images/icon_image.png"
-                    alt=""
-                  />
+                  <span
+                    class="userImg d-inline-block bg-primary px-2 py-2 rounded-circle fw-bold fs-7 lh-1 text-white text-center"
+                    >{{ userInfo?.firstName[0].toUpperCase() }}</span
+                  >
                   <p class="mb-0 mx-2 text-start">
-                    Jenny<br />
-                    <span class="fs-9 text-gray">5 年前端工程師</span>
+                    {{ userInfo?.firstName }}<br />
+                    <span class="fs-9 text-gray">{{ userInfo?.title }}</span>
                   </p>
                 </h3>
                 <ul
                   class="commentStar card-text d-flex align-items-center lh-1"
                 >
-                  <li>
-                    <a href="#" role="button"
-                      ><span class="material-icons material-icons-sharp"
+                  <li v-for="star in 5" :key="star" @click.prevent="rate(star)">
+                    <a href="#" role="button">
+                      <span
+                        v-if="star <= commentRating"
+                        class="material-icons material-icons-sharp"
+                        >star</span
+                      >
+                      <span v-else class="material-icons material-icons-sharp"
                         >star_outline</span
-                      ></a
-                    >
-                  </li>
-                  <li>
-                    <a href="#" role="button"
-                      ><span class="material-icons material-icons-sharp"
-                        >star_outline</span
-                      ></a
-                    >
-                  </li>
-                  <li>
-                    <a href="#" role="button"
-                      ><span class="material-icons material-icons-sharp"
-                        >star_outline</span
-                      ></a
-                    >
-                  </li>
-                  <li>
-                    <a href="#" role="button"
-                      ><span class="material-icons material-icons-sharp"
-                        >star_outline</span
-                      ></a
-                    >
-                  </li>
-                  <li>
-                    <a href="#" role="button"
-                      ><span class="material-icons material-icons-sharp"
-                        >star_outline</span
-                      ></a
-                    >
+                      >
+                    </a>
                   </li>
                 </ul>
               </div>
@@ -268,13 +340,23 @@
                     placeholder=""
                     id="commentTextarea"
                     style="height: 100px"
+                    v-model="commentContent"
                   ></textarea>
-                  <span class="message commentTextarea text-danger fs-8"></span>
+                  <span
+                    v-if="commentContent.length < 20"
+                    class="message commentTextarea text-danger fs-8"
+                    >字數須超過20字</span
+                  >
+                  <span
+                    v-else
+                    class="message commentTextarea text-danger fs-8"
+                  ></span>
                   <label for="commentTextarea">Comments</label>
                 </div>
                 <button
                   role="button"
                   class="btnCommentSubmit btn btn-primary text-white mt-4"
+                  @click="sendComment"
                 >
                   送出評論
                 </button>
@@ -302,122 +384,6 @@
               class="col mb-3"
               style="z-index: 10"
             >
-              <!-- <div
-                class="card card-body position-relatvie d-flex justify-content-between"
-                style="z-index: 10"
-              >
-                <div
-                  class="d-flex align-items-lg-center flex-column flex-lg-row justify-content-between"
-                >
-                  <h3
-                    class="card-title fs-7 d-flex align-items-center justify-content-lg-start justify-content-between"
-                  >
-                    <span
-                      class="userImg d-inline-block bg-primary px-2 py-2 rounded-circle fw-bold fs-7 lh-1 text-white text-center"
-                      >${prefix}</span
-                    >
-
-                    <p class="mb-0 mx-2 text-start">
-                      ${userName}<br />
-                      <span class="fs-9 text-gray">${item.user.title}</span>
-                    </p>
-                  </h3>
-                  <div class="d-flex flex-lg-column justify-content-between">
-                    <ul class="card-text d-flex align-items-center lh-1">
-                      ${newResultScoreOjb[1]}
-                    </ul>
-                    <p class="mb-0 text-end">
-                      <span class="fs-9 text-gray">${commentTimeAge}</span>
-                    </p>
-                  </div>
-                </div>
-
-                <div class="d-flex flex-column">
-                  <div class="form-floating my-3">
-                    <p>${item.content}</p>
-                  </div>
-                </div>
-
-                <div class="d-flex justify-content-between fs-8">
-                  <div class="d-flex align-items-center">
-                    <a href="#">
-                      <span class="material-icons-outlined fs-6"
-                        >thumb_up_alt</span
-                      ></a
-                    >
-                    <span class="mx-2">${item.likeNum}</span>
-                  
-
-                    <a href="#">
-                      <span class="material-icons-outlined fs-6"
-                        >thumb_down_alt</span
-                      ></a
-                    >
-                    <span class="mx-2">${item.dislikeNum}</span>
-                    
-                  </div>
-
-                  <div class="position-relatvie">
-                    <a
-                      class="d-flex align-items-center"
-                      data-bs-toggle="collapse"
-                      href="#commentOffense${commentNum+1}"
-                      role="button"
-                      aria-expanded="false"
-                      aria-controls="commentOffense"
-                    >
-                      <span class="material-icons-outlined">report</span>
-                      <span>檢舉</span>
-                    </a>
-
-                    <div
-                      class="offenseItem border bg-light rounded-3 p-3 collapse position-absolute end-0"
-                      id="commentOffense${commentNum+1}"
-                      style="z-index: 0"
-                    >
-                      <div class="form-check">
-                        <input
-                          class="form-check-input"
-                          type="radio"
-                          name="offenseItem"
-                          id="offenseItem1"
-                        />
-                        <label class="form-check-label" for="offenseItem1">
-                          偏離主題
-                        </label>
-                      </div>
-                      <div class="form-check">
-                        <input
-                          class="form-check-input"
-                          type="radio"
-                          name="offenseItem"
-                          id="offenseItem2"
-                        />
-                        <label class="form-check-label" for="offenseItem2">
-                          垃圾內容及廣告宣傳
-                        </label>
-                      </div>
-                      <div class="form-check">
-                        <input
-                          class="form-check-input"
-                          type="radio"
-                          name="offenseItem"
-                          id="offenseItem3"
-                        />
-                        <label class="form-check-label" for="offenseItem3">
-                          騷擾內容及不雅用語
-                        </label>
-                      </div>
-                      <button
-                        class="btn btn-primary btn-sm text-white"
-                        type="submit"
-                      >
-                        送出
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div> -->
               <div class="card card-body" style="z-index: 10">
                 <div
                   class="d-flex p-lg-3 align-items-lg-center flex-column flex-lg-row justify-content-between"
@@ -439,14 +405,17 @@
                   </h3>
                   <div class="d-flex flex-lg-column justify-content-between">
                     <ul class="card-text d-flex align-items-center lh-1">
-                      <li v-for="star in comment.score" :key="star">
+                      <li v-for="star in parseInt(comment.score)" :key="star">
                         <a href="#" role="button">
                           <span class="material-icons material-icons-sharp"
                             >star</span
                           ></a
                         >
                       </li>
-                      <li v-for="star in 5 - comment.score" :key="star">
+                      <li
+                        v-for="star in 5 - parseInt(comment.score)"
+                        :key="star"
+                      >
                         <a href="#" role="button"
                           ><span class="material-icons material-icons-sharp"
                             >star_outline</span
@@ -562,7 +531,7 @@
                         瀏覽更多
                     </button> -->
 
-            <!-- Modal -->
+            <!-- comment Modal -->
             <div
               class="modal fade"
               id="moreComment"
@@ -938,358 +907,6 @@
                       <!--end card-->
                     </div>
                     <!--end col-->
-                    <div class="col mb-3">
-                      <div class="card card-body" style="z-index: 10">
-                        <div
-                          class="d-flex p-lg-3 align-items-lg-center flex-column flex-lg-row justify-content-between"
-                        >
-                          <h3
-                            class="card-title fs-7 d-flex align-items-center justify-content-lg-start justify-content-between"
-                          >
-                            <img
-                              class="rounded-circle"
-                              src="@/assets/images/icon_image.png"
-                              alt=""
-                            />
-                            <p class="mb-0 mx-2 text-start">
-                              Jenny<br />
-                              <span class="fs-9 text-gray">5 年前端工程師</span>
-                            </p>
-                          </h3>
-                          <div
-                            class="d-flex flex-lg-column justify-content-between"
-                          >
-                            <ul
-                              class="card-text d-flex align-items-center lh-1"
-                            >
-                              <li>
-                                <a href="#" role="button"
-                                  ><span
-                                    class="material-icons material-icons-sharp"
-                                    >star_outline</span
-                                  ></a
-                                >
-                              </li>
-                              <li>
-                                <a href="#" role="button"
-                                  ><span
-                                    class="material-icons material-icons-sharp"
-                                    >star_outline</span
-                                  ></a
-                                >
-                              </li>
-                              <li>
-                                <a href="#" role="button"
-                                  ><span
-                                    class="material-icons material-icons-sharp"
-                                    >star_outline</span
-                                  ></a
-                                >
-                              </li>
-                              <li>
-                                <a href="#" role="button"
-                                  ><span
-                                    class="material-icons material-icons-sharp"
-                                    >star_outline</span
-                                  ></a
-                                >
-                              </li>
-                              <li>
-                                <a href="#" role="button"
-                                  ><span
-                                    class="material-icons material-icons-sharp"
-                                    >star_outline</span
-                                  ></a
-                                >
-                              </li>
-                            </ul>
-                            <p class="mb-0 text-end">
-                              <span class="fs-9 text-gray">6 個月前</span>
-                            </p>
-                          </div>
-                        </div>
-
-                        <div class="d-flex flex-column">
-                          <div class="form-floating my-3">
-                            <p>
-                              留言內容顯示在這裡留言內容顯示在這裡留言內容顯示在這裡留言內容顯示在這裡
-                            </p>
-                          </div>
-                        </div>
-
-                        <div class="d-flex justify-content-between fs-8">
-                          <!-- like & dislike -->
-                          <div class="d-flex align-items-center">
-                            <a href="#">
-                              <span class="material-icons-outlined fs-6"
-                                >thumb_up_alt</span
-                              ></a
-                            >
-                            <span class="mx-2">35</span>
-                            <!-- <a href="#">
-                                                    <span class="material-icons fs-6">thumb_up_alt</span></a> -->
-
-                            <a href="#">
-                              <span class="material-icons-outlined fs-6"
-                                >thumb_down_alt</span
-                              ></a
-                            >
-                            <span class="mx-2">3</span>
-                            <!-- <a href="#">
-                                                        <span class="material-icons fs-6">thumb_down_alt</span></a> -->
-                          </div>
-
-                          <div class="position-relatvie">
-                            <a
-                              class="d-flex align-items-center"
-                              data-bs-toggle="collapse"
-                              href="#commentOffense3"
-                              role="button"
-                              aria-expanded="false"
-                              aria-controls="commentOffense"
-                            >
-                              <span class="material-icons-outlined"
-                                >report</span
-                              >
-                              <span>檢舉</span>
-                            </a>
-
-                            <div
-                              class="offenseItem border bg-light rounded-3 p-3 collapse position-absolute end-0"
-                              id="commentOffense3"
-                              style="z-index: 0"
-                            >
-                              <div class="form-check">
-                                <input
-                                  class="form-check-input"
-                                  type="radio"
-                                  name="offenseItem"
-                                  id="offenseItem1"
-                                />
-                                <label
-                                  class="form-check-label"
-                                  for="offenseItem1"
-                                >
-                                  偏離主題
-                                </label>
-                              </div>
-                              <div class="form-check">
-                                <input
-                                  class="form-check-input"
-                                  type="radio"
-                                  name="offenseItem"
-                                  id="offenseItem2"
-                                />
-                                <label
-                                  class="form-check-label"
-                                  for="offenseItem2"
-                                >
-                                  垃圾內容及廣告宣傳
-                                </label>
-                              </div>
-                              <div class="form-check">
-                                <input
-                                  class="form-check-input"
-                                  type="radio"
-                                  name="offenseItem"
-                                  id="offenseItem3"
-                                />
-                                <label
-                                  class="form-check-label"
-                                  for="offenseItem3"
-                                >
-                                  騷擾內容及不雅用語
-                                </label>
-                              </div>
-                              <button
-                                class="btn btn-primary btn-sm text-white"
-                                type="submit"
-                              >
-                                送出
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <!--end card-->
-                    </div>
-                    <!--end col-->
-                    <div class="col mb-3">
-                      <div class="card card-body" style="z-index: 10">
-                        <div
-                          class="d-flex p-lg-3 align-items-lg-center flex-column flex-lg-row justify-content-between"
-                        >
-                          <h3
-                            class="card-title fs-7 d-flex align-items-center justify-content-lg-start justify-content-between"
-                          >
-                            <img
-                              class="rounded-circle"
-                              src="@/assets/images/icon_image.png"
-                              alt=""
-                            />
-                            <p class="mb-0 mx-2 text-start">
-                              Jenny<br />
-                              <span class="fs-9 text-gray">5 年前端工程師</span>
-                            </p>
-                          </h3>
-                          <div
-                            class="d-flex flex-lg-column justify-content-between"
-                          >
-                            <ul
-                              class="card-text d-flex align-items-center lh-1"
-                            >
-                              <li>
-                                <a href="#" role="button"
-                                  ><span
-                                    class="material-icons material-icons-sharp"
-                                    >star_outline</span
-                                  ></a
-                                >
-                              </li>
-                              <li>
-                                <a href="#" role="button"
-                                  ><span
-                                    class="material-icons material-icons-sharp"
-                                    >star_outline</span
-                                  ></a
-                                >
-                              </li>
-                              <li>
-                                <a href="#" role="button"
-                                  ><span
-                                    class="material-icons material-icons-sharp"
-                                    >star_outline</span
-                                  ></a
-                                >
-                              </li>
-                              <li>
-                                <a href="#" role="button"
-                                  ><span
-                                    class="material-icons material-icons-sharp"
-                                    >star_outline</span
-                                  ></a
-                                >
-                              </li>
-                              <li>
-                                <a href="#" role="button"
-                                  ><span
-                                    class="material-icons material-icons-sharp"
-                                    >star_outline</span
-                                  ></a
-                                >
-                              </li>
-                            </ul>
-                            <p class="mb-0 text-end">
-                              <span class="fs-9 text-gray">6 個月前</span>
-                            </p>
-                          </div>
-                        </div>
-
-                        <div class="d-flex flex-column">
-                          <div class="form-floating my-3">
-                            <p>
-                              留言內容顯示在這裡留言內容顯示在這裡留言內容顯示在這裡留言內容顯示在這裡
-                            </p>
-                          </div>
-                        </div>
-
-                        <div class="d-flex justify-content-between fs-8">
-                          <!-- like & dislike -->
-                          <div class="d-flex align-items-center">
-                            <a href="#">
-                              <span class="material-icons-outlined fs-6"
-                                >thumb_up_alt</span
-                              ></a
-                            >
-                            <span class="mx-2">35</span>
-                            <!-- <a href="#">
-                                                    <span class="material-icons fs-6">thumb_up_alt</span></a> -->
-
-                            <a href="#">
-                              <span class="material-icons-outlined fs-6"
-                                >thumb_down_alt</span
-                              ></a
-                            >
-                            <span class="mx-2">3</span>
-                            <!-- <a href="#">
-                                                        <span class="material-icons fs-6">thumb_down_alt</span></a> -->
-                          </div>
-
-                          <div class="position-relatvie">
-                            <a
-                              class="d-flex align-items-center"
-                              data-bs-toggle="collapse"
-                              href="#commentOffense3"
-                              role="button"
-                              aria-expanded="false"
-                              aria-controls="commentOffense"
-                            >
-                              <span class="material-icons-outlined"
-                                >report</span
-                              >
-                              <span>檢舉</span>
-                            </a>
-
-                            <div
-                              class="offenseItem border bg-light rounded-3 p-3 collapse position-absolute end-0"
-                              id="commentOffense3"
-                              style="z-index: 0"
-                            >
-                              <div class="form-check">
-                                <input
-                                  class="form-check-input"
-                                  type="radio"
-                                  name="offenseItem"
-                                  id="offenseItem1"
-                                />
-                                <label
-                                  class="form-check-label"
-                                  for="offenseItem1"
-                                >
-                                  偏離主題
-                                </label>
-                              </div>
-                              <div class="form-check">
-                                <input
-                                  class="form-check-input"
-                                  type="radio"
-                                  name="offenseItem"
-                                  id="offenseItem2"
-                                />
-                                <label
-                                  class="form-check-label"
-                                  for="offenseItem2"
-                                >
-                                  垃圾內容及廣告宣傳
-                                </label>
-                              </div>
-                              <div class="form-check">
-                                <input
-                                  class="form-check-input"
-                                  type="radio"
-                                  name="offenseItem"
-                                  id="offenseItem3"
-                                />
-                                <label
-                                  class="form-check-label"
-                                  for="offenseItem3"
-                                >
-                                  騷擾內容及不雅用語
-                                </label>
-                              </div>
-                              <button
-                                class="btn btn-primary btn-sm text-white"
-                                type="submit"
-                              >
-                                送出
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <!--end card-->
-                    </div>
-                    <!--end col-->
                   </div>
                   <!--modal-body-->
                   <!-- <div class="modal-footer">
@@ -1310,10 +927,12 @@
 
 <script>
 // 取得資源資料
-import { mapState, mapActions } from "pinia";
-import resourcesStore from "@/stores/resourcesStore";
+// import { mapState, mapActions } from "pinia";
+// import resourcesStore from "@/stores/resourcesStore";
 import LoadingComponent from "@/components/LoadingComponent.vue";
 import TimeStamp from "@/components/TimeStamp.vue";
+// import userStore from "../../stores/userStore";
+import Swal from "sweetalert2";
 
 const { VITE_API_PATH } = import.meta.env;
 
@@ -1321,10 +940,22 @@ export default {
   data() {
     return {
       isLoading: true,
-      theResourceId: this.$route.query.id, //取得路由中 ?id= 的值
-      theResourceData: {}, //單一資源內容
-      theResCommentsData: [], //取得該資源的評論
+      // res data
+      resourcesData: [], //所有
       relatedResData: [], //相關資源
+      // the res data
+      theResourceId: this.$route.params.resourceId,
+      theResourceData: {}, //單一資源內容
+      // theAverageScore: this.theResourceData.averageScore.toString(),
+      theResCommentsData: [], //取得該資源的評論
+      // user data
+      userId: localStorage.getItem("userId"),
+      accessToken: localStorage.getItem("accessToken"),
+      isLogin: false,
+      userInfo: null,
+      commentRating: 0,
+      commentContent: "",
+      resourceScoreObj: {},
     };
   },
   components: {
@@ -1332,29 +963,51 @@ export default {
     TimeStamp,
   },
   computed: {
-    ...mapState(resourcesStore, [
-      "resourcesData",
-      "commentsData",
-      "resourcesObj",
-    ]),
+    // ...mapState(resourcesStore, [
+    //   "resourcesData",
+    //   "commentsData",
+    //   "resourcesObj",
+    // ]),
   },
   watch: {
-    resourcesData(newValue) {
-      this.relatedResData = newValue
-        .filter((value) => {
-          return value.topics === this.theResourceData.topics;
-        })
-        // 比對出符合條件的值後，隨機產生5筆相關資源
-        .sort(() => 0.5 - Math.random())
-        .slice(0, 5);
-    },
+    // 相關資源邏輯
+    // theResourceData(newValue) {
+    //   this.relatedResData = this.resourcesData
+    //     .filter((value) => {
+    //       return value.topics === newValue.topics;
+    //     })
+    //     // 比對出符合條件的值後，隨機產生5筆相關資源
+    //     .sort(() => 0.5 - Math.random())
+    //     .slice(0, 5);
+    // },
+    // theResCommentsData() {
+    //   // 監聽這個資源的留言，當留言有異動時，重新計算留言數與評分
+    //   this.getResources();
+    //   // resourcesStore.getComments();
+    //   // resourcesStore.getAverageScore();
+    // },
   },
   methods: {
-    ...mapActions(resourcesStore, [
-      "getResources",
-      "getComments",
-      "getAverageScore",
-    ]),
+    // ...mapActions(resourcesStore, [
+    //   "getResources",
+    //   "getComments",
+    //   "getAverageScore",
+    // ]),
+    // 取得所有資源
+    getResources() {
+      this.$http
+        .get(`${VITE_API_PATH}/resources`)
+        .then((res) => {
+          this.resourcesData = res.data;
+
+          //用於初始渲染
+          // this.getComments();
+          // this.getAverageScore();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     getTheResourceData() {
       this.$http
         .get(
@@ -1363,6 +1016,7 @@ export default {
         .then((res) => {
           //console.log(res.data);
           this.theResourceData = res.data[0];
+          this.getResCommentsData();
         })
         .catch((err) => {
           console.log(err);
@@ -1375,39 +1029,198 @@ export default {
         )
         .then((res) => {
           this.theResCommentsData = res.data;
-          console.log(this.theResCommentsData);
+          console.log("theResCommentsData", this.theResCommentsData);
         })
         .catch((error) => {
           console.log(error);
         });
     },
+    // getTheResAverScore() {
+    //   //this.resourceScoreObj = {};
+    //   this.theResCommentsData.forEach((item) => {
+    //     if (this.resourceScoreObj[item.resourceId] === undefined) {
+    //       this.resourceScoreObj[item.resourceId] = {
+    //         commentSum: 1, // 留言資料初始化
+    //         scoreSum: item.score,
+    //         averageScore: item.score,
+    //       };
+    //       this.$http
+    //         .patch(`${VITE_API_PATH}/resources/${item.resourceId}`, {
+    //           averageScore: item.score,
+    //           commentSum: 1,
+    //         })
+    //         .then(() => {
+    //           console.log("resourceScoreObj", this.resourceScoreObj);
+    //         });
+    //     } else {
+    //       this.resourceScoreObj[item.resourceId].commentSum += 1;
+    //       this.resourceScoreObj[item.resourceId].scoreSum += item.score;
+    //       this.resourceScoreObj[item.resourceId].averageScore = (
+    //         this.resourceScoreObj[item.resourceId].scoreSum /
+    //         this.resourceScoreObj[item.resourceId].commentSum
+    //       ).toFixed(1);
+
+    //       this.$http
+    //         .patch(`${VITE_API_PATH}/resources/${item.resourceId}`, {
+    //           averageScore: parseFloat(
+    //             this.resourceScoreObj[item.resourceId].averageScore
+    //           ).toFixed(1),
+    //           commentSum: this.resourceScoreObj[item.resourceId].commentSum,
+    //         })
+    //         .then(() => {
+    //           console.log("resourceScoreObj", this.resourceScoreObj);
+    //           // console.log("res", res.data);
+    //           // console.log("更新後的資源資料", this.resourcesData);
+    //         });
+    //     }
+    //   });
+    // },
     closeCollapse() {
       const activeCollapse = document.querySelector(".offenseItem.show");
       if (activeCollapse) {
         activeCollapse.classList.remove("show");
       }
     },
+    getUserData() {
+      this.$http
+        .get(`${VITE_API_PATH}/users?id=${this.userId}`, {
+          Authorization: `Bearer ${this.accessToken}`,
+        })
+        .then((res) => {
+          this.userInfo = res.data[0];
+          // console.log("this.userid", this.userId);
+          console.log("this.userInfo", this.userInfo);
+        })
+        .catch(() => {
+          //console.log(err);
+        });
+    },
+    rate(starNum) {
+      this.commentRating = starNum;
+    },
+    checkLoginComment() {
+      if (this.isLogin == false) {
+        Swal.fire({
+          text: `請先登入`,
+          icon: "info",
+          iconColor: "#4AA9B6",
+          confirmButtonColor: "#4AA9B6",
+        });
+      }
+    },
+    sendComment() {
+      //檢查留言字數
+      //檢查留言是否為空
+      //檢查是否有評價
+      if (this.commentRating == 0) {
+        Swal.fire({
+          text: "請給予評分",
+          icon: "info",
+          iconColor: "#4AA9B6",
+          confirmButtonColor: "#4AA9B6",
+          showConfirmButton: true,
+        });
+      }
+
+      if (this.commentContent == "") {
+        Swal.fire({
+          text: "請填寫評價內容",
+          icon: "info",
+          iconColor: "#4AA9B6",
+          confirmButtonColor: "#4AA9B6",
+          showConfirmButton: true,
+        });
+      }
+
+      if (this.commentContent.length >= 20 && this.commentRating !== 0) {
+        this.$http
+          .post(
+            `${VITE_API_PATH}/comments/`,
+            {
+              resourceId: this.theResourceId,
+              userId: this.userId,
+              commentTime: (Date.now() / 1000).toFixed(0),
+              score: this.commentRating,
+              content: this.commentContent,
+              likeNum: 0,
+              dislikeNum: 0,
+            },
+            {
+              Authorization: `Bearer ${this.accessToken}`,
+            }
+          )
+          .then(() => {
+            console.log("有成功新增留言");
+            console.log(
+              "averageScore",
+              (
+                (parseFloat(this.theResourceData.averageScore) *
+                  this.theResourceData.commentSum +
+                  this.commentRating) /
+                (this.theResourceData.commentSum + 1)
+              ).toFixed(1)
+            );
+            console.log("commentSum", this.theResourceData.commentSum + 1);
+            // 修改這個資源
+            this.$http
+              .patch(`${VITE_API_PATH}/resources/${this.theResourceId}`, {
+                averageScore: (
+                  (parseFloat(this.theResourceData.averageScore) *
+                    this.theResourceData.commentSum +
+                    this.commentRating) /
+                  (this.theResourceData.commentSum + 1)
+                ).toFixed(1),
+                commentSum: this.theResourceData.commentSum + 1,
+              })
+              .then((res) => {
+                this.getResCommentsData();
+                this.getTheResourceData();
+                console.log(res.data);
+                window.location.reload();
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    },
   },
-  created() {},
+  created() {
+    this.getResources();
+    this.getUserData();
+    this.getTheResourceData();
+    if (this.userId) {
+      this.isLogin = true;
+    }
+  },
   mounted() {
     if (typeof parseInt(this.resourceId) != "number") {
       this.$router.push("/");
     }
-    this.getTheResourceData();
+    // this.getResources();
     this.getResCommentsData();
-    this.getResources();
-    // this.getTimeStamp();
-    this.relatedResData = this.resourcesData.filter((value) => {
-      return value.topics === this.theResourceData.topics;
-    });
-    console.log("relatedResData", this.relatedResData);
-    console.log("theResCommentsData", this.theResCommentsData);
 
-    if (this.theResourceData === undefined) {
+    // this.relatedResData = this.resourcesData.filter((value) => {
+    //   return value.topics === this.theResourceData.topics;
+    // });
+    // console.log("relatedResData", this.relatedResData);
+    // console.log("theResCommentsData", this.theResCommentsData);
+
+    if (
+      this.theResourceData === undefined ||
+      this.theResCommentsData === undefined ||
+      this.relatedResData === undefined
+    ) {
       this.isLoading = true;
     } else {
       this.isLoading = false;
     }
+
+    // console.log("isLogin", userStore.isLogin);
+    // console.log("userInfo", userStore.userInfo);
   },
 };
 </script>

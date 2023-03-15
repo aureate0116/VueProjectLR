@@ -208,170 +208,164 @@
   <!-- end 3 solution -->
 
   <!-- 4 goodRate 好評推薦 -->
-  <router-view>
-    <div class="goodRate container py-5 p-lg-8">
-      <ul
-        class="nav nav-pills mb-3 d-flex align-items-center"
-        id="pills-tab1"
-        role="tablist"
-      >
-        <li><h3 class="fs-5 mb-0 fw-bold me-4">好評推薦</h3></li>
-        <li class="nav-item" role="presentation">
-          <button
-            class="nav-link"
-            :class="{ active: 'JavaScript' === goodRateClassify }"
-            data-bs-toggle="pill"
-            type="button"
-            role="tab"
-            aria-controls="pills-JavaScript"
-            aria-selected="true"
-            @click="changeTabData('goodRate', 'JavaScript')"
-          >
-            JavaScript
-          </button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button
-            class="nav-link"
-            :class="{ active: 'HTML/CSS' === goodRateClassify }"
-            data-bs-toggle="pill"
-            type="button"
-            role="tab"
-            aria-controls="pills-HTMLCSS"
-            aria-selected="false"
-            @click="changeTabData('goodRate', 'HTML/CSS')"
-          >
-            HTML/CSS
-          </button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button
-            class="nav-link"
-            :class="{ active: 'Python' === goodRateClassify }"
-            data-bs-toggle="pill"
-            type="button"
-            role="tab"
-            aria-controls="pills-Python"
-            aria-selected="false"
-            @click="changeTabData('goodRate', 'Python')"
-          >
-            Python
-          </button>
-        </li>
-      </ul>
-
-      <div class="tab-content border border-primary p-3 rounded-3">
-        <div
-          class="tab-pane fade show active"
-          role="tabpanel"
-          aria-labelledby="goodRate1-tab"
+  <div class="goodRate container py-5 p-lg-8">
+    <ul
+      class="nav nav-pills mb-3 d-flex align-items-center"
+      id="pills-tab1"
+      role="tablist"
+    >
+      <li><h3 class="fs-5 mb-0 fw-bold me-4">好評推薦</h3></li>
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link"
+          :class="{ active: 'JavaScript' === goodRateClassify }"
+          data-bs-toggle="pill"
+          type="button"
+          role="tab"
+          aria-controls="pills-JavaScript"
+          aria-selected="true"
+          @click="changeTabData('goodRate', 'JavaScript')"
         >
-          <div class="row">
-            <div
-              class="col-md-6 col-lg-4"
-              :class="{
-                'show active': resourceItem.topics === goodRateClassify,
-              }"
-              v-for="resourceItem in goodRateTabData"
-              :key="resourceItem.id"
-            >
-              <div class="d-flex p-2 align-items-center">
-                <div class="row">
-                  <div class="col-6" v-if="resourceItem.imgUrl != ''">
-                    <router-link
-                      :to="`/resource?id=` + resourceItem.id"
-                      target="_blank"
-                    >
-                      <img
-                        :src="
-                          '/VueProjectLR/images/resources_cover/' +
-                          resourceItem.imgUrl
-                        "
-                        :alt="resourceItem.title"
-                    /></router-link>
-                  </div>
-                  <div class="col-6" v-else>
-                    <router-link
-                      :to="`/resource?id=` + resourceItem.id"
-                      target="_blank"
-                    >
-                      <img
-                        :src="`/VueProjectLR/images/resources_cover/noimgCover.jpg`"
-                        :alt="resourceItem.title"
-                      />
+          JavaScript
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link"
+          :class="{ active: 'HTML/CSS' === goodRateClassify }"
+          data-bs-toggle="pill"
+          type="button"
+          role="tab"
+          aria-controls="pills-HTMLCSS"
+          aria-selected="false"
+          @click="changeTabData('goodRate', 'HTML/CSS')"
+        >
+          HTML/CSS
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link"
+          :class="{ active: 'Python' === goodRateClassify }"
+          data-bs-toggle="pill"
+          type="button"
+          role="tab"
+          aria-controls="pills-Python"
+          aria-selected="false"
+          @click="changeTabData('goodRate', 'Python')"
+        >
+          Python
+        </button>
+      </li>
+    </ul>
+
+    <div class="tab-content border border-primary p-3 rounded-3">
+      <div
+        class="tab-pane fade show active"
+        role="tabpanel"
+        aria-labelledby="goodRate1-tab"
+      >
+        <div class="row">
+          <div
+            class="col-md-6 col-lg-4"
+            :class="{
+              'show active': resourceItem.topics === goodRateClassify,
+            }"
+            v-for="resourceItem in goodRateTabData"
+            :key="resourceItem.id"
+          >
+            <div class="d-flex p-2 align-items-center">
+              <div class="row">
+                <div class="col-6" v-if="resourceItem.imgUrl != ''">
+                  <router-link :to="`/resource/${resourceItem.id}`">
+                    <img
+                      :src="
+                        '/VueProjectLR/images/resources_cover/' +
+                        resourceItem.imgUrl
+                      "
+                      :alt="resourceItem.title"
+                  /></router-link>
+                </div>
+                <div class="col-6" v-else>
+                  <router-link :to="`/resource/${resourceItem.id}`">
+                    <img
+                      :src="`/VueProjectLR/images/resources_cover/noimgCover.jpg`"
+                      :alt="resourceItem.title"
+                    />
+                  </router-link>
+                </div>
+                <div class="col-6">
+                  <h4 class="ellipsis">
+                    <router-link :to="`/resource/${resourceItem.id}`">
+                      {{ resourceItem.title }}
                     </router-link>
-                  </div>
-                  <div class="col-6">
-                    <h4 class="ellipsis">
-                      <router-link
-                        :to="`/resource?id=` + resourceItem.id"
-                        target="_blank"
-                      >
-                        {{ resourceItem.title }}
-                      </router-link>
-                    </h4>
+                  </h4>
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
                     <div
-                      class="d-flex justify-content-between align-items-center"
+                      v-if="
+                        resourceItem.commentSum === 0 ||
+                        resourceItem.commentSum === undefined
+                      "
                     >
-                      <div
-                        v-if="
-                          resourceItem.commentSum === 0 ||
-                          resourceItem.commentSum === undefined
-                        "
-                      >
-                        <span class="fs-8 text-gray">尚無評價</span>
-                      </div>
-                      <div v-else class="d-flex align-items-center">
-                        <span class="fs-7 fw-bold text-secondary">{{
-                          resourceItem.averageScore
-                        }}</span>
-                        <ul class="d-flex mx-1 lh-1 text-secondary">
-                          <li>
-                            <span
-                              v-for="star in resourceItem.averageScore"
-                              :key="star + 1"
-                              class="material-icons material-icons-sharp fs-8"
-                              >star</span
-                            >
-                          </li>
-
-                          <li v-if="resourceItem.averageScore[2] <= 2">
-                            <span
-                              v-for="star in 5 - resourceItem.averageScore[0]"
-                              :key="star + 2"
-                              class="material-icons material-icons-sharp fs-8"
-                              >star_outline</span
-                            >
-                          </li>
-
-                          <li
-                            v-else-if="
-                              resourceItem.averageScore[2] >= 3 &&
-                              resourceItem.averageScore[2] <= 7
-                            "
+                      <span class="fs-8 text-gray">尚無評價</span>
+                    </div>
+                    <div v-else class="d-flex align-items-center">
+                      <span class="fs-7 fw-bold text-secondary">{{
+                        resourceItem.averageScore
+                      }}</span>
+                      <ul class="d-flex mx-1 lh-1 text-secondary">
+                        <li>
+                          <span
+                            v-for="star in parseInt(
+                              resourceItem.averageScore.toString()[0]
+                            )"
+                            :key="star"
+                            class="material-icons material-icons-sharp fs-8"
+                            >star</span
                           >
-                            <span
-                              class="material-icons material-icons-sharp fs-8"
-                              >star_half</span
-                            >
-                          </li>
+                        </li>
 
-                          <li v-else-if="resourceItem.averageScore[2] >= 8">
-                            <span
-                              v-for="star in 5 -
-                              resourceItem.averageScore[0] -
-                              1"
-                              :key="star + 3"
-                              class="material-icons material-icons-sharp fs-8"
-                              >star</span
-                            >
-                          </li>
-                        </ul>
-
-                        <span class="fs-8 text-secondary"
-                          >({{ resourceItem.commentSum }})</span
+                        <li
+                          v-if="
+                            parseInt(resourceItem.averageScore.toString()[2]) <=
+                            2
+                          "
                         >
-                      </div>
+                          <span
+                            v-for="star in 5 -
+                            parseInt(resourceItem.averageScore.toString()[0])"
+                            :key="star + 2"
+                            class="material-icons material-icons-sharp fs-8"
+                            >star_outline</span
+                          >
+                        </li>
+
+                        <!-- <li
+                          v-else-if="
+                            parseInt(resourceItem.averageScore.toString()[2]) >= 3 &&
+                            parseInt(resourceItem.averageScore.toString()[2]) <= 7
+                          "
+                        >
+                          <span class="material-icons material-icons-sharp fs-8"
+                            >star_half</span
+                          >
+                        </li>
+
+                        <li v-if="parseInt(resourceItem.averageScore.toString()[2]) >= 8">
+                          <span
+                            v-for="star in 5 - parseInt(resourceItem.averageScore.toString()[0]) - 1"
+                            :key="star + 3"
+                            class="material-icons material-icons-sharp fs-8"
+                            >star</span
+                          >
+                        </li> -->
+                      </ul>
+
+                      <span class="fs-8 text-secondary"
+                        >({{ resourceItem.commentSum }})</span
+                      >
                     </div>
                   </div>
                 </div>
@@ -381,182 +375,177 @@
         </div>
       </div>
     </div>
-    <!-- end 4 goodRate-->
+  </div>
+  <!-- end 4 goodRate-->
 
-    <!-- 5 freeResources 免費資源 -->
-    <div class="freeResources container py-5 p-lg-8 pt-lg-0">
-      <ul
-        class="nav nav-pills mb-3 d-flex align-items-center"
-        id="pills-tab"
-        role="tablist"
-      >
-        <li><h3 class="fs-5 mb-0 fw-bold me-4">最新免費資源</h3></li>
-        <li class="nav-item" role="presentation">
-          <button
-            class="nav-link"
-            :class="{ active: '線上課程' === freeTabClassify }"
-            data-bs-toggle="pill"
-            type="button"
-            role="tab"
-            aria-controls="pills-home"
-            aria-selected="true"
-            @click="changeTabData('free', '線上課程')"
-          >
-            線上課程
-          </button>
-        </li>
-
-        <li class="nav-item" role="presentation">
-          <button
-            class="nav-link"
-            :class="{ active: '文章' === freeTabClassify }"
-            data-bs-toggle="pill"
-            type="button"
-            role="tab"
-            aria-controls="pills-contact"
-            aria-selected="false"
-            @click="changeTabData('free', '文章')"
-          >
-            文章
-          </button>
-        </li>
-      </ul>
-
-      <div
-        class="tab-content border border-primary p-3 rounded-3"
-        id="pills-tabContent"
-      >
-        <div
-          class="tab-pane fade show active"
-          role="tabpanel"
-          aria-labelledby="resourceType1-tab"
+  <!-- 5 freeResources 免費資源 -->
+  <div class="freeResources container py-5 p-lg-8 pt-lg-0">
+    <ul
+      class="nav nav-pills mb-3 d-flex align-items-center"
+      id="pills-tab"
+      role="tablist"
+    >
+      <li><h3 class="fs-5 mb-0 fw-bold me-4">最新免費資源</h3></li>
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link"
+          :class="{ active: '線上課程' === freeTabClassify }"
+          data-bs-toggle="pill"
+          type="button"
+          role="tab"
+          aria-controls="pills-home"
+          aria-selected="true"
+          @click="changeTabData('free', '線上課程')"
         >
-          <div class="row">
-            <div
-              class="col-lg-2 col-6"
-              :class="{
-                'show active': resourceItem.type === freeTabClassify,
-              }"
-              v-for="resourceItem in freeTabData"
-              :key="resourceItem.id"
-            >
-              <router-link
-                :to="`/resource?id=` + resourceItem.id"
-                target="_blank"
-              >
-                <div class="text-center" v-if="resourceItem.imgUrl != ''">
-                  <img
-                    :src="`/VueProjectLR/images/resources_cover/${resourceItem.imgUrl}`"
-                    :alt="resourceItem.title"
-                  />
-                </div>
-                <div class="text-center" v-else>
-                  <img
-                    :src="`/VueProjectLR/images/resources_cover/noimgCover.jpg`"
-                    :alt="resourceItem.title"
-                  />
-                </div>
+          線上課程
+        </button>
+      </li>
 
-                <div class="p-2">
-                  <h4 class="fs-7 ellipsis">{{ resourceItem.title }}</h4>
+      <li class="nav-item" role="presentation">
+        <button
+          class="nav-link"
+          :class="{ active: '文章' === freeTabClassify }"
+          data-bs-toggle="pill"
+          type="button"
+          role="tab"
+          aria-controls="pills-contact"
+          aria-selected="false"
+          @click="changeTabData('free', '文章')"
+        >
+          文章
+        </button>
+      </li>
+    </ul>
+
+    <div
+      class="tab-content border border-primary p-3 rounded-3"
+      id="pills-tabContent"
+    >
+      <div
+        class="tab-pane fade show active"
+        role="tabpanel"
+        aria-labelledby="resourceType1-tab"
+      >
+        <div class="row">
+          <div
+            class="col-lg-2 col-6"
+            :class="{
+              'show active': resourceItem.type === freeTabClassify,
+            }"
+            v-for="resourceItem in freeTabData"
+            :key="resourceItem.id"
+          >
+            <router-link :to="`/resource/${resourceItem.id}`">
+              <div class="text-center" v-if="resourceItem.imgUrl != ''">
+                <img
+                  :src="`/VueProjectLR/images/resources_cover/${resourceItem.imgUrl}`"
+                  :alt="resourceItem.title"
+                />
+              </div>
+              <div class="text-center" v-else>
+                <img
+                  :src="`/VueProjectLR/images/resources_cover/noimgCover.jpg`"
+                  :alt="resourceItem.title"
+                />
+              </div>
+
+              <div class="p-2">
+                <h4 class="fs-7 ellipsis">{{ resourceItem.title }}</h4>
+                <div class="d-flex justify-content-between align-items-center">
                   <div
-                    class="d-flex justify-content-between align-items-center"
+                    v-if="
+                      resourceItem.commentSum == 0 ||
+                      resourceItem.commentSum == undefined
+                    "
                   >
-                    <div
-                      v-if="
-                        resourceItem.commentSum == 0 ||
-                        resourceItem.commentSum == undefined
-                      "
-                    >
-                      <span class="fs-8 text-gray">尚無評價</span>
-                    </div>
-                    <div v-else class="d-flex align-items-center">
-                      <span class="fs-7 fw-bold me-lg-2 text-secondary">{{
-                        resourceItem.averageScore
-                      }}</span>
-                      <ul class="d-flex mx-1 lh-1 text-secondary">
-                        <li>
-                          <span
-                            v-for="star in resourceItem.averageScore"
-                            :key="star + 1"
-                            class="material-icons material-icons-sharp fs-8"
-                            >star</span
-                          >
-                        </li>
-
-                        <li v-if="resourceItem.averageScore[2] <= 2">
-                          <span
-                            v-for="star in 5 - resourceItem.averageScore[0]"
-                            :key="star + 2"
-                            class="material-icons material-icons-sharp fs-8"
-                            >star_outline</span
-                          >
-                        </li>
-
-                        <li
-                          v-else-if="
-                            resourceItem.averageScore[2] >= 3 &&
-                            resourceItem.averageScore[2] <= 7
-                          "
+                    <span class="fs-8 text-gray">尚無評價</span>
+                  </div>
+                  <div v-else class="d-flex align-items-center">
+                    <span class="fs-7 fw-bold me-lg-2 text-secondary">{{
+                      resourceItem.averageScore
+                    }}</span>
+                    <ul class="d-flex mx-1 lh-1 text-secondary">
+                      <li>
+                        <span
+                          v-for="star in resourceItem.averageScore"
+                          :key="star + 1"
+                          class="material-icons material-icons-sharp fs-8"
+                          >star</span
                         >
-                          <span class="material-icons material-icons-sharp fs-8"
-                            >star_half</span
-                          >
-                        </li>
+                      </li>
 
-                        <li v-else-if="resourceItem.averageScore[2] >= 8">
-                          <span
-                            v-for="star in 5 - resourceItem.averageScore[0] - 1"
-                            :key="star + 3"
-                            class="material-icons material-icons-sharp fs-8"
-                            >star</span
-                          >
-                        </li>
-                      </ul>
+                      <li v-if="resourceItem.averageScore[2] <= 2">
+                        <span
+                          v-for="star in 5 - resourceItem.averageScore[0]"
+                          :key="star + 2"
+                          class="material-icons material-icons-sharp fs-8"
+                          >star_outline</span
+                        >
+                      </li>
 
-                      <span class="fs-8 text-secondary"
-                        >({{ resourceItem.commentSum }})</span
+                      <li
+                        v-else-if="
+                          resourceItem.averageScore[2] >= 3 &&
+                          resourceItem.averageScore[2] <= 7
+                        "
                       >
-                    </div>
+                        <span class="material-icons material-icons-sharp fs-8"
+                          >star_half</span
+                        >
+                      </li>
+
+                      <li v-else-if="resourceItem.averageScore[2] >= 8">
+                        <span
+                          v-for="star in 5 - resourceItem.averageScore[0] - 1"
+                          :key="star + 3"
+                          class="material-icons material-icons-sharp fs-8"
+                          >star</span
+                        >
+                      </li>
+                    </ul>
+
+                    <span class="fs-8 text-secondary"
+                      >({{ resourceItem.commentSum }})</span
+                    >
                   </div>
                 </div>
-              </router-link>
-            </div>
+              </div>
+            </router-link>
           </div>
         </div>
       </div>
     </div>
-    <!-- end 5 freeResources  -->
+  </div>
+  <!-- end 5 freeResources  -->
 
-    <!-- hotTopic -->
-    <div class="hotTopic container py-5 p-lg-8 pt-lg-0">
-      <h3 class="fs-5 fw-bold mb-4">熱門主題</h3>
-      <div class="row">
-        <div class="col-md-4">
-          <div class="topicItem text-center my-2 p-4 rounded-3">
-            <router-link to="/resource-list?topic=HTML/CSS" target="_blank">
-              <h4 class="fw-bold">HTML/CSS</h4></router-link
-            >
-          </div>
+  <!-- hotTopic -->
+  <div class="hotTopic container py-5 p-lg-8 pt-lg-0">
+    <h3 class="fs-5 fw-bold mb-4">熱門主題</h3>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="topicItem text-center my-2 p-4 rounded-3">
+          <router-link to="/resource-list?topic=HTML/CSS" target="_blank">
+            <h4 class="fw-bold">HTML/CSS</h4></router-link
+          >
         </div>
-        <div class="col-md-4">
-          <div class="topicItem text-center my-2 p-4 rounded-3">
-            <router-link to="/resource-list?topic=JavaScript">
-              <h4 class="fw-bold">JavaScript</h4></router-link
-            >
-          </div>
+      </div>
+      <div class="col-md-4">
+        <div class="topicItem text-center my-2 p-4 rounded-3">
+          <router-link to="/resource-list?topic=JavaScript">
+            <h4 class="fw-bold">JavaScript</h4></router-link
+          >
         </div>
-        <div class="col-md-4">
-          <div class="topicItem text-center my-2 p-4 rounded-3">
-            <router-link to="/resource-list?topic=Python">
-              <h4 class="fw-bold">Python</h4></router-link
-            >
-          </div>
+      </div>
+      <div class="col-md-4">
+        <div class="topicItem text-center my-2 p-4 rounded-3">
+          <router-link to="/resource-list?topic=Python">
+            <h4 class="fw-bold">Python</h4></router-link
+          >
         </div>
       </div>
     </div>
-    <!-- end hotTopic -->
-  </router-view>
+  </div>
+  <!-- end hotTopic -->
 </template>
 
 <script>
@@ -577,8 +566,6 @@ export default {
   data() {
     return {
       isLoading: true,
-      // goodRateTabData: [], // 好評推薦
-      // freeTabData: [], // 最新免費資源
       thumbsSwiper: null,
       modules: [Autoplay, Navigation, Thumbs],
       goodRateClassify: "JavaScript",
@@ -622,8 +609,6 @@ export default {
       "resourcesData",
       "commentsData",
       "resourcesObj",
-      // "goodRateTabData",
-      // "freeTabData",
     ]),
     goodRateTabData() {
       return this.resourcesData
@@ -642,8 +627,6 @@ export default {
   },
   mounted() {
     this.getResources();
-    // this.getComments();
-    // this.getAverageScore();
     this.goodRateTabData = this.resourcesData
       .filter((value) => {
         return value.topics === "JavaScript"; // && value.commentSum != 0
@@ -655,16 +638,9 @@ export default {
       })
       .slice(0, 6);
 
-    // if (this.resourcesData.length === 0) {
-    //   this.isLoading = true;
-    // } else {
-    //   this.$router.push("/");
-    //   this.isLoading = false;
-    // }
-
     document.title = "Eng!neer 程式學習資源網";
-    console.log("resourcesObj", this.resourcesObj);
-    console.log("commentsData", this.resourcesData);
+    // console.log("resourcesObj", this.resourcesObj);
+    // console.log("commentsData", this.resourcesData);
   },
 };
 </script>

@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-// import VueAxios from "vue-axios";
+
 const { VITE_API_PATH } = import.meta.env;
 
 const userStore = defineStore("user", {
@@ -9,7 +9,9 @@ const userStore = defineStore("user", {
       email: "",
       password: "",
     },
-    isLogin: false,
+    // isLogin: false,
+    // userInfo: null,
+    // userId: localStorage.getItem("userId"),
   }),
   actions: {
     login() {
@@ -25,12 +27,15 @@ const userStore = defineStore("user", {
           //   //紀錄 cookie
           //   document.cookie = `userToken=${accessToken};expires=${expirationDate}; path=/`;
 
-          localStorage.setItem("accessToken", `${res.data.accessToken}`);
-          localStorage.setItem("userEmail", res.data.user.email);
+          localStorage.setItem("accessToken", res.data.accessToken);
+          localStorage.setItem("userId", res.data.user.id);
 
-          this.isLogin = true;
-          console.log(res);
-          location.href = "/";
+          //this.isLogin = true;
+          console.log(res.data);
+          //location.href = "/VueProjectLR";
+          window.history.back();
+          setTimeout(() => location.reload(), 100); // 延遲 100ms 刷新頁面
+
           //this.$router.go(-1);
         })
         .catch((err) => {
@@ -42,6 +47,21 @@ const userStore = defineStore("user", {
           //   this.userEmail = "";
         });
     },
+    // getUserData() {
+    //   axios
+    //     .get(`${VITE_API_PATH}/users?id=${this.userId}`, {
+    //       Authorization: `Bearer ${this.accessToken}`,
+    //     })
+    //     .then((res) => {
+    //       this.userInfo = res.data[0];
+    //       this.isLogin = true;
+    //       //console.log("this.userInfo", this.userInfo);
+    //     })
+    //     .catch(() => {
+    //       //console.log(err);
+    //     });
+    //   return this.userInfo;
+    // },
   },
 });
 

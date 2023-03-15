@@ -17,7 +17,7 @@ const router = createRouter({
           component: () => import("../views/front/ResourceListView.vue"),
         },
         {
-          path: "resource",
+          path: "resource/:resourceId",
           component: () => import("../views/front/ResourceView.vue"),
         },
         {
@@ -27,6 +27,30 @@ const router = createRouter({
         {
           path: "signup",
           component: () => import("../views/front/SignupView.vue"),
+        },
+        {
+          path: "user-home",
+          component: () => import("../views/front/UserHomeLayout.vue"),
+          children: [
+            {
+              path: "user-resources/:userid",
+              component: () => import("../views/front/UserResourcesView.vue"),
+            },
+          ],
+        },
+        {
+          path: "user-info/:userId",
+          component: () => import("../views/front/UserInfoLayout.vue"),
+          children: [
+            {
+              path: "user-profile/:userId",
+              component: () => import("../views/front/UserProfileView.vue"),
+            },
+            {
+              path: "user-account/:userId",
+              component: () => import("../views/front/UserAccount.vue"),
+            },
+          ],
         },
       ],
     },

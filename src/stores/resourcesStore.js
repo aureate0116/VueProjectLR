@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-// import VueAxios from "vue-axios";
 const { VITE_API_PATH } = import.meta.env;
 
 const resourcesStore = defineStore("resources", {
@@ -8,29 +7,19 @@ const resourcesStore = defineStore("resources", {
     resourcesData: [],
     commentsData: [],
     resourcesObj: {},
-    loading: true,
+    isloading: true, //tbc
   }),
+  getters: {},
   actions: {
     getResources() {
       axios
         .get(`${VITE_API_PATH}/resources`)
         .then((res) => {
           this.resourcesData = res.data;
-          // this.goodRateTabData = this.resourcesData
-          //   .filter((value) => {
-          //     return value.topics === "JavaScript";
-          //   })
-          //   .slice(-6);
-          // this.freeTabData = this.resourcesData
-          //   .filter((value) => {
-          //     return value.type === "線上課程" && value.price === "免費";
-          //   })
-          //   .slice(-6);
-          //this.getfoundationTabData();
-          this.getComments();
-          // console.log(this.resourcesData);
-          // console.log(this.getComments());
-          // console.log(this.getAverageScore());
+
+          //用於初始渲染
+          // this.getComments();
+          // this.getAverageScore();
         })
         .catch((err) => {
           console.log(err);
@@ -46,26 +35,9 @@ const resourcesStore = defineStore("resources", {
           console.log(error);
         });
     },
-    // getfoundationTabData() {
-    //   const topic = this.$route.query.topic;
-    //   if (!topic) return; // 檢查 topic 是否存在
-
-    //   this.topicsResData = this.resourcesData.filter((value) => {
-    //     return (
-    //       value.topics.toLowerCase().replace(/[^a-zA-Z0-9]/g, "") ===
-    //       topic.toLowerCase().replace(/[^a-zA-Z0-9]/g, "")
-    //     );
-    //   });
-
-    //   this.foundationTabData = this.topicsResData
-    //     .filter((value) => {
-    //       return value.level === "初階";
-    //     })
-    //     .slice(0, 6);
-    // },
-    // 取得各筆資源的 評論數、平均分數
+    // 從評論中 計算平均值 並寫回資源項目
     getAverageScore() {
-      this.resourcesObj = {}; // 每次重新計算
+      //this.resourcesObj = {}; // 每次重新計算
       this.commentsData.forEach((item) => {
         if (this.resourcesObj[item.resourceId] === undefined) {
           this.resourcesObj[item.resourceId] = {
@@ -78,11 +50,7 @@ const resourcesStore = defineStore("resources", {
               averageScore: item.score,
               commentSum: 1,
             })
-            .then(() => {
-              //console.log("res", res.data);
-              //console.log(this.resourcesObj);
-              //console.log("更新後的資源資料", this.resourcesData);
-            });
+            .then(() => {});
         } else {
           this.resourcesObj[item.resourceId].commentSum += 1;
           this.resourcesObj[item.resourceId].scoreSum += item.score;
@@ -93,9 +61,10 @@ const resourcesStore = defineStore("resources", {
 
           axios
             .patch(`${VITE_API_PATH}/resources/${item.resourceId}`, {
-              averageScore: parseFloat(
-                this.resourcesObj[item.resourceId].averageScore
-              ).toFixed(1),
+              // averageScore: parseFloat(
+              //   this.resourcesObj[item.resourceId].averageScore
+              // ).toFixed(1),
+              averageScore: this.resourcesObj[item.resourceId].averageScore,
               commentSum: this.resourcesObj[item.resourceId].commentSum,
             })
             .then(() => {
@@ -103,9 +72,6 @@ const resourcesStore = defineStore("resources", {
               // console.log("更新後的資源資料", this.resourcesData);
             });
         }
-
-        // console.log("resourcesData", this.resourcesData);
-        // console.log("resourcesObj", this.resourcesObj);
       });
     },
   },

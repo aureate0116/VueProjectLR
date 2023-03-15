@@ -1,31 +1,30 @@
 <script>
 import { RouterView, RouterLink } from "vue-router";
 const { VITE_API_PATH } = import.meta.env;
-import { mapState } from "pinia";
+import { mapActions } from "pinia";
 import userStore from "../stores/userStore";
 
 export default {
   data() {
     return {
+      isLogin: false,
       userInfo: null,
-      userEmail: localStorage.getItem("userEmail"),
+      userId: localStorage.getItem("userId"),
+      accessToken: localStorage.getItem("accessToken"),
     };
   },
   components: {
     RouterView,
     RouterLink,
   },
-  computed: {
-    ...mapState(userStore, ["isLogin"]),
-  },
+  computed: {},
   watch: {
     userInfo() {
       if (this.userInfo === null || this.userInfo === undefined) {
-        console.log("沒有登入資料");
+        //console.log("沒有登入資料");
         this.isLogin = false;
       } else {
-        //console.log(this.userInfo);
-        console.log("有登入資料");
+        //console.log("有登入資料");
         this.isLogin = true;
       }
     },
@@ -34,37 +33,34 @@ export default {
     this.getUserData();
   },
   methods: {
-    //...mapActions(userStore, ["getUserData"]),
+    ...mapActions(userStore, ["login"]),
     getUserData() {
       this.$http
-        .get(`${VITE_API_PATH}/users?email=${this.userEmail}`)
+        .get(`${VITE_API_PATH}/users?id=${this.userId}`, {
+          Authorization: `Bearer ${this.accessToken}`,
+        })
         .then((res) => {
           this.userInfo = res.data[0];
           this.isLogin = true;
-          console.log("userEmail:", this.userEmail);
-          //console.log("目前為登入狀態");
-          console.log(this.userInfo);
+          // console.log("this.userid", this.userId);
+          console.log("this.userInfo", this.userInfo);
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
+          //console.log(err);
         });
     },
+    logout() {
+      this.isLogin = false;
+      this.$router.push("/");
+      localStorage.setItem("accessToken", "");
+      localStorage.setItem("userId", "");
+    },
   },
-  mounted() {
-    // console.log("document.cookie", document.cookie);
-  },
+  mounted() {},
 };
 </script>
 
 <template>
-  <!-- <LoginView @login-success="onLoginSuccess"></LoginView> -->
-
-  <router-link to="/">Home</router-link> |
-  <router-link to="/resource-list">resource-list</router-link> |
-  <router-link to="/resource">resource</router-link> |
-  <router-link to="/login">login</router-link> |
-  <router-link to="/signup">signup</router-link> |
-
   <div class="container-fluid p-0 bg-white">
     <header class="container-fluid p-lg-0">
       <div class="container p-lg-0">
@@ -173,7 +169,6 @@ export default {
                   class="afterLogin justify-content-end navbar-nav d-lg-flex align-items-lg-center lh-1"
                 >
                   <li class="nav-item">
-                    123
                     <!-- <span class="material-icons text-danger">notifications</span> -->
                     <!-- <span class="material-icons material-icons-outlined text-dark">notifications_none</span> -->
                   </li>
@@ -209,7 +204,7 @@ export default {
                     >
                       <span
                         class="userImg d-inline-block bg-primary px-2 py-2 rounded-circle fw-bold fs-7 lh-1 text-white text-center"
-                        >U</span
+                        >{{ userInfo.firstName[0].toUpperCase() }}</span
                       >
                     </a>
 
@@ -217,26 +212,41 @@ export default {
                       <li>
                         <ul class="accountMenu">
                           <li>
-                            <a class="dropdown-item" href="./acc_profile.html"
+                            <router-link
+                              class="dropdown-item"
+                              :to="`/user-home/user-profile/${userInfo.id}`"
+                              >個人資料</router-link
+                            >
+                            <!-- <a class="dropdown-item" href="./acc_profile.html"
                               >個人資料</a
-                            >
+                            > -->
                           </li>
                           <li>
-                            <a class="dropdown-item" href="./acc_resources.html"
+                            <router-link
+                              class="dropdown-item"
+                              :to="`/user-home/user-resources/${userInfo.id}`"
+                              >我的資源</router-link
+                            >
+                            <!-- <a class="dropdown-item" href="./acc_resources.html"
                               >我的資源</a
-                            >
+                            > -->
                           </li>
-                          <li>
+                          <!-- <li>
                             <a class="dropdown-item" href="#">我的募集</a>
                           </li>
                           <li>
                             <a class="dropdown-item" href="#">我的學習</a>
                           </li>
-                          <li><a class="dropdown-item" href="#">設定</a></li>
+                          <li><a class="dropdown-item" href="#">設定</a></li> -->
                         </ul>
                       </li>
                       <li>
-                        <a role="button" class="dropdown-item logOut">登出</a>
+                        <a
+                          role="button"
+                          class="dropdown-item logOut"
+                          @click.prevent="logout"
+                          >登出</a
+                        >
                       </li>
                     </ul>
                   </li>
