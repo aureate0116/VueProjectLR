@@ -13,7 +13,7 @@ const router = createRouter({
           component: () => import("../views/front/IndexView.vue"),
         },
         {
-          path: "resource-list",
+          path: "resource-list/:resTopic",
           component: () => import("../views/front/ResourceListView.vue"),
         },
         {

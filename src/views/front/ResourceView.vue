@@ -18,14 +18,16 @@
             :src="`/VueProjectLR/images/resources_cover/${theResourceData.imgUrl}`"
             :alt="theResourceData.title"
           />
-          <div class="mt-md-3 text-dark">
+          <div class="mt-md-4 text-dark">
             {{ theResourceData.intro }}
           </div>
         </div>
 
         <!--related item-->
         <div class="mt-7 d-none d-md-block py-6">
-          <h3 class="fs-6 relatedTitle">相關資源</h3>
+          <h3 v-if="relatedResData.length != 0" class="fs-6 relatedTitle">
+            相關資源
+          </h3>
           <div class="relatedResource">
             <div
               class="my-4"
@@ -34,10 +36,7 @@
             >
               <div>
                 <h4 class="fs-7 mb-0">
-                  <router-link
-                    :to="`/resource?id=` + resourceItem.id"
-                    target="_blank"
-                  >
+                  <router-link :to="`/resource/${resourceItem.id}`">
                     {{ resourceItem.title }}
                   </router-link>
                 </h4>
@@ -53,48 +52,112 @@
                     <span class="fs-8 text-gray">尚無評價</span>
                   </div>
                   <div v-else class="d-flex align-items-center">
-                    <span class="fs-7 fw-bold text-secondary">{{
-                      resourceItem.averageScore
-                    }}</span>
-                    <!-- <ul class="d-flex mx-1 lh-1 text-secondary">
+                    <!-- 評價沒有小數點後的值時 -->
+                    <span
+                      class="fs-7 fw-bold text-secondary"
+                      v-if="
+                        resourceItem.averageScore !== undefined &&
+                        resourceItem.commentSum !== 0
+                      "
+                    >
+                      <span
+                        v-if="
+                          isNaN(
+                            parseInt(
+                              resourceItem.averageScore.toString().charAt(2)
+                            )
+                          )
+                        "
+                        >{{ resourceItem.averageScore }}.0</span
+                      >
+                      <span v-else>{{ resourceItem.averageScore }}</span>
+                    </span>
+                    <ul class="d-flex mx-1 lh-1 text-secondary">
                       <li>
                         <span
-                          v-for="star in resourceItem.averageScore"
+                          v-for="star in parseInt(
+                            resourceItem.averageScore.toString().charAt(0)
+                          )"
                           :key="star + 1"
                           class="material-icons material-icons-sharp fs-8"
                           >star</span
                         >
                       </li>
-
-                      <li v-if="resourceItem.averageScore[2] <= 2">
+                      <li
+                        v-if="
+                          parseInt(
+                            resourceItem.averageScore.toString().charAt(2)
+                          ) <= 2 ||
+                          isNaN(
+                            parseInt(
+                              resourceItem.averageScore.toString().charAt(2)
+                            )
+                          ) ||
+                          typeof parseInt(
+                            resourceItem.averageScore.toString().charAt(2)
+                          ) === 'undefined'
+                        "
+                      >
                         <span
-                          v-for="star in 5 - resourceItem.averageScore[0]"
-                          :key="star + 2"
+                          v-for="star in 5 -
+                          parseInt(
+                            resourceItem.averageScore.toString().charAt(0)
+                          )"
+                          :key="star"
                           class="material-icons material-icons-sharp fs-8"
                           >star_outline</span
                         >
                       </li>
-
+                      <!-- 3~7 -->
                       <li
                         v-else-if="
-                          resourceItem.averageScore[2] >= 3 &&
-                          resourceItem.averageScore[2] <= 7
+                          parseInt(
+                            resourceItem.averageScore.toString().charAt(2)
+                          ) >= 3 &&
+                          parseInt(
+                            resourceItem.averageScore.toString().charAt(2)
+                          ) <= 7
                         "
                       >
                         <span class="material-icons material-icons-sharp fs-8"
                           >star_half</span
                         >
-                      </li>
 
-                      <li v-else-if="resourceItem.averageScore[2] >= 8">
                         <span
-                          v-for="star in 5 - resourceItem.averageScore[0] - 1"
-                          :key="star + 3"
+                          v-for="star in 5 -
+                          parseInt(
+                            resourceItem.averageScore.toString().charAt(0)
+                          ) -
+                          1"
+                          :key="star"
                           class="material-icons material-icons-sharp fs-8"
-                          >star</span
+                          >star_outline</span
                         >
                       </li>
-                    </ul> -->
+                      <!-- >=8 -->
+                      <li
+                        v-else-if="
+                          parseInt(
+                            resourceItem.averageScore.toString().charAt(2)
+                          ) >= 8
+                        "
+                      >
+                        <span class="material-icons material-icons-sharp fs-8"
+                          >star</span
+                        >
+
+                        <span
+                          v-for="star in 5 -
+                          parseInt(
+                            resourceItem.averageScore.toString().charAt(0)
+                          ) -
+                          1"
+                          :key="star"
+                          class="material-icons material-icons-sharp fs-8"
+                          >star_half</span
+                        >
+                      </li>
+                    </ul>
 
                     <span class="fs-8 text-secondary"
                       >({{ resourceItem.commentSum }})</span
@@ -115,11 +178,27 @@
               {{ theResourceData.title }}
             </h2>
             <div class="d-flex flex-row align-items-center text-secondary">
+              <!-- 評價沒有小數點後的值時 -->
               <span
                 class="fs-7 fw-bold text-secondary"
-                v-if="theResourceData.commentSum !== 0"
-                >{{ theResourceData.averageScore }}</span
+                v-if="
+                  theResourceData.averageScore !== undefined &&
+                  theResourceData.commentSum !== 0
+                "
               >
+                <span
+                  v-if="
+                    isNaN(
+                      parseInt(
+                        theResourceData.averageScore.toString().charAt(2)
+                      )
+                    )
+                  "
+                  >{{ theResourceData.averageScore }}.0</span
+                >
+                <span v-else>{{ theResourceData.averageScore }}</span>
+              </span>
+
               <!-- <span v-else class="fs-7 fw-bold text-secondary"></span> -->
               <div v-if="theResourceData.averageScore !== undefined">
                 <div v-if="theResourceData.commentSum !== 0" class="d-flex">
@@ -212,9 +291,7 @@
                     </li>
                   </ul>
                   <span class="fs-8 text-secondary"
-                    >({{ theResourceData.commentSum }}){{
-                      theResCommentsData.length
-                    }}</span
+                    >({{ theResourceData.commentSum }})</span
                   >
                 </div>
                 <div v-else><span class="fs-8 text-gray">尚無評論</span></div>
@@ -253,9 +330,9 @@
               <a
                 :href="theResourceData.url"
                 type="button"
-                class="btn btn-sm btn-secondary my-2 text-white px-lg-4 py-2 fs-6"
+                class="w-100 btn btn-sm btn-secondary my-2 text-white px-lg-4 py-2 fs-6"
               >
-                前往資源
+                前往資源網站
               </a>
             </div>
             <div
@@ -264,9 +341,16 @@
               <a
                 role="button"
                 class="btnBookmark d-flex align-items-center me-2"
+                @click.prevent="clickBookmark(theResourceData.id)"
               >
-                <span class="material-icons">bookmark_border</span>
-                <span>收藏</span>
+                <span v-if="bookmarkItem == undefined" class="d-flex me-2">
+                  <span class="material-icons">bookmark_border</span>
+                  <span>收藏</span></span
+                >
+                <span v-else class="d-flex me-2">
+                  <span class="material-icons text-secondary">bookmark</span>
+                  <span class="text-secondary">收藏</span>
+                </span>
               </a>
 
               <a href="#" role="button" class="d-flex align-items-center me-2">
@@ -365,7 +449,7 @@
           </div>
 
           <!--commentSort 排序-->
-          <div class="row mt-5">
+          <div class="row mt-5" v-if="theResCommentsData.length > 0">
             <div class="col-10"></div>
             <div class="col input-group w-35 text-end mb-3">
               <select class="form-select form-select-sm" id="commentSort">
@@ -374,6 +458,9 @@
                 <option value="heightRate" selected>評價最低</option>
               </select>
             </div>
+          </div>
+          <div class="row mt-5" v-else>
+            <div class="col text-center text-gray">目前尚未有任何評論</div>
           </div>
 
           <!--comment-->
@@ -406,20 +493,18 @@
                   <div class="d-flex flex-lg-column justify-content-between">
                     <ul class="card-text d-flex align-items-center lh-1">
                       <li v-for="star in parseInt(comment.score)" :key="star">
-                        <a href="#" role="button">
-                          <span class="material-icons material-icons-sharp"
-                            >star</span
-                          ></a
+                        <span
+                          class="text-primary material-icons material-icons-sharp"
+                          >star</span
                         >
                       </li>
                       <li
                         v-for="star in 5 - parseInt(comment.score)"
                         :key="star"
                       >
-                        <a href="#" role="button"
-                          ><span class="material-icons material-icons-sharp"
-                            >star_outline</span
-                          ></a
+                        <span
+                          class="text-primary material-icons material-icons-sharp"
+                          >star_outline</span
                         >
                       </li>
                     </ul>
@@ -940,6 +1025,7 @@ export default {
   data() {
     return {
       isLoading: true,
+     
       // res data
       resourcesData: [], //所有
       relatedResData: [], //相關資源
@@ -948,6 +1034,10 @@ export default {
       theResourceData: {}, //單一資源內容
       // theAverageScore: this.theResourceData.averageScore.toString(),
       theResCommentsData: [], //取得該資源的評論
+      //收藏
+      theUserBookmarksData: [],
+      isBookmark: false,
+      bookmarkItem: {},
       // user data
       userId: localStorage.getItem("userId"),
       accessToken: localStorage.getItem("accessToken"),
@@ -969,24 +1059,7 @@ export default {
     //   "resourcesObj",
     // ]),
   },
-  watch: {
-    // 相關資源邏輯
-    // theResourceData(newValue) {
-    //   this.relatedResData = this.resourcesData
-    //     .filter((value) => {
-    //       return value.topics === newValue.topics;
-    //     })
-    //     // 比對出符合條件的值後，隨機產生5筆相關資源
-    //     .sort(() => 0.5 - Math.random())
-    //     .slice(0, 5);
-    // },
-    // theResCommentsData() {
-    //   // 監聽這個資源的留言，當留言有異動時，重新計算留言數與評分
-    //   this.getResources();
-    //   // resourcesStore.getComments();
-    //   // resourcesStore.getAverageScore();
-    // },
-  },
+  watch: {},
   methods: {
     // ...mapActions(resourcesStore, [
     //   "getResources",
@@ -999,13 +1072,10 @@ export default {
         .get(`${VITE_API_PATH}/resources`)
         .then((res) => {
           this.resourcesData = res.data;
-
-          //用於初始渲染
-          // this.getComments();
-          // this.getAverageScore();
+          this.getRelatedResData();
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
+          //console.log(err);
         });
     },
     getTheResourceData() {
@@ -1018,8 +1088,8 @@ export default {
           this.theResourceData = res.data[0];
           this.getResCommentsData();
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
+          //console.log(err);
         });
     },
     getResCommentsData() {
@@ -1029,10 +1099,10 @@ export default {
         )
         .then((res) => {
           this.theResCommentsData = res.data;
-          console.log("theResCommentsData", this.theResCommentsData);
+          //console.log("theResCommentsData", this.theResCommentsData);
         })
-        .catch((error) => {
-          console.log(error);
+        .catch(() => {
+          //console.log(error);
         });
     },
     // getTheResAverScore() {
@@ -1089,7 +1159,7 @@ export default {
         .then((res) => {
           this.userInfo = res.data[0];
           // console.log("this.userid", this.userId);
-          console.log("this.userInfo", this.userInfo);
+          //console.log("this.userInfo", this.userInfo);
         })
         .catch(() => {
           //console.log(err);
@@ -1150,17 +1220,6 @@ export default {
             }
           )
           .then(() => {
-            console.log("有成功新增留言");
-            console.log(
-              "averageScore",
-              (
-                (parseFloat(this.theResourceData.averageScore) *
-                  this.theResourceData.commentSum +
-                  this.commentRating) /
-                (this.theResourceData.commentSum + 1)
-              ).toFixed(1)
-            );
-            console.log("commentSum", this.theResourceData.commentSum + 1);
             // 修改這個資源
             this.$http
               .patch(`${VITE_API_PATH}/resources/${this.theResourceId}`, {
@@ -1187,11 +1246,128 @@ export default {
           });
       }
     },
+    getRelatedResData() {
+      this.relatedResData = this.resourcesData
+        .filter((value) => {
+          return value.topics === this.theResourceData.topics;
+        })
+        // 比對出符合條件的值後，隨機產生5筆相關資源
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 5);
+      // console.log("relatedResData", this.relatedResData);
+      // console.log("relatedResData length", this.relatedResData.length);
+    },
+    // 取得這個用戶的收藏清單,取得 bookmarkItem
+    getUserBookmarks() {
+      this.$http
+        .get(
+          `${VITE_API_PATH}/bookmarks?_expand=resource&&userId=${this.userId}`
+        )
+        .then((res) => {
+          this.theUserBookmarksData = res.data;
+          // 如果這個資源存在在  theUserBookmarksData 就表示有被收藏
+          this.bookmarkItem = this.theUserBookmarksData.find((item) => {
+            return item.resourceId == this.theResourceId;
+          });
+
+          console.log("theUserBookmarksData", this.theUserBookmarksData);
+          console.log("this.isBookmark ", this.bookmarkItem);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    clickBookmark(itemId) {
+      // 傳入 theResourceData.id
+      if (this.isLogin == false) {
+        Swal.fire({
+          text: `請先登入`,
+          icon: "info",
+          iconColor: "#4AA9B6",
+          confirmButtonColor: "#4AA9B6",
+        });
+      } else {
+        // 判斷是否已收藏, 已收藏會取消收藏
+        // 尚未收藏 會變為收藏
+        if (this.bookmarkItem == undefined) {
+          console.log("this.isBookmark", this.isBookmark);
+          this.$http
+            .post(
+              `${VITE_API_PATH}/bookmarks?userId=${this.userId}`,
+              {
+                resourceId: itemId,
+                userId: this.userId,
+                isFixedTop: false,
+              },
+              {
+                Authorization: `Bearer ${this.accessToken}`,
+              }
+            )
+            .then((res) => {
+              console.log(res.data);
+              Swal.fire({
+                title: "已成功收藏",
+                icon: "success",
+                iconColor: "#4AA9B6",
+                confirmButtonColor: "#4AA9B6",
+              });
+              this.getUserBookmarks();
+            })
+            .catch((err) => {
+              console.log(err.data);
+              // console.log(err);
+              // if (err?.response?.status === 401) {
+              //     clearLocalStorage();
+              // };
+            });
+        } else {
+          // 取消收藏
+          Swal.fire({
+            title: "您確定要取消收藏嗎?",
+            icon: "warning",
+            iconColor: "#F8B436",
+            showCancelButton: true,
+            confirmButtonColor: "#4AA9B6",
+            cancelButtonColor: "#F8B436",
+            confirmButtonText: "是",
+            cancelButtonText: "否",
+          })
+            .then((result) => {
+              if (result.isConfirmed && typeof Storage !== "undefined") {
+                this.$http
+                  .delete(
+                    `${VITE_API_PATH}/bookmarks/${this.bookmarkItem.id}`,
+                    {
+                      Authorization: `Bearer ${this.accessToken}`,
+                    }
+                  )
+                  .then(() => {
+                    Swal.fire({
+                      title: "已取消收藏",
+                      icon: "success",
+                      iconColor: "#4AA9B6",
+                      confirmButtonColor: "#4AA9B6",
+                    });
+                    this.getUserBookmarks();
+                  })
+                  .catch(() => {});
+              }
+              this.getUserBookmarks();
+            })
+            .catch(() => {
+              //console.log(err);
+            });
+          console.log("this.isBookmark", this.isBookmark);
+          console.log("itemId", itemId);
+        }
+      }
+    },
   },
   created() {
     this.getResources();
     this.getUserData();
     this.getTheResourceData();
+    this.getUserBookmarks();
     if (this.userId) {
       this.isLogin = true;
     }
@@ -1200,27 +1376,16 @@ export default {
     if (typeof parseInt(this.resourceId) != "number") {
       this.$router.push("/");
     }
-    // this.getResources();
     this.getResCommentsData();
-
-    // this.relatedResData = this.resourcesData.filter((value) => {
-    //   return value.topics === this.theResourceData.topics;
-    // });
-    // console.log("relatedResData", this.relatedResData);
-    // console.log("theResCommentsData", this.theResCommentsData);
-
     if (
       this.theResourceData === undefined ||
       this.theResCommentsData === undefined ||
-      this.relatedResData === undefined
+      (this.relatedResData && this.relatedResData.length < 0)
     ) {
       this.isLoading = true;
     } else {
       this.isLoading = false;
     }
-
-    // console.log("isLogin", userStore.isLogin);
-    // console.log("userInfo", userStore.userInfo);
   },
 };
 </script>

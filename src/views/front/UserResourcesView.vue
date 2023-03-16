@@ -226,47 +226,114 @@ export default {
                 <span class="fs-8 fw-bold text-gray me-lg-2">尚無評論</span>
               </div>
               <div v-else class="d-flex flex-wrap align-items-center">
-                <span class="fs-7 fw-bold text-secondary">{{
-                  resourceItem.resource.averageScore
-                }}</span>
-                <ul class="d-flex align-items-center lh-1 me-lg-2">
+                <!-- 評價沒有小數點後的值時 -->
+                <span
+                  class="fs-7 fw-bold text-secondary"
+                  v-if="
+                    resourceItem.resource.averageScore !== undefined &&
+                    resourceItem.resource.commentSum !== 0
+                  "
+                >
+                  <span
+                    v-if="
+                      isNaN(
+                        parseInt(
+                          resourceItem.resource.averageScore
+                            .toString()
+                            .charAt(2)
+                        )
+                      )
+                    "
+                    >{{ resourceItem.resource.averageScore }}.0</span
+                  >
+                  <span v-else>{{ resourceItem.resource.averageScore }}</span>
+                </span>
+
+                <ul class="d-flex mx-1 lh-1 text-secondary">
                   <li>
                     <span
-                      v-for="star in resourceItem.resource.averageScore"
+                      v-for="star in parseInt(
+                        resourceItem.resource.averageScore.toString().charAt(0)
+                      )"
                       :key="star + 1"
                       class="material-icons material-icons-sharp fs-8"
                       >star</span
                     >
                   </li>
-
-                  <li v-if="resourceItem.resource.averageScore[2] <= 2">
+                  <li
+                    v-if="
+                      parseInt(
+                        resourceItem.resource.averageScore.toString().charAt(2)
+                      ) <= 2 ||
+                      isNaN(
+                        parseInt(
+                          resourceItem.resource.averageScore
+                            .toString()
+                            .charAt(2)
+                        )
+                      ) ||
+                      typeof parseInt(
+                        resourceItem.resource.averageScore.toString().charAt(2)
+                      ) === 'undefined'
+                    "
+                  >
                     <span
-                      v-for="star in 5 - resourceItem.resource.averageScore[0]"
-                      :key="star + 2"
+                      v-for="star in 5 -
+                      parseInt(
+                        resourceItem.resource.averageScore.toString().charAt(0)
+                      )"
+                      :key="star"
                       class="material-icons material-icons-sharp fs-8"
                       >star_outline</span
                     >
                   </li>
-
+                  <!-- 3~7 -->
                   <li
                     v-else-if="
-                      resourceItem.resource.averageScore[2] >= 3 &&
-                      resourceItem.resource.averageScore[2] <= 7
+                      parseInt(
+                        resourceItem.resource.averageScore.toString().charAt(2)
+                      ) >= 3 &&
+                      parseInt(
+                        resourceItem.resource.averageScore.toString().charAt(2)
+                      ) <= 7
                     "
                   >
                     <span class="material-icons material-icons-sharp fs-8"
                       >star_half</span
                     >
-                  </li>
 
-                  <li v-else-if="resourceItem.resource.averageScore[2] >= 8">
                     <span
                       v-for="star in 5 -
-                      resourceItem.resource.averageScore[0] -
+                      parseInt(
+                        resourceItem.resource.averageScore.toString().charAt(0)
+                      ) -
                       1"
-                      :key="star + 3"
+                      :key="star"
                       class="material-icons material-icons-sharp fs-8"
+                      >star_outline</span
+                    >
+                  </li>
+                  <!-- >=8 -->
+                  <li
+                    v-else-if="
+                      parseInt(
+                        resourceItem.resource.averageScore.toString().charAt(2)
+                      ) >= 8
+                    "
+                  >
+                    <span class="material-icons material-icons-sharp fs-8"
                       >star</span
+                    >
+
+                    <span
+                      v-for="star in 5 -
+                      parseInt(
+                        resourceItem.resource.averageScore.toString().charAt(0)
+                      ) -
+                      1"
+                      :key="star"
+                      class="material-icons material-icons-sharp fs-8"
+                      >star_half</span
                     >
                   </li>
                 </ul>

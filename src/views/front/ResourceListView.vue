@@ -7,9 +7,9 @@ export default {
   data() {
     return {
       isLoading: true,
-      topic: this.$route.query.topic, //取得路由中 ?topic= 值
+     
+      topic: this.$route.params.resTopic,
       topicsResData: [], //保留該主題的資料
-      // foundationTabData: [], //tab 內的資料
       foundationTabClassify: "初階",
       renderList: [], //渲染清單
       filterGroup: {
@@ -29,27 +29,27 @@ export default {
   },
   watch: {
     "checkObj.type": function (newVal) {
-      console.log(newVal);
+      console.log("newVal", newVal);
       this.filterResources();
-      console.log(this.renderList);
+      console.log("renderList", this.renderList);
     },
     "checkObj.level": function (newVal) {
-      console.log(newVal);
+      console.log("newVal", newVal);
       this.filterResources();
       // console.log(await this.filterResources());
-      console.log(this.renderList);
+      console.log("renderList", this.renderList);
     },
     "checkObj.price": function (newVal) {
-      console.log(newVal);
+      console.log("newVal", newVal);
       this.filterResources();
       // console.log(await this.filterResources());
-      console.log(this.renderList);
+      console.log("renderList", this.renderList);
     },
     "checkObj.lang": function (newVal) {
-      console.log(newVal);
+      console.log("newVal", newVal);
       this.filterResources();
       // console.log(await this.filterResources());
-      console.log(this.renderList);
+      console.log("renderList", this.renderList);
     },
     sortRenderList(newValue) {
       if (newValue === "new") {
@@ -58,6 +58,36 @@ export default {
         this.sortRenderList = "heightRate";
       }
       this.filterResources();
+    },
+    //resourcesData
+    topic(newVal) {
+      console.log(this.topic);
+      this.topic = newVal;
+      //this.getResources();
+
+      this.topicsResData = this.resourcesData.filter((value) => {
+        return (
+          value.topics.toLowerCase().replace(/[^a-zA-Z0-9]/g, "") ===
+          this.topic.toLowerCase().replace(/[^a-zA-Z0-9]/g, "")
+        );
+      });
+
+      this.foundationTabData = this.topicsResData
+        .filter((value) => {
+          return value.level === "初階 ";
+        })
+        .slice(0, 6);
+
+      this.renderList = [...this.topicsResData];
+      if (
+        this.renderList === undefined ||
+        this.foundationTabData === undefined
+      ) {
+        this.isLoading = true;
+      } else {
+        this.isLoading = false;
+      }
+      this.$router.push({ path: this.$route.path });
     },
     resourcesData(newValue) {
       this.topicsResData = newValue.filter((value) => {
@@ -72,7 +102,6 @@ export default {
           return value.level === "初階 ";
         })
         .slice(0, 6);
-      // console.log("入門推薦 list", this.foundationTabData);
 
       this.renderList = [...this.topicsResData];
       if (
@@ -84,6 +113,16 @@ export default {
         this.isLoading = false;
       }
     },
+    // topic(newValue, oldValue) {
+    //   if (newValue !== oldValue) {
+    //     this.getResources();
+    //     console.log(this.topic);
+    //     this.updateData(newValue);
+    //   }
+    // },
+    // resourcesData(newValue) {
+    //   this.updateData(newValue);
+    // },
   },
   methods: {
     ...mapActions(resourcesStore, [
@@ -92,13 +131,37 @@ export default {
       "getAverageScore",
       //"getfoundationTabData",
     ]),
+    // updateData() {
+    //   this.topicsResData = this.resourcesData.filter((value) => {
+    //     return (
+    //       value.topics.toLowerCase().replace(/[^a-zA-Z0-9]/g, "") ===
+    //       this.topic.toLowerCase().replace(/[^a-zA-Z0-9]/g, "")
+    //     );
+    //   });
+
+    //   this.foundationTabData = this.topicsResData
+    //     .filter((value) => {
+    //       return value.level === "初階 ";
+    //     })
+    //     .slice(0, 6);
+
+    //   this.renderList = [...this.topicsResData];
+    //   if (
+    //     this.renderList === undefined ||
+    //     this.foundationTabData === undefined
+    //   ) {
+    //     this.isLoading = true;
+    //   } else {
+    //     this.isLoading = false;
+    //   }
+    // },
     changeTabData(item) {
       this.foundationTabClassify = item;
     },
     filterResources() {
-      console.log("filterResources is called");
-      console.log(this.checkObj);
-      console.log(typeof this.topicsResData, this.topicsResData);
+      // console.log("filterResources is called");
+      // console.log(this.checkObj);
+      // console.log(typeof this.topicsResData, this.topicsResData);
 
       this.renderList = this.topicsResData.filter((resItem) => {
         let hasType = true;
@@ -137,28 +200,14 @@ export default {
       }
 
       return this.renderList;
-      // return new Promise((resolve) => {
-      //   this.renderList = filteredList;
-      //   console.log(this.renderList);
-      //   resolve(this.renderList);
-      // });
     },
     clearFilter() {
       this.checkObj.type.splice(0, this.checkObj.type.length);
-      this.checkObj.level.splice(0, this.checkObj.type.length);
-      this.checkObj.price.splice(0, this.checkObj.type.length);
-      this.checkObj.lang.splice(0, this.checkObj.type.length);
+      this.checkObj.level.splice(0, this.checkObj.level.length);
+      this.checkObj.price.splice(0, this.checkObj.price.length);
+      this.checkObj.lang.splice(0, this.checkObj.lang.length);
       this.filterResources();
     },
-    // topicsData() {
-    //   this.topicsResData = this.resourcesData.filter((value) => {
-    //     return (
-    //       value.topics.toLowerCase().replace(/[^a-zA-Z0-9]/g, "") ===
-    //       this.topic.toLowerCase().replace(/[^a-zA-Z0-9]/g, "")
-    //     );
-    //   });
-    //   console.log("topicsResData list", this.topicsResData);
-    // },
   },
   components: {
     LoadingComponent,
@@ -168,8 +217,6 @@ export default {
       "resourcesData",
       "commentsData",
       "resourcesObj",
-      // "topicsResData",
-      // "foundationTabData",
     ]),
     foundationTabData() {
       return this.topicsResData
@@ -185,21 +232,15 @@ export default {
         .slice(-6);
     },
   },
-  created() {},
+  created() {
+   
+  },
   mounted() {
     this.getResources();
     if (this.topic === null || this.topic === undefined) {
       this.$router.push("/");
     }
-    // if (
-    //   this.foundationTabData === null ||
-    //   this.foundationTabData === undefined
-    // ) {
-    //   this.isLoading = true;
-    // } else {
-    //   //location.reload();
-    //   this.isLoading = false;
-    // }
+   
 
     document.title = "Eng!neer 程式學習資源網" + this.topic;
   },
@@ -285,7 +326,7 @@ export default {
                 <div class="col-6">
                   <h4 class="ellipsis fs-7">
                     <router-link
-                      :to="`/resource?id=` + resourceItem.id"
+                      :to="`/resource/${resourceItem.id}`"
                       target="_blank"
                     >
                       {{ resourceItem.title }}
@@ -303,10 +344,114 @@ export default {
                       <span class="fs-8 text-gray">尚無評價</span>
                     </div>
                     <div v-else class="d-flex align-items-center">
-                      <span class="fs-7 fw-bold text-secondary">{{
-                        resourceItem.averageScore
-                      }}</span>
+                      <!-- 評價沒有小數點後的值時 -->
+                      <span
+                        class="fs-7 fw-bold text-secondary"
+                        v-if="
+                          resourceItem.averageScore !== undefined &&
+                          resourceItem.commentSum !== 0
+                        "
+                      >
+                        <span
+                          v-if="
+                            isNaN(
+                              parseInt(
+                                resourceItem.averageScore.toString().charAt(2)
+                              )
+                            )
+                          "
+                          >{{ resourceItem.averageScore }}.0</span
+                        >
+                        <span v-else>{{ resourceItem.averageScore }}</span>
+                      </span>
+
                       <ul class="d-flex mx-1 lh-1 text-secondary">
+                        <li>
+                          <span
+                            v-for="star in parseInt(
+                              resourceItem.averageScore.toString().charAt(0)
+                            )"
+                            :key="star + 1"
+                            class="material-icons material-icons-sharp fs-8"
+                            >star</span
+                          >
+                        </li>
+                        <li
+                          v-if="
+                            parseInt(
+                              resourceItem.averageScore.toString().charAt(2)
+                            ) <= 2 ||
+                            isNaN(
+                              parseInt(
+                                resourceItem.averageScore.toString().charAt(2)
+                              )
+                            ) ||
+                            typeof parseInt(
+                              resourceItem.averageScore.toString().charAt(2)
+                            ) === 'undefined'
+                          "
+                        >
+                          <span
+                            v-for="star in 5 -
+                            parseInt(
+                              resourceItem.averageScore.toString().charAt(0)
+                            )"
+                            :key="star"
+                            class="material-icons material-icons-sharp fs-8"
+                            >star_outline</span
+                          >
+                        </li>
+                        <!-- 3~7 -->
+                        <li
+                          v-else-if="
+                            parseInt(
+                              resourceItem.averageScore.toString().charAt(2)
+                            ) >= 3 &&
+                            parseInt(
+                              resourceItem.averageScore.toString().charAt(2)
+                            ) <= 7
+                          "
+                        >
+                          <span class="material-icons material-icons-sharp fs-8"
+                            >star_half</span
+                          >
+
+                          <span
+                            v-for="star in 5 -
+                            parseInt(
+                              resourceItem.averageScore.toString().charAt(0)
+                            ) -
+                            1"
+                            :key="star"
+                            class="material-icons material-icons-sharp fs-8"
+                            >star_outline</span
+                          >
+                        </li>
+                        <!-- >=8 -->
+                        <li
+                          v-else-if="
+                            parseInt(
+                              resourceItem.averageScore.toString().charAt(2)
+                            ) >= 8
+                          "
+                        >
+                          <span class="material-icons material-icons-sharp fs-8"
+                            >star</span
+                          >
+
+                          <span
+                            v-for="star in 5 -
+                            parseInt(
+                              resourceItem.averageScore.toString().charAt(0)
+                            ) -
+                            1"
+                            :key="star"
+                            class="material-icons material-icons-sharp fs-8"
+                            >star_half</span
+                          >
+                        </li>
+                      </ul>
+                      <!-- <ul class="d-flex mx-1 lh-1 text-secondary">
                         <li>
                           <span
                             v-for="star in resourceItem.averageScore"
@@ -344,7 +489,7 @@ export default {
                             >star</span
                           >
                         </li>
-                      </ul>
+                      </ul> -->
 
                       <span class="fs-8 text-secondary"
                         >({{ resourceItem.commentSum }})</span
@@ -368,14 +513,14 @@ export default {
     <div class="row relatedTopic" v-if="topic === 'JavaScript'">
       <div class="col">
         <div class="topicItem text-center my-2 p-3 rounded-3">
-          <router-link to="/resource-list?topic=HTML/CSS" target="_blank">
+          <router-link to="/resource-list/HTML&CSS" target="_blank">
             <h4 class="fw-bold">HTML/CSS</h4></router-link
           >
         </div>
       </div>
       <div class="col">
         <div class="topicItem text-center my-2 p-3 rounded-3">
-          <router-link to="/resource-list?topic=Python">
+          <router-link to="/resource-list/Python">
             <h4 class="fw-bold">Python</h4></router-link
           >
         </div>
@@ -384,7 +529,7 @@ export default {
     <div class="row relatedTopic" v-else-if="topic === 'HTML/CSS'">
       <div class="col">
         <div class="topicItem text-center my-2 p-3 rounded-3">
-          <router-link to="/resource-list?topic=JavaScript" target="_blank">
+          <router-link to="/resource-list/JavaScript" target="_blank">
             <h4 class="fw-bold">JavaScript</h4></router-link
           >
         </div>
@@ -393,7 +538,7 @@ export default {
     <div class="row relatedTopic" v-else>
       <div class="col">
         <div class="topicItem text-center my-2 p-3 rounded-3">
-          <router-link to="/resource-list?topic=JavaScript" target="_blank">
+          <router-link to="/resource-list/JavaScript" target="_blank">
             <h4 class="fw-bold">JavaScript</h4></router-link
           >
         </div>
@@ -453,10 +598,16 @@ export default {
           </span>
           <a role="button" id="clearFilterBtn" @click="clearFilter()">
             <span
-              v-if="renderList.length === topicsResData.length"
+              v-if="
+                checkObj.type.length ||
+                checkObj.level.length ||
+                checkObj.price.length ||
+                checkObj.lang.length
+              "
               class="clearBtnText text-primary"
-            ></span>
-            <span v-else class="clearBtnText text-primary">清除篩選條件</span>
+              >清除篩選條件</span
+            >
+            <span v-else class="clearBtnText text-primary"></span>
           </a>
         </div>
         <!-- <div class="col-lg-5 "></div> -->
@@ -487,10 +638,7 @@ export default {
           >
             <!-- 圖片 -->
             <div class="col-2" v-if="resourceItem.imgUrl != ''">
-              <router-link
-                :to="`/resource?id=` + resourceItem.id"
-                target="_blank"
-              >
+              <router-link :to="`/resource/${resourceItem.id}`">
                 <img
                   :src="
                     '/VueProjectLR/images/resources_cover/' +
@@ -500,10 +648,7 @@ export default {
               /></router-link>
             </div>
             <div class="col-2" v-else>
-              <router-link
-                :to="`/resource?id=` + resourceItem.id"
-                target="_blank"
-              >
+              <router-link :to="`/resource/${resourceItem.id}`">
                 <img
                   :src="`/VueProjectLR/images/resources_cover/noimgCover.jpg`"
                   :alt="resourceItem.title"
@@ -514,7 +659,7 @@ export default {
             <div class="col-6">
               <h4 class="ellipsis fs-7">
                 <router-link
-                  :to="`/resource?id=` + resourceItem.id"
+                  :to="`/resource/${resourceItem.id}`"
                   target="_blank"
                 >
                   {{ resourceItem.title }}
@@ -530,45 +675,109 @@ export default {
                   <span class="fs-8 text-gray">尚無評價</span>
                 </div>
                 <div v-else class="d-flex align-items-center">
-                  <span class="fs-7 fw-bold text-secondary">{{
-                    resourceItem.averageScore
-                  }}</span>
+                  <!-- 評價沒有小數點後的值時 -->
+                  <span
+                    class="fs-7 fw-bold text-secondary"
+                    v-if="
+                      resourceItem.averageScore !== undefined &&
+                      resourceItem.commentSum !== 0
+                    "
+                  >
+                    <span
+                      v-if="
+                        isNaN(
+                          parseInt(
+                            resourceItem.averageScore.toString().charAt(2)
+                          )
+                        )
+                      "
+                      >{{ resourceItem.averageScore }}.0</span
+                    >
+                    <span v-else>{{ resourceItem.averageScore }}</span>
+                  </span>
                   <ul class="d-flex mx-1 lh-1 text-secondary">
                     <li>
                       <span
-                        v-for="star in resourceItem.averageScore"
+                        v-for="star in parseInt(
+                          resourceItem.averageScore.toString().charAt(0)
+                        )"
                         :key="star + 1"
                         class="material-icons material-icons-sharp fs-8"
                         >star</span
                       >
                     </li>
-
-                    <li v-if="resourceItem.averageScore[2] <= 2">
+                    <li
+                      v-if="
+                        parseInt(
+                          resourceItem.averageScore.toString().charAt(2)
+                        ) <= 2 ||
+                        isNaN(
+                          parseInt(
+                            resourceItem.averageScore.toString().charAt(2)
+                          )
+                        ) ||
+                        typeof parseInt(
+                          resourceItem.averageScore.toString().charAt(2)
+                        ) === 'undefined'
+                      "
+                    >
                       <span
-                        v-for="star in 5 - resourceItem.averageScore[0]"
-                        :key="star + 2"
+                        v-for="star in 5 -
+                        parseInt(
+                          resourceItem.averageScore.toString().charAt(0)
+                        )"
+                        :key="star"
                         class="material-icons material-icons-sharp fs-8"
                         >star_outline</span
                       >
                     </li>
-
+                    <!-- 3~7 -->
                     <li
                       v-else-if="
-                        resourceItem.averageScore[2] >= 3 &&
-                        resourceItem.averageScore[2] <= 7
+                        parseInt(
+                          resourceItem.averageScore.toString().charAt(2)
+                        ) >= 3 &&
+                        parseInt(
+                          resourceItem.averageScore.toString().charAt(2)
+                        ) <= 7
                       "
                     >
                       <span class="material-icons material-icons-sharp fs-8"
                         >star_half</span
                       >
-                    </li>
 
-                    <li v-else-if="resourceItem.averageScore[2] >= 8">
                       <span
-                        v-for="star in 5 - resourceItem.averageScore[0] - 1"
-                        :key="star + 3"
+                        v-for="star in 5 -
+                        parseInt(
+                          resourceItem.averageScore.toString().charAt(0)
+                        ) -
+                        1"
+                        :key="star"
                         class="material-icons material-icons-sharp fs-8"
+                        >star_outline</span
+                      >
+                    </li>
+                    <!-- >=8 -->
+                    <li
+                      v-else-if="
+                        parseInt(
+                          resourceItem.averageScore.toString().charAt(2)
+                        ) >= 8
+                      "
+                    >
+                      <span class="material-icons material-icons-sharp fs-8"
                         >star</span
+                      >
+
+                      <span
+                        v-for="star in 5 -
+                        parseInt(
+                          resourceItem.averageScore.toString().charAt(0)
+                        ) -
+                        1"
+                        :key="star"
+                        class="material-icons material-icons-sharp fs-8"
+                        >star_half</span
                       >
                     </li>
                   </ul>
@@ -591,7 +800,7 @@ export default {
                 </a>
                 <router-link
                   target="_blank"
-                  :to="`/resource?id=${resourceItem.id}`"
+                  :to="`/resource/${resourceItem.id}`"
                   type="button"
                   class="btn btn-yellowBrown w-75 mx-2 my-2"
                 >

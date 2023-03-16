@@ -99,24 +99,39 @@ export default {
                     aria-labelledby="resourceBrowse"
                   >
                     <li>
-                      <router-link
+                      <!-- <router-link
                         class="dropdown-item"
-                        to="/resource-list?topic=JavaScript"
+                        to="/resource-list/JavaScript"
                         >JavaScript</router-link
+                      > -->
+                      <a
+                        class="dropdown-item"
+                        href="VueProjectLR#/resource-list/JavaScript"
+                        >JavaScript</a
                       >
                     </li>
                     <li>
-                      <router-link
+                      <!-- <router-link
                         class="dropdown-item"
-                        to="/resource-list?topic=HTML/CSS"
+                        to="/resource-list/HTML&CSS"
                         >HTML/CSS</router-link
+                      > -->
+                      <a
+                        class="dropdown-item"
+                        href="VueProjectLR#/resource-list/HTML&CSS"
+                        >HTML/CSS</a
                       >
                     </li>
                     <li>
-                      <router-link
+                      <!-- <router-link
                         class="dropdown-item"
-                        to="/resource-list?topic=Python"
+                        to="/resource-list/Python"
                         >Pyton</router-link
+                      > -->
+                      <a
+                        class="dropdown-item"
+                        href="VueProjectLR#/resource-list/Pyton"
+                        >Pyton</a
                       >
                     </li>
                   </ul>
@@ -296,7 +311,7 @@ export default {
       >
         <ul class="navbar-nav d-flex flex-row flex-wrap justify-content-start">
           <li class="nav-item me-3 me-md-5 mb-3 mb-md-0">
-            <a class="footer-brand" href="index.html"></a>
+            <router-link class="footer-brand" to="/"></router-link>
           </li>
           <li class="nav-item me-2">
             <a class="nav-link text-white">關於我們</a>

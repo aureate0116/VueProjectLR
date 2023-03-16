@@ -63,11 +63,11 @@ export default {};
                   </div>
 
                   <div style="width: 30%" id="resImg" class="me-4">
-                    <img
+                    <!-- <img
                       class="d-block"
                       src="./assets/images/icon_image.png"
                       alt="資源圖片"
-                    />
+                    /> -->
                   </div>
 
                   <div style="width: 40%" class="fs-8">

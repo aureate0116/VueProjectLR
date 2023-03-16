@@ -312,16 +312,34 @@
                       <span class="fs-8 text-gray">尚無評價</span>
                     </div>
                     <div v-else class="d-flex align-items-center">
-                      <span class="fs-7 fw-bold text-secondary">{{
-                        resourceItem.averageScore
-                      }}</span>
+                      <!-- 評價沒有小數點後的值時 -->
+                      <span
+                        class="fs-7 fw-bold text-secondary"
+                        v-if="
+                          resourceItem.averageScore !== undefined &&
+                          resourceItem.commentSum !== 0
+                        "
+                      >
+                        <span
+                          v-if="
+                            isNaN(
+                              parseInt(
+                                resourceItem.averageScore.toString().charAt(2)
+                              )
+                            )
+                          "
+                          >{{ resourceItem.averageScore }}.0</span
+                        >
+                        <span v-else>{{ resourceItem.averageScore }}</span>
+                      </span>
+
                       <ul class="d-flex mx-1 lh-1 text-secondary">
                         <li>
                           <span
                             v-for="star in parseInt(
-                              resourceItem.averageScore.toString()[0]
+                              resourceItem.averageScore.toString().charAt(0)
                             )"
-                            :key="star"
+                            :key="star + 1"
                             class="material-icons material-icons-sharp fs-8"
                             >star</span
                           >
@@ -329,38 +347,79 @@
 
                         <li
                           v-if="
-                            parseInt(resourceItem.averageScore.toString()[2]) <=
-                            2
+                            parseInt(
+                              resourceItem.averageScore.toString().charAt(2)
+                            ) <= 2 ||
+                            isNaN(
+                              parseInt(
+                                resourceItem.averageScore.toString().charAt(2)
+                              )
+                            ) ||
+                            typeof parseInt(
+                              resourceItem.averageScore.toString().charAt(2)
+                            ) === 'undefined'
                           "
                         >
                           <span
                             v-for="star in 5 -
-                            parseInt(resourceItem.averageScore.toString()[0])"
-                            :key="star + 2"
+                            parseInt(
+                              resourceItem.averageScore.toString().charAt(0)
+                            )"
+                            :key="star"
                             class="material-icons material-icons-sharp fs-8"
                             >star_outline</span
                           >
                         </li>
 
-                        <!-- <li
+                        <!-- 3~7 -->
+                        <li
                           v-else-if="
-                            parseInt(resourceItem.averageScore.toString()[2]) >= 3 &&
-                            parseInt(resourceItem.averageScore.toString()[2]) <= 7
+                            parseInt(
+                              resourceItem.averageScore.toString().charAt(2)
+                            ) >= 3 &&
+                            parseInt(
+                              resourceItem.averageScore.toString().charAt(2)
+                            ) <= 7
                           "
                         >
                           <span class="material-icons material-icons-sharp fs-8"
                             >star_half</span
                           >
+
+                          <span
+                            v-for="star in 5 -
+                            parseInt(
+                              resourceItem.averageScore.toString().charAt(0)
+                            ) -
+                            1"
+                            :key="star"
+                            class="material-icons material-icons-sharp fs-8"
+                            >star_outline</span
+                          >
                         </li>
 
-                        <li v-if="parseInt(resourceItem.averageScore.toString()[2]) >= 8">
-                          <span
-                            v-for="star in 5 - parseInt(resourceItem.averageScore.toString()[0]) - 1"
-                            :key="star + 3"
-                            class="material-icons material-icons-sharp fs-8"
+                        <li
+                          v-else-if="
+                            parseInt(
+                              resourceItem.averageScore.toString().charAt(2)
+                            ) >= 8
+                          "
+                        >
+                          <span class="material-icons material-icons-sharp fs-8"
                             >star</span
                           >
-                        </li> -->
+
+                          <span
+                            v-for="star in 5 -
+                            parseInt(
+                              resourceItem.averageScore.toString().charAt(0)
+                            ) -
+                            1"
+                            :key="star"
+                            class="material-icons material-icons-sharp fs-8"
+                            >star_half</span
+                          >
+                        </li>
                       </ul>
 
                       <span class="fs-8 text-secondary"
@@ -461,45 +520,114 @@
                     <span class="fs-8 text-gray">尚無評價</span>
                   </div>
                   <div v-else class="d-flex align-items-center">
-                    <span class="fs-7 fw-bold me-lg-2 text-secondary">{{
+                    <!-- <span class="fs-7 fw-bold me-lg-2 text-secondary">{{
                       resourceItem.averageScore
-                    }}</span>
+                    }}</span> -->
+
+                    <!-- 評價沒有小數點後的值時 -->
+                    <span
+                      class="fs-7 fw-bold text-secondary"
+                      v-if="
+                        resourceItem.averageScore !== undefined &&
+                        resourceItem.commentSum !== 0
+                      "
+                    >
+                      <span
+                        v-if="
+                          isNaN(
+                            parseInt(
+                              resourceItem.averageScore.toString().charAt(2)
+                            )
+                          )
+                        "
+                        >{{ resourceItem.averageScore }}.0</span
+                      >
+                      <span v-else>{{ resourceItem.averageScore }}</span>
+                    </span>
+
                     <ul class="d-flex mx-1 lh-1 text-secondary">
                       <li>
                         <span
-                          v-for="star in resourceItem.averageScore"
+                          v-for="star in parseInt(
+                            resourceItem.averageScore.toString().charAt(0)
+                          )"
                           :key="star + 1"
                           class="material-icons material-icons-sharp fs-8"
                           >star</span
                         >
                       </li>
-
-                      <li v-if="resourceItem.averageScore[2] <= 2">
+                      <li
+                        v-if="
+                          parseInt(
+                            resourceItem.averageScore.toString().charAt(2)
+                          ) <= 2 ||
+                          isNaN(
+                            parseInt(
+                              resourceItem.averageScore.toString().charAt(2)
+                            )
+                          ) ||
+                          typeof parseInt(
+                            resourceItem.averageScore.toString().charAt(2)
+                          ) === 'undefined'
+                        "
+                      >
                         <span
-                          v-for="star in 5 - resourceItem.averageScore[0]"
-                          :key="star + 2"
+                          v-for="star in 5 -
+                          parseInt(
+                            resourceItem.averageScore.toString().charAt(0)
+                          )"
+                          :key="star"
                           class="material-icons material-icons-sharp fs-8"
                           >star_outline</span
                         >
                       </li>
-
+                      <!-- 3~7 -->
                       <li
                         v-else-if="
-                          resourceItem.averageScore[2] >= 3 &&
-                          resourceItem.averageScore[2] <= 7
+                          parseInt(
+                            resourceItem.averageScore.toString().charAt(2)
+                          ) >= 3 &&
+                          parseInt(
+                            resourceItem.averageScore.toString().charAt(2)
+                          ) <= 7
                         "
                       >
                         <span class="material-icons material-icons-sharp fs-8"
                           >star_half</span
                         >
-                      </li>
 
-                      <li v-else-if="resourceItem.averageScore[2] >= 8">
                         <span
-                          v-for="star in 5 - resourceItem.averageScore[0] - 1"
-                          :key="star + 3"
+                          v-for="star in 5 -
+                          parseInt(
+                            resourceItem.averageScore.toString().charAt(0)
+                          ) -
+                          1"
+                          :key="star"
                           class="material-icons material-icons-sharp fs-8"
+                          >star_outline</span
+                        >
+                      </li>
+                      <!-- >=8 -->
+                      <li
+                        v-else-if="
+                          parseInt(
+                            resourceItem.averageScore.toString().charAt(2)
+                          ) >= 8
+                        "
+                      >
+                        <span class="material-icons material-icons-sharp fs-8"
                           >star</span
+                        >
+
+                        <span
+                          v-for="star in 5 -
+                          parseInt(
+                            resourceItem.averageScore.toString().charAt(0)
+                          ) -
+                          1"
+                          :key="star"
+                          class="material-icons material-icons-sharp fs-8"
+                          >star_half</span
                         >
                       </li>
                     </ul>
@@ -524,21 +652,21 @@
     <div class="row">
       <div class="col-md-4">
         <div class="topicItem text-center my-2 p-4 rounded-3">
-          <router-link to="/resource-list?topic=HTML/CSS" target="_blank">
+          <router-link to="/resource-list/HTML&CSS" target="_blank">
             <h4 class="fw-bold">HTML/CSS</h4></router-link
           >
         </div>
       </div>
       <div class="col-md-4">
         <div class="topicItem text-center my-2 p-4 rounded-3">
-          <router-link to="/resource-list?topic=JavaScript">
+          <router-link to="/resource-list/JavaScript">
             <h4 class="fw-bold">JavaScript</h4></router-link
           >
         </div>
       </div>
       <div class="col-md-4">
         <div class="topicItem text-center my-2 p-4 rounded-3">
-          <router-link to="/resource-list?topic=Python">
+          <router-link to="/resource-list/Python">
             <h4 class="fw-bold">Python</h4></router-link
           >
         </div>
@@ -594,8 +722,8 @@ export default {
       if (this.resourcesData.length === 0) {
         this.isLoading = true;
       } else {
-        this.$router.push("/");
         this.isLoading = false;
+        this.$router.push("/");
       }
     },
   },
