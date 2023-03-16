@@ -106,7 +106,7 @@ export default {
                       > -->
                       <a
                         class="dropdown-item"
-                        href="/VueProjectLR/resource-list/JavaScript"
+                        href="/VueProjectLR#/resource-list/JavaScript"
                         >JavaScript</a
                       >
                     </li>
@@ -118,7 +118,7 @@ export default {
                       > -->
                       <a
                         class="dropdown-item"
-                        href="/VueProjectLR/resource-list/HTML&CSS"
+                        href="/VueProjectLR#/resource-list/HTML&CSS"
                         >HTML/CSS</a
                       >
                     </li>
@@ -130,8 +130,8 @@ export default {
                       > -->
                       <a
                         class="dropdown-item"
-                        href="/VueProjectLR/resource-list/Pyton"
-                        >Pyton</a
+                        href="/VueProjectLR#/resource-list/Python"
+                        >Python</a
                       >
                     </li>
                   </ul>
