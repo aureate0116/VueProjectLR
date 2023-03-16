@@ -1,0 +1,1 @@
+import{_ as o,r as t,o as r,G as s,w as n,b as a}from"./index-4f5225c2.js";const c={},_=a("div",null,"UserProfileView",-1);function i(l,p,f,u,d,w){const e=t("router-view");return r(),s(e,null,{default:n(()=>[_]),_:1})}const v=o(c,[["render",i]]);export{v as default};
