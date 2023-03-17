@@ -479,7 +479,6 @@ export default {
             </div>
             <div class="col-3">
               <div class="d-flex">
-              
                 <router-link
                   target="_blank"
                   role="button"
@@ -519,7 +518,6 @@ export default {
   </div>
   <!-- end filterList -->
 
-  
   <!-- releative -->
   <div class="hotTopic relatedContainer container py-5 p-lg-8">
     <h3 class="fs-5 fw-bold mb-4">相關主題</h3>

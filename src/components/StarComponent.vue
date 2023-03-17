@@ -72,7 +72,7 @@
         </li>
       </ul>
 
-      <span class="fs-8 text-gray"> ( {{ commentSum }} )</span>
+      <span class="fs-8 text-secondary"> ( {{ commentSum }} )</span>
     </div>
   </div>
   <!-- end star -->
