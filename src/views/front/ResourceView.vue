@@ -1,6 +1,7 @@
 <template>
+  <loading-component :is-loading="isLoading" />
+
   <router-view @click="closeCollapse">
-    <loading-component :is-loading="isLoading" />
     <!-- banner  -->
     <div
       class="container-fluid py-5 p-lg-5 py-md-8 bg-darkTiffany d-none d-md-block"
@@ -1025,7 +1026,7 @@ export default {
   data() {
     return {
       isLoading: true,
-     
+
       // res data
       resourcesData: [], //所有
       relatedResData: [], //相關資源
@@ -1059,7 +1060,22 @@ export default {
     //   "resourcesObj",
     // ]),
   },
-  watch: {},
+  watch: {
+    resourcesData() {
+      console.log("theResourceData", this.theResourceData);
+      console.log("theResCommentsData", this.theResCommentsData);
+      console.log("relatedResData", this.relatedResData);
+      if (
+        this.theResourceData == undefined ||
+        this.theResCommentsData == undefined ||
+        (this.relatedResData && this.relatedResData.length < 0)
+      ) {
+        this.isLoading = true;
+      } else {
+        this.isLoading = false;
+      }
+    },
+  },
   methods: {
     // ...mapActions(resourcesStore, [
     //   "getResources",

@@ -86,7 +86,7 @@ export default {
               <ul class="navbar-nav d-lg-flex align-items-lg-center">
                 <li class="nav-item position-relative">
                   <a
-                    class="nav-link dropdown-toggle"
+                    class="nav-link dropdown-toggle text-black"
                     href="#"
                     id="resourceBrowse"
                     role="button"
@@ -138,12 +138,12 @@ export default {
                 </li>
 
                 <li class="nav-item">
-                  <a class="nav-link" href="#">探索學習路徑</a>
+                  <a class="nav-link text-black" href="#">探索學習路徑</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">募集中的資源</a>
+                  <a class="nav-link text-black" href="#">募集中的資源</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item text-black">
                   <div
                     class="bg-light input-group input-group-sm rounded-3 my-3"
                   >

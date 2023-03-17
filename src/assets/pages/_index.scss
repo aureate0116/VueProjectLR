@@ -1,7 +1,10 @@
 
 //1 banner
 .bannerBlock{
- 
+  .animate{
+    animation-iteration-count:2;
+    animation-delay:1s;
+  }
   img{
    display: none;
   }
@@ -42,7 +45,17 @@
     }
   }
 
-  @include media-breakpoint-up(lg) { 
+  @include media-breakpoint-up(sm) { 
+    .painpointRight{
+      width: 80%;
+      h3{
+        font-size: 30px;
+        text-align: left;
+      }
+    }
+    
+  }
+  @include media-breakpoint-up(md) { 
     .painpointRight{
       width: 50%;
       h3{
@@ -52,7 +65,6 @@
     }
     
   }
-
   //painpoint swiper 
   .swiper {
     width: 100%;
@@ -85,6 +97,9 @@
   font-size: 20px ;
   img{
     width: 30%;
+  }
+  .content:hover{
+    opacity: 0.7;
   }
 
   @include media-breakpoint-up(md) { 
@@ -128,9 +143,9 @@
 
 //freeResources
 .freeResources{
-  img{
-    width: 40%;
-  }
+  // img{
+  //   width: 40%;
+  // }
   @include media-breakpoint-up(md) { 
     img{
       width: 100%;

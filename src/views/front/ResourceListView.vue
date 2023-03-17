@@ -2,12 +2,13 @@
 import { mapState, mapActions } from "pinia";
 import resourcesStore from "../../stores/resourcesStore";
 import LoadingComponent from "@/components/LoadingComponent.vue";
+import StarComponent from "@/components/StarComponent.vue";
 
 export default {
   data() {
     return {
       isLoading: true,
-     
+
       topic: this.$route.params.resTopic,
       topicsResData: [], //保留該主題的資料
       foundationTabClassify: "初階",
@@ -59,36 +60,43 @@ export default {
       }
       this.filterResources();
     },
-    //resourcesData
-    topic(newVal) {
-      console.log(this.topic);
-      this.topic = newVal;
-      //this.getResources();
-
-      this.topicsResData = this.resourcesData.filter((value) => {
-        return (
-          value.topics.toLowerCase().replace(/[^a-zA-Z0-9]/g, "") ===
-          this.topic.toLowerCase().replace(/[^a-zA-Z0-9]/g, "")
-        );
-      });
-
-      this.foundationTabData = this.topicsResData
-        .filter((value) => {
-          return value.level === "初階 ";
-        })
-        .slice(0, 6);
-
-      this.renderList = [...this.topicsResData];
-      if (
-        this.renderList === undefined ||
-        this.foundationTabData === undefined
-      ) {
-        this.isLoading = true;
-      } else {
-        this.isLoading = false;
-      }
-      this.$router.push({ path: this.$route.path });
+    "$router.params": {
+      handler() {
+        this.topic = this.$route.params.resTopic;
+        this.getResources();
+        console.log("路由參數發生變化: ", this.$route.params.resTopic);
+      },
+      deep: true,
     },
+    //resourcesData
+    // topic(newVal) {
+    //   console.log(this.topic);
+    //   this.topic = newVal;
+
+    //   this.topicsResData = this.resourcesData.filter((value) => {
+    //     return (
+    //       value.topics.toLowerCase().replace(/[^a-zA-Z0-9]/g, "") ===
+    //       this.topic.toLowerCase().replace(/[^a-zA-Z0-9]/g, "")
+    //     );
+    //   });
+
+    //   this.foundationTabData = this.topicsResData
+    //     .filter((value) => {
+    //       return value.level === "初階 ";
+    //     })
+    //     .slice(0, 6);
+
+    //   this.renderList = [...this.topicsResData];
+    //   if (
+    //     this.renderList === undefined ||
+    //     this.foundationTabData === undefined
+    //   ) {
+    //     this.isLoading = true;
+    //   } else {
+    //     this.isLoading = false;
+    //   }
+    //   this.$router.push({ path: this.$route.path });
+    // },
     resourcesData(newValue) {
       this.topicsResData = newValue.filter((value) => {
         return (
@@ -211,6 +219,7 @@ export default {
   },
   components: {
     LoadingComponent,
+    StarComponent,
   },
   computed: {
     ...mapState(resourcesStore, [
@@ -232,15 +241,12 @@ export default {
         .slice(-6);
     },
   },
-  created() {
-   
-  },
+  created() {},
   mounted() {
     this.getResources();
     if (this.topic === null || this.topic === undefined) {
       this.$router.push("/");
     }
-   
 
     document.title = "Eng!neer 程式學習資源網" + this.topic;
   },
@@ -332,170 +338,11 @@ export default {
                       {{ resourceItem.title }}
                     </router-link>
                   </h4>
-                  <div
-                    class="d-flex justify-content-between align-items-center"
-                  >
-                    <div
-                      v-if="
-                        resourceItem.commentSum == 0 ||
-                        resourceItem.commentSum == undefined
-                      "
-                    >
-                      <span class="fs-8 text-gray">尚無評價</span>
-                    </div>
-                    <div v-else class="d-flex align-items-center">
-                      <!-- 評價沒有小數點後的值時 -->
-                      <span
-                        class="fs-7 fw-bold text-secondary"
-                        v-if="
-                          resourceItem.averageScore !== undefined &&
-                          resourceItem.commentSum !== 0
-                        "
-                      >
-                        <span
-                          v-if="
-                            isNaN(
-                              parseInt(
-                                resourceItem.averageScore.toString().charAt(2)
-                              )
-                            )
-                          "
-                          >{{ resourceItem.averageScore }}.0</span
-                        >
-                        <span v-else>{{ resourceItem.averageScore }}</span>
-                      </span>
 
-                      <ul class="d-flex mx-1 lh-1 text-secondary">
-                        <li>
-                          <span
-                            v-for="star in parseInt(
-                              resourceItem.averageScore.toString().charAt(0)
-                            )"
-                            :key="star + 1"
-                            class="material-icons material-icons-sharp fs-8"
-                            >star</span
-                          >
-                        </li>
-                        <li
-                          v-if="
-                            parseInt(
-                              resourceItem.averageScore.toString().charAt(2)
-                            ) <= 2 ||
-                            isNaN(
-                              parseInt(
-                                resourceItem.averageScore.toString().charAt(2)
-                              )
-                            ) ||
-                            typeof parseInt(
-                              resourceItem.averageScore.toString().charAt(2)
-                            ) === 'undefined'
-                          "
-                        >
-                          <span
-                            v-for="star in 5 -
-                            parseInt(
-                              resourceItem.averageScore.toString().charAt(0)
-                            )"
-                            :key="star"
-                            class="material-icons material-icons-sharp fs-8"
-                            >star_outline</span
-                          >
-                        </li>
-                        <!-- 3~7 -->
-                        <li
-                          v-else-if="
-                            parseInt(
-                              resourceItem.averageScore.toString().charAt(2)
-                            ) >= 3 &&
-                            parseInt(
-                              resourceItem.averageScore.toString().charAt(2)
-                            ) <= 7
-                          "
-                        >
-                          <span class="material-icons material-icons-sharp fs-8"
-                            >star_half</span
-                          >
-
-                          <span
-                            v-for="star in 5 -
-                            parseInt(
-                              resourceItem.averageScore.toString().charAt(0)
-                            ) -
-                            1"
-                            :key="star"
-                            class="material-icons material-icons-sharp fs-8"
-                            >star_outline</span
-                          >
-                        </li>
-                        <!-- >=8 -->
-                        <li
-                          v-else-if="
-                            parseInt(
-                              resourceItem.averageScore.toString().charAt(2)
-                            ) >= 8
-                          "
-                        >
-                          <span class="material-icons material-icons-sharp fs-8"
-                            >star</span
-                          >
-
-                          <span
-                            v-for="star in 5 -
-                            parseInt(
-                              resourceItem.averageScore.toString().charAt(0)
-                            ) -
-                            1"
-                            :key="star"
-                            class="material-icons material-icons-sharp fs-8"
-                            >star_half</span
-                          >
-                        </li>
-                      </ul>
-                      <!-- <ul class="d-flex mx-1 lh-1 text-secondary">
-                        <li>
-                          <span
-                            v-for="star in resourceItem.averageScore"
-                            :key="star + 1"
-                            class="material-icons material-icons-sharp fs-8"
-                            >star</span
-                          >
-                        </li>
-
-                        <li v-if="resourceItem.averageScore[2] <= 2">
-                          <span
-                            v-for="star in 5 - resourceItem.averageScore[0]"
-                            :key="star + 2"
-                            class="material-icons material-icons-sharp fs-8"
-                            >star_outline</span
-                          >
-                        </li>
-
-                        <li
-                          v-else-if="
-                            resourceItem.averageScore[2] >= 3 &&
-                            resourceItem.averageScore[2] <= 7
-                          "
-                        >
-                          <span class="material-icons material-icons-sharp fs-8"
-                            >star_half</span
-                          >
-                        </li>
-
-                        <li v-else-if="resourceItem.averageScore[2] >= 8">
-                          <span
-                            v-for="star in 5 - resourceItem.averageScore[0] - 1"
-                            :key="star + 3"
-                            class="material-icons material-icons-sharp fs-8"
-                            >star</span
-                          >
-                        </li>
-                      </ul> -->
-
-                      <span class="fs-8 text-secondary"
-                        >({{ resourceItem.commentSum }})</span
-                      >
-                    </div>
-                  </div>
+                  <star-component
+                    :commentSum="resourceItem.commentSum"
+                    :averageScore="resourceItem.averageScore"
+                  ></star-component>
                 </div>
               </div>
             </div>
@@ -507,48 +354,8 @@ export default {
   </div>
   <!-- end  foundation  -->
 
-  <!-- releative -->
-  <div class="hotTopic relatedContainer container py-5 p-lg-8 pt-lg-0">
-    <h3 class="fs-5 fw-bold mb-4">相關主題</h3>
-    <div class="row relatedTopic" v-if="topic === 'JavaScript'">
-      <div class="col">
-        <div class="topicItem text-center my-2 p-3 rounded-3">
-          <router-link to="/resource-list/HTML&CSS" target="_blank">
-            <h4 class="fw-bold">HTML/CSS</h4></router-link
-          >
-        </div>
-      </div>
-      <div class="col">
-        <div class="topicItem text-center my-2 p-3 rounded-3">
-          <router-link to="/resource-list/Python">
-            <h4 class="fw-bold">Python</h4></router-link
-          >
-        </div>
-      </div>
-    </div>
-    <div class="row relatedTopic" v-else-if="topic === 'HTML/CSS'">
-      <div class="col">
-        <div class="topicItem text-center my-2 p-3 rounded-3">
-          <router-link to="/resource-list/JavaScript" target="_blank">
-            <h4 class="fw-bold">JavaScript</h4></router-link
-          >
-        </div>
-      </div>
-    </div>
-    <div class="row relatedTopic" v-else>
-      <div class="col">
-        <div class="topicItem text-center my-2 p-3 rounded-3">
-          <router-link to="/resource-list/JavaScript" target="_blank">
-            <h4 class="fw-bold">JavaScript</h4></router-link
-          >
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- end releative -->
-
   <!-- filterList -->
-  <div class="filterList container py-5 p-lg-8 d-lg-flex border-top">
+  <div class="filterList container py-5 p-lg-8 pt-lg-4 d-lg-flex border-bottom">
     <h3 class="fs-5 fw-bold mb-4 d-lg-none">篩選</h3>
 
     <div
@@ -632,7 +439,7 @@ export default {
         </div>
         <div class="col resourceItem" v-else>
           <div
-            class="row my-3"
+            class="row my-3 d-flex align-items-center"
             v-for="resourceItem in renderList"
             :key="resourceItem.id"
           >
@@ -656,7 +463,7 @@ export default {
               </router-link>
             </div>
             <!-- 標題 + 星星 -->
-            <div class="col-6">
+            <div class="col-7">
               <h4 class="ellipsis fs-7">
                 <router-link
                   :to="`/resource/${resourceItem.id}`"
@@ -665,144 +472,19 @@ export default {
                   {{ resourceItem.title }}
                 </router-link>
               </h4>
-              <div class="d-flex justify-content-between align-items-center">
-                <div
-                  v-if="
-                    resourceItem.commentSum === 0 ||
-                    resourceItem.commentSum === undefined
-                  "
-                >
-                  <span class="fs-8 text-gray">尚無評價</span>
-                </div>
-                <div v-else class="d-flex align-items-center">
-                  <!-- 評價沒有小數點後的值時 -->
-                  <span
-                    class="fs-7 fw-bold text-secondary"
-                    v-if="
-                      resourceItem.averageScore !== undefined &&
-                      resourceItem.commentSum !== 0
-                    "
-                  >
-                    <span
-                      v-if="
-                        isNaN(
-                          parseInt(
-                            resourceItem.averageScore.toString().charAt(2)
-                          )
-                        )
-                      "
-                      >{{ resourceItem.averageScore }}.0</span
-                    >
-                    <span v-else>{{ resourceItem.averageScore }}</span>
-                  </span>
-                  <ul class="d-flex mx-1 lh-1 text-secondary">
-                    <li>
-                      <span
-                        v-for="star in parseInt(
-                          resourceItem.averageScore.toString().charAt(0)
-                        )"
-                        :key="star + 1"
-                        class="material-icons material-icons-sharp fs-8"
-                        >star</span
-                      >
-                    </li>
-                    <li
-                      v-if="
-                        parseInt(
-                          resourceItem.averageScore.toString().charAt(2)
-                        ) <= 2 ||
-                        isNaN(
-                          parseInt(
-                            resourceItem.averageScore.toString().charAt(2)
-                          )
-                        ) ||
-                        typeof parseInt(
-                          resourceItem.averageScore.toString().charAt(2)
-                        ) === 'undefined'
-                      "
-                    >
-                      <span
-                        v-for="star in 5 -
-                        parseInt(
-                          resourceItem.averageScore.toString().charAt(0)
-                        )"
-                        :key="star"
-                        class="material-icons material-icons-sharp fs-8"
-                        >star_outline</span
-                      >
-                    </li>
-                    <!-- 3~7 -->
-                    <li
-                      v-else-if="
-                        parseInt(
-                          resourceItem.averageScore.toString().charAt(2)
-                        ) >= 3 &&
-                        parseInt(
-                          resourceItem.averageScore.toString().charAt(2)
-                        ) <= 7
-                      "
-                    >
-                      <span class="material-icons material-icons-sharp fs-8"
-                        >star_half</span
-                      >
-
-                      <span
-                        v-for="star in 5 -
-                        parseInt(
-                          resourceItem.averageScore.toString().charAt(0)
-                        ) -
-                        1"
-                        :key="star"
-                        class="material-icons material-icons-sharp fs-8"
-                        >star_outline</span
-                      >
-                    </li>
-                    <!-- >=8 -->
-                    <li
-                      v-else-if="
-                        parseInt(
-                          resourceItem.averageScore.toString().charAt(2)
-                        ) >= 8
-                      "
-                    >
-                      <span class="material-icons material-icons-sharp fs-8"
-                        >star</span
-                      >
-
-                      <span
-                        v-for="star in 5 -
-                        parseInt(
-                          resourceItem.averageScore.toString().charAt(0)
-                        ) -
-                        1"
-                        :key="star"
-                        class="material-icons material-icons-sharp fs-8"
-                        >star_half</span
-                      >
-                    </li>
-                  </ul>
-
-                  <span class="fs-8 text-secondary"
-                    >({{ resourceItem.commentSum }})</span
-                  >
-                </div>
-              </div>
+              <star-component
+                :commentSum="resourceItem.commentSum"
+                :averageScore="resourceItem.averageScore"
+              ></star-component>
             </div>
-            <div class="col-4">
-              <div class="d-flex flex-column flex-lg-row align-items-end">
-                <a
-                  :href="resourceItem.url"
-                  target="_blank"
-                  type="button"
-                  class="btn btn-tiffany my-2 mx-2 w-75"
-                >
-                  前往資源
-                </a>
+            <div class="col-3">
+              <div class="d-flex">
+              
                 <router-link
                   target="_blank"
+                  role="button"
                   :to="`/resource/${resourceItem.id}`"
-                  type="button"
-                  class="btn btn-yellowBrown w-75 mx-2 my-2"
+                  class="btn btnHover btn-outline-primary w-100"
                 >
                   查看評論
                 </router-link>
@@ -836,4 +518,45 @@ export default {
     <!--resourceList-->
   </div>
   <!-- end filterList -->
+
+  
+  <!-- releative -->
+  <div class="hotTopic relatedContainer container py-5 p-lg-8">
+    <h3 class="fs-5 fw-bold mb-4">相關主題</h3>
+    <div class="row relatedTopic" v-if="topic === 'JavaScript'">
+      <div class="col">
+        <div class="topicItem text-center my-2 p-3 rounded-3">
+          <router-link to="/resource-list/HTML&CSS" target="_blank">
+            <h4 class="fw-bold">HTML/CSS</h4></router-link
+          >
+        </div>
+      </div>
+      <div class="col">
+        <div class="topicItem text-center my-2 p-3 rounded-3">
+          <router-link to="/resource-list/Python">
+            <h4 class="fw-bold">Python</h4></router-link
+          >
+        </div>
+      </div>
+    </div>
+    <div class="row relatedTopic" v-else-if="topic === 'HTML/CSS'">
+      <div class="col">
+        <div class="topicItem text-center my-2 p-3 rounded-3">
+          <router-link to="/resource-list/JavaScript" target="_blank">
+            <h4 class="fw-bold">JavaScript</h4></router-link
+          >
+        </div>
+      </div>
+    </div>
+    <div class="row relatedTopic" v-else>
+      <div class="col">
+        <div class="topicItem text-center my-2 p-3 rounded-3">
+          <router-link to="/resource-list/JavaScript" target="_blank">
+            <h4 class="fw-bold">JavaScript</h4></router-link
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end releative -->
 </template>

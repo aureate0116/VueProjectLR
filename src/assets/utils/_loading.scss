@@ -1,0 +1,61 @@
+@keyframes ldio-ojpnhm8nfj {
+    0% { transform: translate(12.059999999999999px,80.39999999999999px) scale(0); }
+   25% { transform: translate(12.059999999999999px,80.39999999999999px) scale(0); }
+   50% { transform: translate(12.059999999999999px,80.39999999999999px) scale(1); }
+   75% { transform: translate(80.39999999999999px,80.39999999999999px) scale(1); }
+  100% { transform: translate(148.73999999999998px,80.39999999999999px) scale(1); }
+ }
+ @keyframes ldio-ojpnhm8nfj-r {
+    0% { transform: translate(148.73999999999998px,80.39999999999999px) scale(1); }
+  100% { transform: translate(148.73999999999998px,80.39999999999999px) scale(0); }
+ }
+ @keyframes ldio-ojpnhm8nfj-c {
+    0% { background: #8ac7d0 }
+   25% { background: #fff }
+   50% { background: #f8b26a }
+   75% { background: #f8b436 }
+  100% { background: #4AA9B6 }
+ }
+ .ldio-ojpnhm8nfj div {
+   position: absolute;
+   width: 40.199999999999996px;
+   height: 40.199999999999996px;
+   border-radius: 50%;
+   transform: translate(80.39999999999999px,80.39999999999999px) scale(1);
+   background: #8ac7d0;
+   animation: ldio-ojpnhm8nfj 1.923076923076923s infinite cubic-bezier(0,0.5,0.5,1);
+ }
+ .ldio-ojpnhm8nfj div:nth-child(1) {
+   background: #f8b436;
+   transform: translate(148.73999999999998px,80.39999999999999px) scale(1);
+   animation: ldio-ojpnhm8nfj-r 0.4807692307692307s infinite cubic-bezier(0,0.5,0.5,1), ldio-ojpnhm8nfj-c 1.923076923076923s infinite step-start;
+ }.ldio-ojpnhm8nfj div:nth-child(2) {
+   animation-delay: -0.4807692307692307s;
+   background: #fff;
+ }.ldio-ojpnhm8nfj div:nth-child(3) {
+   animation-delay: -0.9615384615384615s;
+   background: #f8b436;
+ }.ldio-ojpnhm8nfj div:nth-child(4) {
+   animation-delay: -1.4423076923076923s;
+   background: #f8b26a;
+ }.ldio-ojpnhm8nfj div:nth-child(5) {
+   animation-delay: -1.923076923076923s;
+   background: #4AA9B6;
+ }
+ .loadingio-spinner-ellipsis-paeaz79wtuh {
+   width: 201px;
+   height: 201px;
+   display: inline-block;
+   overflow: hidden;
+   //background:#000;
+   //background: rgba(NaN, NaN, NaN, 0);
+ }
+ .ldio-ojpnhm8nfj {
+   width: 100%;
+   height: 100%;
+   position: relative;
+   transform: translateZ(0) scale(1);
+   backface-visibility: hidden;
+   transform-origin: 0 0; /* see note above */
+ }
+ .ldio-ojpnhm8nfj div { box-sizing: content-box; }

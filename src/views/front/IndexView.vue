@@ -1,6 +1,5 @@
 <template>
   <loading-component :is-loading="isLoading" />
-
   <!-- 1 bannerBlock -->
   <div class="container-fluid px-3 py-5 p-lg-0 bg-primary">
     <div
@@ -10,40 +9,40 @@
         <div class="text-white fs-2 d-flex flex-wrap align-items-center">
           <span>幫助想成為</span>
           <span id="bannerText" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner px-2 text-center">
+            <div class="carousel-inner px-1 text-center">
               <span
-                class="carousel-item active text-secondary"
+                class="carousel-item active text-primary bg-white rounded px-1"
                 data-bs-interval="3000"
               >
                 前端工程師
               </span>
               <span
-                class="carousel-item text-decoration-underline"
+                class="carousel-item bg-secondary rounded px-1"
                 data-bs-interval="3000"
               >
                 後端工程師
               </span>
               <span
-                class="carousel-item text-decoration-underline"
+                class="carousel-item bg-secondary rounded px-1"
                 data-bs-interval="3000"
               >
                 全端工程師
               </span>
               <span
-                class="carousel-item text-decoration-underline"
+                class="carousel-item bg-secondary rounded px-1"
                 data-bs-interval="3000"
               >
                 資料工程師
               </span>
-              <!-- <span class="carousel-item text-decoration-underline" data-bs-interval="3000"> 開發維運工程師 </span>
-                            <span class="carousel-item text-decoration-underline" data-bs-interval="3000"> 行動應用工程師 </span>
-                            <span class="carousel-item text-decoration-underline" data-bs-interval="3000"> 產品測試工程師 </span> -->
             </div>
           </span>
           <span>的你</span>
         </div>
-        <div class="text-white fs-2">
-          <p>輕鬆找到<span class="text-secondary"> 可靠的 </span>學習資源 !</p>
+        <div class="text-white fs-2 my-2">
+          <p>
+            輕鬆找到<span class="text-primary bg-white rounded"> 可靠的 </span
+            >學習資源 !
+          </p>
         </div>
 
         <!-- search -->
@@ -68,61 +67,60 @@
                 </ul> -->
       </div>
 
-      <img src="@/assets/images/banner01.png" alt="banner" />
+      <img
+        class="animate animate__animated animate__rubberBand"
+        src="@/assets/images/banner01.png"
+        alt="banner"
+      />
     </div>
   </div>
 
   <!-- 2 painpoint -->
   <div
-    class="painpoint container px-3 py-5 p-lg-8 d-flex align-items-center flex-column flex-md-row"
+    class="painpoint container px-3 py-5 p-lg-8 d-flex align-items-center flex-column flex-xl-row"
   >
-    <div class="me-md-4 me-0 text-center">
-      <img class="w-75" src="@/assets/images/banner02.png" alt="painpoint" />
-    </div>
-    <!-- <div
-      data-aos="zoom-in"
-      data-aos-duration="1000"
-      class="me-md-4 me-0 text-center"
-    >
-      <img width="70%" src="@/assets/images/banner02.png" alt="painpoint" />
-    </div> -->
-    <div class="painpointRight mt-5 mt-md-0">
-      <h3 class="fw-bold text-dark mb-6">
+    <div class="me-md-0 me-xl-5 text-xl-start text-center">
+      <!-- <img class="w-75" src="@/assets/images/banner02.png" alt="painpoint" /> -->
+      <h3 class="fw-bold text-primary mb-lg-6">
         找到具參考價值的學習資源前<br />往往需要經過一番 N 折?
       </h3>
+    </div>
+    <div class="painpointRight mt-3 ms-xl-8 text-xl-start text-lg-center">
+      <!-- <h3 class="fw-bold text-primary mb-6">
+        找到具參考價值的學習資源前<br />往往需要經過一番 N 折?
+      </h3> -->
 
       <swiper
-        :spaceBetween="10"
         :autoplay="{
           delay: 3000,
           disableOnInteraction: false,
         }"
         :thumbs="{ swiper: thumbsSwiper }"
         :modules="modules"
-        class="mySwiper2"
+        class="mySwiper2 mb-lg-5"
       >
         <swiper-slide>
-          <h4 class="fontTeko">Search</h4>
+          <h4 class="fontTeko fs-3">Search</h4>
           <p>
             「JS學習資源」、「JavaScript免費資源」、「前端開發推薦課程」...
             您是否總是要使用「各種」關鍵字搜尋才能找到適合自己的學習資源？
           </p>
         </swiper-slide>
         <swiper-slide>
-          <h4 class="fontTeko">Multiple Pagination</h4>
+          <h4 class="fontTeko fs-3">Multiple Pagination</h4>
           <p>
             搜尋後開啟各種分頁瀏覽，除了佔資源，還有很高機率開起釣魚網站，大幅提高瀏覽風險
           </p>
         </swiper-slide>
         <swiper-slide>
-          <h4 class="fontTeko">Reading & Filter</h4>
+          <h4 class="fontTeko fs-3">Reading & Filter</h4>
           <p>
             由於網路學習資源實在太多了，您需要花很多時間瀏覽、篩選網頁內容，您是否懷疑「怎麼知道這些教學正確、可被參考且適合自己」
             ?
           </p>
         </swiper-slide>
         <swiper-slide>
-          <h4 class="fontTeko">Collect & Finding</h4>
+          <h4 class="fontTeko fs-3">Collect & Finding</h4>
           <p>
             您可能會將篩選後的資源存在瀏覽器頁籤、某個數位筆記本或其他地方。但當時儲存資源的時候是否有好好分類呢
             ? 您是否還找的到當初存的資源嗎 ?
@@ -135,22 +133,21 @@
         :spaceBetween="10"
         :slidesPerView="4"
         :freeMode="true"
-        :watchSlidesProgress="true"
         :modules="modules"
         class="mySwiper"
       >
-        <swiper-slide class="text-center"
+        <swiper-slide class="text-center text-primary"
           ><img src="@/assets/images/icon_search.png" alt="search" />
-          <p>考驗聯想力</p></swiper-slide
-        ><swiper-slide class="text-center"
+          <p class="py-1">考驗聯想力</p></swiper-slide
+        ><swiper-slide class="text-center text-primary"
           ><img src="@/assets/images/icon_risk.png" alt="risk" />
-          <p>提高瀏覽風險</p></swiper-slide
-        ><swiper-slide class="text-center">
+          <p class="py-1">提高瀏覽風險</p></swiper-slide
+        ><swiper-slide class="text-center text-primary">
           <img src="@/assets/images/icon_time.png" alt="time" />
-          <p>考驗耐性與判斷力</p></swiper-slide
-        ><swiper-slide class="text-center">
+          <p class="py-1">考驗耐性與判斷力</p></swiper-slide
+        ><swiper-slide class="text-center text-primary">
           <img src="@/assets/images/icon_brain.png" alt="brain" />
-          <p>考驗記憶力</p></swiper-slide
+          <p class="py-1">考驗記憶力</p></swiper-slide
         >
       </swiper>
     </div>
@@ -163,11 +160,13 @@
         解決你搜尋學習資源的困擾
       </h3>
       <div class="row">
-        <div class="col-md-3">
+        <div
+          class="col-md-3"
+          data-aos="fade-right"
+          data-aos-duration="1000"
+          data-aos-easing="ease-in-sine"
+        >
           <div
-            data-aos="fade-right"
-            data-aos-duration="1000"
-            data-aos-easing="ease-in-sine"
             class="content text-center bg-white p-6 p-md-4 rounded-3 m-4 m-md-1"
           >
             <img src="@/assets/images/icon_file.png" alt="輕鬆查找" />
@@ -175,7 +174,8 @@
             <p>降低連到無關網頁機率<br />簡化你查找資源的時間</p>
           </div>
         </div>
-        <div data-aos="zoom-in-down" data-aos-duration="1000" class="col-md-3">
+
+        <div class="col-md-3" data-aos="zoom-in-down" data-aos-duration="1000">
           <div
             class="content text-center bg-white p-6 p-md-4 rounded-3 m-4 m-md-1"
           >
@@ -184,7 +184,8 @@
             <p>資源評價機制，讓你輕鬆判別該資源是否具參考價值</p>
           </div>
         </div>
-        <div data-aos="fade-down" data-aos-duration="1000" class="col-md-3">
+
+        <div class="col-md-3" data-aos="fade-down" data-aos-duration="1000">
           <div
             class="content text-center bg-white p-6 p-md-4 rounded-3 m-4 m-md-1"
           >
@@ -193,7 +194,7 @@
             <p>專屬的學習資源庫，簡化你的管理流程</p>
           </div>
         </div>
-        <div data-aos="fade-left" data-aos-duration="1000" class="col-md-3">
+        <div class="col-md-3" data-aos="fade-left" data-aos-duration="1000">
           <div
             class="content text-center bg-white p-6 p-md-4 rounded-3 m-4 m-md-1"
           >
@@ -208,13 +209,18 @@
   <!-- end 3 solution -->
 
   <!-- 4 goodRate 好評推薦 -->
-  <div class="goodRate container py-5 p-lg-8">
+  <div
+    class="goodRate container py-5 p-lg-8"
+    data-aos="fade-up"
+    data-aos-duration="1000"
+    data-aos-anchor-placement="center-bottom"
+  >
+    <h3 class="fw-bold text-dark text-center mb-4 mb-xl-0">好評推薦</h3>
     <ul
-      class="nav nav-pills mb-3 d-flex align-items-center"
+      class="nav nav-pills mb-1 d-flex align-items-center"
       id="pills-tab1"
       role="tablist"
     >
-      <li><h3 class="fs-5 mb-0 fw-bold me-4">好評推薦</h3></li>
       <li class="nav-item" role="presentation">
         <button
           class="nav-link"
@@ -243,7 +249,7 @@
           HTML/CSS
         </button>
       </li>
-      <li class="nav-item" role="presentation">
+      <li class="nav-item d-none d-sm-block" role="presentation">
         <button
           class="nav-link"
           :class="{ active: 'Python' === goodRateClassify }"
@@ -296,137 +302,18 @@
                 </div>
                 <div class="col-6">
                   <h4 class="ellipsis">
-                    <router-link :to="`/resource/${resourceItem.id}`">
+                    <router-link
+                      class="text-black"
+                      :to="`/resource/${resourceItem.id}`"
+                    >
                       {{ resourceItem.title }}
                     </router-link>
                   </h4>
-                  <div
-                    class="d-flex justify-content-between align-items-center"
-                  >
-                    <div
-                      v-if="
-                        resourceItem.commentSum === 0 ||
-                        resourceItem.commentSum === undefined
-                      "
-                    >
-                      <span class="fs-8 text-gray">尚無評價</span>
-                    </div>
-                    <div v-else class="d-flex align-items-center">
-                      <!-- 評價沒有小數點後的值時 -->
-                      <span
-                        class="fs-7 fw-bold text-secondary"
-                        v-if="
-                          resourceItem.averageScore !== undefined &&
-                          resourceItem.commentSum !== 0
-                        "
-                      >
-                        <span
-                          v-if="
-                            isNaN(
-                              parseInt(
-                                resourceItem.averageScore.toString().charAt(2)
-                              )
-                            )
-                          "
-                          >{{ resourceItem.averageScore }}.0</span
-                        >
-                        <span v-else>{{ resourceItem.averageScore }}</span>
-                      </span>
 
-                      <ul class="d-flex mx-1 lh-1 text-secondary">
-                        <li>
-                          <span
-                            v-for="star in parseInt(
-                              resourceItem.averageScore.toString().charAt(0)
-                            )"
-                            :key="star + 1"
-                            class="material-icons material-icons-sharp fs-8"
-                            >star</span
-                          >
-                        </li>
-
-                        <li
-                          v-if="
-                            parseInt(
-                              resourceItem.averageScore.toString().charAt(2)
-                            ) <= 2 ||
-                            isNaN(
-                              parseInt(
-                                resourceItem.averageScore.toString().charAt(2)
-                              )
-                            ) ||
-                            typeof parseInt(
-                              resourceItem.averageScore.toString().charAt(2)
-                            ) === 'undefined'
-                          "
-                        >
-                          <span
-                            v-for="star in 5 -
-                            parseInt(
-                              resourceItem.averageScore.toString().charAt(0)
-                            )"
-                            :key="star"
-                            class="material-icons material-icons-sharp fs-8"
-                            >star_outline</span
-                          >
-                        </li>
-
-                        <!-- 3~7 -->
-                        <li
-                          v-else-if="
-                            parseInt(
-                              resourceItem.averageScore.toString().charAt(2)
-                            ) >= 3 &&
-                            parseInt(
-                              resourceItem.averageScore.toString().charAt(2)
-                            ) <= 7
-                          "
-                        >
-                          <span class="material-icons material-icons-sharp fs-8"
-                            >star_half</span
-                          >
-
-                          <span
-                            v-for="star in 5 -
-                            parseInt(
-                              resourceItem.averageScore.toString().charAt(0)
-                            ) -
-                            1"
-                            :key="star"
-                            class="material-icons material-icons-sharp fs-8"
-                            >star_outline</span
-                          >
-                        </li>
-
-                        <li
-                          v-else-if="
-                            parseInt(
-                              resourceItem.averageScore.toString().charAt(2)
-                            ) >= 8
-                          "
-                        >
-                          <span class="material-icons material-icons-sharp fs-8"
-                            >star</span
-                          >
-
-                          <span
-                            v-for="star in 5 -
-                            parseInt(
-                              resourceItem.averageScore.toString().charAt(0)
-                            ) -
-                            1"
-                            :key="star"
-                            class="material-icons material-icons-sharp fs-8"
-                            >star_half</span
-                          >
-                        </li>
-                      </ul>
-
-                      <span class="fs-8 text-secondary"
-                        >({{ resourceItem.commentSum }})</span
-                      >
-                    </div>
-                  </div>
+                  <star-component
+                    :commentSum="resourceItem.commentSum"
+                    :averageScore="resourceItem.averageScore"
+                  ></star-component>
                 </div>
               </div>
             </div>
@@ -438,13 +325,18 @@
   <!-- end 4 goodRate-->
 
   <!-- 5 freeResources 免費資源 -->
-  <div class="freeResources container py-5 p-lg-8 pt-lg-0">
+  <div
+    class="freeResources container py-5 p-lg-8 pt-lg-0"
+    data-aos="fade-up"
+    data-aos-duration="1000"
+    data-aos-anchor-placement="center-bottom"
+  >
+    <h3 class="fw-bold text-dark text-center mb-4 mb-xl-0">免費資源</h3>
     <ul
-      class="nav nav-pills mb-3 d-flex align-items-center"
+      class="nav nav-pills mb-1 d-flex align-items-center"
       id="pills-tab"
       role="tablist"
     >
-      <li><h3 class="fs-5 mb-0 fw-bold me-4">最新免費資源</h3></li>
       <li class="nav-item" role="presentation">
         <button
           class="nav-link"
@@ -519,14 +411,14 @@
                   >
                     <span class="fs-8 text-gray">尚無評價</span>
                   </div>
-                  <div v-else class="d-flex align-items-center">
+                  <div v-else class="d-flex align-items-center flex-wrap">
                     <!-- <span class="fs-7 fw-bold me-lg-2 text-secondary">{{
                       resourceItem.averageScore
                     }}</span> -->
 
                     <!-- 評價沒有小數點後的值時 -->
                     <span
-                      class="fs-7 fw-bold text-secondary"
+                      class="fs-7 fw-bold text-secondary me-1"
                       v-if="
                         resourceItem.averageScore !== undefined &&
                         resourceItem.commentSum !== 0
@@ -545,7 +437,7 @@
                       <span v-else>{{ resourceItem.averageScore }}</span>
                     </span>
 
-                    <ul class="d-flex mx-1 lh-1 text-secondary">
+                    <ul class="d-flex lh-1 text-secondary">
                       <li>
                         <span
                           v-for="star in parseInt(
@@ -647,8 +539,13 @@
   <!-- end 5 freeResources  -->
 
   <!-- hotTopic -->
-  <div class="hotTopic container py-5 p-lg-8 pt-lg-0">
-    <h3 class="fs-5 fw-bold mb-4">熱門主題</h3>
+  <div
+    class="hotTopic container py-5 p-lg-8 pt-lg-0"
+    data-aos="fade-up"
+    data-aos-duration="1500"
+    data-aos-anchor-placement="center-bottom"
+  >
+    <h3 class="fw-bold text-dark text-center mb-4">熱門主題</h3>
     <div class="row">
       <div class="col-md-4">
         <div class="topicItem text-center my-2 p-4 rounded-3">
@@ -680,9 +577,14 @@
 import { mapState, mapActions } from "pinia";
 import resourcesStore from "../../stores/resourcesStore";
 import LoadingComponent from "@/components/LoadingComponent.vue";
+import StarComponent from "@/components/StarComponent.vue";
 
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Autoplay, Navigation, Thumbs } from "swiper";
+
+import AOS from "aos";
+import "aos/dist/aos.css";
+import "animate.css";
 
 // Import Swiper styles
 import "swiper/css";
@@ -731,6 +633,7 @@ export default {
     LoadingComponent,
     Swiper,
     SwiperSlide,
+    StarComponent,
   },
   computed: {
     ...mapState(resourcesStore, [
@@ -754,6 +657,7 @@ export default {
     },
   },
   mounted() {
+    AOS.init();
     this.getResources();
     this.goodRateTabData = this.resourcesData
       .filter((value) => {
