@@ -48,6 +48,7 @@
                 <star-component
                   :commentSum="resourceItem.commentSum"
                   :averageScore="resourceItem.averageScore"
+                 
                 ></star-component>
               </div>
             </div>
@@ -65,6 +66,7 @@
             <star-component
               :commentSum="theResourceData.commentSum"
               :averageScore="theResourceData.averageScore"
+              color="#ffde7d"
             ></star-component>
 
             <div class="classify fs-7">
@@ -245,9 +247,9 @@
               class="col mb-3"
               style="z-index: 10"
             >
-              <div class="card card-body" style="z-index: 10">
+              <div class="card card-body position-relative" style="z-index: 10">
                 <div
-                  class="d-flex p-lg-3 align-items-lg-center flex-column flex-lg-row justify-content-between"
+                  class="d-flex align-items-lg-center flex-column flex-lg-row justify-content-between"
                 >
                   <h3
                     class="card-title fs-7 d-flex align-items-center justify-content-lg-start justify-content-between"
@@ -292,12 +294,16 @@
                 </div>
 
                 <div class="d-flex flex-column">
-                  <div class="form-floating my-3">
+                  <div class="form-floating mt-2 mb-4">
                     <p>{{ comment.content }}</p>
                   </div>
                 </div>
 
-                <div class="d-flex justify-content-between fs-8">
+                <!-- bottom -->
+
+                <div
+                  class="d-flex justify-content-between fs-8 position-absolute bottom-0 mb-2"
+                >
                   <!-- 按讚數 -->
                   <div class="d-flex align-items-center">
                     <a href="#"
@@ -314,7 +320,7 @@
                     ><span class="mx-2">{{ comment.dislikeNum }}</span>
                   </div>
 
-                  <div class="position-relatvie">
+                  <div>
                     <a
                       class="d-flex align-items-center"
                       data-bs-toggle="collapse"
@@ -376,6 +382,7 @@
                     </div>
                   </div>
                 </div>
+                <!-- bottom -->
               </div>
               <!--end card-->
             </div>

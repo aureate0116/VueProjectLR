@@ -6,19 +6,20 @@
     </div>
     <div v-else class="d-flex align-items-center flex-wrap">
       <!-- 評價沒有小數點後的值時 -->
-      <span
+      <span 
         class="fs-7 fw-bold text-secondary me-1"
         v-if="averageScore !== undefined && commentSum !== 0"
       >
-        <span v-if="isNaN(parseInt(averageScore.toString().charAt(2)))"
+        <span :style="{ color: color }" v-if="isNaN(parseInt(averageScore.toString().charAt(2)))"
           >{{ averageScore }}.0</span
         >
-        <span v-else>{{ averageScore }}</span>
+        <span :style="{ color: color }" v-else>{{ averageScore }}</span>
       </span>
 
-      <ul class="d-flex lh-1 text-secondary">
+      <ul class="d-flex lh-1">
         <li>
           <span
+            :style="{ color: color }"
             v-for="star in parseInt(averageScore.toString().charAt(0))"
             :key="star + 1"
             class="material-icons material-icons-sharp fs-8"
@@ -34,6 +35,7 @@
           "
         >
           <span
+            :style="{ color: color }"
             v-for="star in 5 - parseInt(averageScore.toString().charAt(0))"
             :key="star"
             class="material-icons material-icons-sharp fs-8"
@@ -48,11 +50,14 @@
             parseInt(averageScore.toString().charAt(2)) <= 7
           "
         >
-          <span class="material-icons material-icons-sharp fs-8"
+          <span
+            :style="{ color: color }"
+            class="material-icons material-icons-sharp fs-8"
             >star_half</span
           >
 
           <span
+            :style="{ color: color }"
             v-for="star in 5 - parseInt(averageScore.toString().charAt(0)) - 1"
             :key="star"
             class="material-icons material-icons-sharp fs-8"
@@ -61,9 +66,14 @@
         </li>
 
         <li v-else-if="parseInt(averageScore.toString().charAt(2)) >= 8">
-          <span class="material-icons material-icons-sharp fs-8">star</span>
+          <span
+            :style="{ color: color }"
+            class="material-icons material-icons-sharp fs-8"
+            >star</span
+          >
 
           <span
+            :style="{ color: color }"
             v-for="star in 5 - parseInt(averageScore.toString().charAt(0)) - 1"
             :key="star"
             class="material-icons material-icons-sharp fs-8"
@@ -72,7 +82,9 @@
         </li>
       </ul>
 
-      <span class="fs-8 text-secondary"> ( {{ commentSum }} )</span>
+      <span :style="{ color: color }" class="fs-8">
+        ( {{ commentSum }} )</span
+      >
     </div>
   </div>
   <!-- end star -->
@@ -88,6 +100,10 @@ export default {
     averageScore: {
       type: Number,
       required: true,
+    },
+    color: {
+      type: String,
+      default: "#c2873a",
     },
   },
 };
