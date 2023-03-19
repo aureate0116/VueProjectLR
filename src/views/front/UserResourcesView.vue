@@ -2,6 +2,8 @@
 const { VITE_API_PATH } = import.meta.env;
 
 import LoadingComponent from "@/components/LoadingComponent.vue";
+import StarComponent from "@/components/StarComponent.vue";
+
 import Swal from "sweetalert2";
 
 // import { mapState } from "pinia";
@@ -12,7 +14,7 @@ export default {
     return {
       isLoading: false,
       //userId: this.$route.query.userid,
-      routerUserId: this.$route.params.userid,
+      routerUserId: this.$route.params.userAccountId,
       userInfo: null,
       userId: localStorage.getItem("userId"),
       accessToken: localStorage.getItem("accessToken"),
@@ -21,6 +23,7 @@ export default {
   },
   components: {
     LoadingComponent,
+    StarComponent,
   },
   computed: {},
   methods: {
@@ -160,8 +163,8 @@ export default {
         <div class="col-2 col-md-1 d-flex justify-content-center">置頂</div>
         <div class="col-1 d-none d-md-block"></div>
         <!--圖片-->
-        <div class="col-xl-4 col-4 col-md-5 text-center">資源項目</div>
-        <div class="col-xl-4 col-6 col-md-5 text-center">操作</div>
+        <div class="col-4 col-xl-4 col-md-5 text-center">資源項目</div>
+        <div class="col-6 col-xl-4 col-md-5 text-center">操作</div>
         <div class="col-1 d-none d-xl-block"></div>
       </div>
 
@@ -172,16 +175,17 @@ export default {
             :key="resourceItem.resourceId"
             class="row my-3 d-flex align-items-center itemRow"
           >
-            <div class="col-1 d-flex justify-content-center">
-              <span class="material-icons-outlined fs-7 text-yellowBrown"
+            <div class="col-1 d-none d-xl-block"></div>
+            <div class="col-2 col-md-1 d-flex justify-content-center">
+              <span class="material-icons-outlined fs-7 text-seondary"
                 >push_pin</span
               >
               <!-- <span class="material-icons">push_pin</span> -->
             </div>
 
             <div
-              v-if="resourceItem.resource.imgUrl != ''"
               class="col-1 d-none d-md-block"
+              v-if="resourceItem.resource.imgUrl != ''"
             >
               <router-link
                 :to="`/resource/${resourceItem.resource.id}`"
@@ -210,169 +214,51 @@ export default {
             <div class="col-xl-4 col-4 col-md-5">
               <h4 class="fs-7">
                 <router-link
+                  class="text-dark"
                   :to="`/resource/${resourceItem.resource.id}`"
                   target="_blank"
                 >
                   {{ resourceItem.resource.title }}
                 </router-link>
               </h4>
-              <div
-                v-if="
-                  resourceItem.resource.commentSum === 0 ||
-                  resourceItem.resource.commentSum === undefined
-                "
-                class="d-flex flex-wrap align-items-center"
-              >
-                <span class="fs-8 fw-bold text-gray me-lg-2">尚無評論</span>
-              </div>
-              <div v-else class="d-flex flex-wrap align-items-center">
-                <!-- 評價沒有小數點後的值時 -->
-                <span
-                  class="fs-7 fw-bold text-secondary"
-                  v-if="
-                    resourceItem.resource.averageScore !== undefined &&
-                    resourceItem.resource.commentSum !== 0
-                  "
-                >
-                  <span
-                    v-if="
-                      isNaN(
-                        parseInt(
-                          resourceItem.resource.averageScore
-                            .toString()
-                            .charAt(2)
-                        )
-                      )
-                    "
-                    >{{ resourceItem.resource.averageScore }}.0</span
-                  >
-                  <span v-else>{{ resourceItem.resource.averageScore }}</span>
-                </span>
 
-                <ul class="d-flex mx-1 lh-1 text-secondary">
-                  <li>
-                    <span
-                      v-for="star in parseInt(
-                        resourceItem.resource.averageScore.toString().charAt(0)
-                      )"
-                      :key="star + 1"
-                      class="material-icons material-icons-sharp fs-8"
-                      >star</span
-                    >
-                  </li>
-                  <li
-                    v-if="
-                      parseInt(
-                        resourceItem.resource.averageScore.toString().charAt(2)
-                      ) <= 2 ||
-                      isNaN(
-                        parseInt(
-                          resourceItem.resource.averageScore
-                            .toString()
-                            .charAt(2)
-                        )
-                      ) ||
-                      typeof parseInt(
-                        resourceItem.resource.averageScore.toString().charAt(2)
-                      ) === 'undefined'
-                    "
-                  >
-                    <span
-                      v-for="star in 5 -
-                      parseInt(
-                        resourceItem.resource.averageScore.toString().charAt(0)
-                      )"
-                      :key="star"
-                      class="material-icons material-icons-sharp fs-8"
-                      >star_outline</span
-                    >
-                  </li>
-                  <!-- 3~7 -->
-                  <li
-                    v-else-if="
-                      parseInt(
-                        resourceItem.resource.averageScore.toString().charAt(2)
-                      ) >= 3 &&
-                      parseInt(
-                        resourceItem.resource.averageScore.toString().charAt(2)
-                      ) <= 7
-                    "
-                  >
-                    <span class="material-icons material-icons-sharp fs-8"
-                      >star_half</span
-                    >
-
-                    <span
-                      v-for="star in 5 -
-                      parseInt(
-                        resourceItem.resource.averageScore.toString().charAt(0)
-                      ) -
-                      1"
-                      :key="star"
-                      class="material-icons material-icons-sharp fs-8"
-                      >star_outline</span
-                    >
-                  </li>
-                  <!-- >=8 -->
-                  <li
-                    v-else-if="
-                      parseInt(
-                        resourceItem.resource.averageScore.toString().charAt(2)
-                      ) >= 8
-                    "
-                  >
-                    <span class="material-icons material-icons-sharp fs-8"
-                      >star</span
-                    >
-
-                    <span
-                      v-for="star in 5 -
-                      parseInt(
-                        resourceItem.resource.averageScore.toString().charAt(0)
-                      ) -
-                      1"
-                      :key="star"
-                      class="material-icons material-icons-sharp fs-8"
-                      >star_half</span
-                    >
-                  </li>
-                </ul>
-                <span class="fs-8 text-secondary"
-                  >({{ resourceItem.resource.commentSum }})</span
-                >
-              </div>
+              <star-component
+                :commentSum="resourceItem?.resource.commentSum"
+                :averageScore="resourceItem?.resource.averageScore.toString()"
+              ></star-component>
             </div>
+            <!-- 操作 -->
             <div class="col-xl-4 col-6 col-md-5">
               <div
-                class="d-flex align-items-center justify-content-center flex-wrap"
+                class="d-flex align-items-center justify-content-center flex-column flex-md-row"
               >
-                <a
-                  :href="resourceItem.resource.url"
-                  target="_blank"
-                  type="button"
-                  class="btn btn-tiffany my-2 mx-1"
-                  >開啟資源網站</a
-                >
                 <router-link
-                  class="btn btn-yellowBrown my-2 mx-1"
+                  class="btn btnHover btn-outline-primary my-lg-2 mx-lg-1"
                   type="button"
                   :to="`/resource/${resourceItem.resource.id}`"
                   >查看評論</router-link
                 >
 
-                <div>
-                  <a
-                    role="button"
-                    @click="removeResourceItem(resourceItem.id)"
-                    class="btn my-2 mx-1 text-yellowBrown"
-                  >
-                    <span class="fs-6 material-icons btnRemove"
-                      >bookmark_remove</span
-                    ></a
-                  >
-                </div>
+                <a
+                  :href="resourceItem.resource.url"
+                  target="_blank"
+                  type="button"
+                  class="btn btnHover btn-outline-secondary my-2 mx-1"
+                  >資源網站</a
+                >
+
+                <a
+                  role="button"
+                  @click="removeResourceItem(resourceItem.id)"
+                  class="btn my-2 mx-1 text-secondary"
+                >
+                  <span class="fs-6 material-icons btnRemove"
+                    >bookmark_remove</span
+                  ></a
+                >
               </div>
             </div>
+            <div class="col-1 d-none d-xl-block"></div>
           </div>
           <!--end row-->
         </div>

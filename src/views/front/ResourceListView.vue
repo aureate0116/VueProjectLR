@@ -29,29 +29,32 @@ export default {
     };
   },
   watch: {
-    "checkObj.type": function (newVal) {
-      console.log("newVal", newVal);
-      this.filterResources();
-      console.log("renderList", this.renderList);
+    "$route.params": {
+      handler() {
+        this.topic = this.$route.params.resTopic;
+        this.getResources();
+        //console.log("路由參數發生變化: ", this.$route.params.resTopic);
+      },
+      deep: true,
     },
-    "checkObj.level": function (newVal) {
-      console.log("newVal", newVal);
-      this.filterResources();
-      // console.log(await this.filterResources());
-      console.log("renderList", this.renderList);
+    checkObj: {
+      handler() {
+        this.filterResources();
+      },
+      deep: true,
     },
-    "checkObj.price": function (newVal) {
-      console.log("newVal", newVal);
-      this.filterResources();
-      // console.log(await this.filterResources());
-      console.log("renderList", this.renderList);
-    },
-    "checkObj.lang": function (newVal) {
-      console.log("newVal", newVal);
-      this.filterResources();
-      // console.log(await this.filterResources());
-      console.log("renderList", this.renderList);
-    },
+    // "checkObj.type": function (newVal) {
+    //   this.filterResources();
+    // },
+    // "checkObj.level": function (newVal) {
+    //   this.filterResources();
+    // },
+    // "checkObj.price": function (newVal) {
+    //   this.filterResources();
+    // },
+    // "checkObj.lang": function (newVal) {
+    //   this.filterResources();
+    // },
     sortRenderList(newValue) {
       if (newValue === "new") {
         this.sortRenderList = "new";
@@ -60,44 +63,8 @@ export default {
       }
       this.filterResources();
     },
-    "$router.params": {
-      handler() {
-        this.topic = this.$route.params.resTopic;
-        this.getResources();
-        console.log("路由參數發生變化: ", this.$route.params.resTopic);
-      },
-      deep: true,
-    },
-    //resourcesData
-    // topic(newVal) {
-    //   console.log(this.topic);
-    //   this.topic = newVal;
-
-    //   this.topicsResData = this.resourcesData.filter((value) => {
-    //     return (
-    //       value.topics.toLowerCase().replace(/[^a-zA-Z0-9]/g, "") ===
-    //       this.topic.toLowerCase().replace(/[^a-zA-Z0-9]/g, "")
-    //     );
-    //   });
-
-    //   this.foundationTabData = this.topicsResData
-    //     .filter((value) => {
-    //       return value.level === "初階 ";
-    //     })
-    //     .slice(0, 6);
-
-    //   this.renderList = [...this.topicsResData];
-    //   if (
-    //     this.renderList === undefined ||
-    //     this.foundationTabData === undefined
-    //   ) {
-    //     this.isLoading = true;
-    //   } else {
-    //     this.isLoading = false;
-    //   }
-    //   this.$router.push({ path: this.$route.path });
-    // },
     resourcesData(newValue) {
+      this.clearFilter();
       this.topicsResData = newValue.filter((value) => {
         return (
           value.topics.toLowerCase().replace(/[^a-zA-Z0-9]/g, "") ===
@@ -121,56 +88,18 @@ export default {
         this.isLoading = false;
       }
     },
-    // topic(newValue, oldValue) {
-    //   if (newValue !== oldValue) {
-    //     this.getResources();
-    //     console.log(this.topic);
-    //     this.updateData(newValue);
-    //   }
-    // },
-    // resourcesData(newValue) {
-    //   this.updateData(newValue);
-    // },
   },
   methods: {
     ...mapActions(resourcesStore, [
       "getResources",
       "getComments",
       "getAverageScore",
-      //"getfoundationTabData",
     ]),
-    // updateData() {
-    //   this.topicsResData = this.resourcesData.filter((value) => {
-    //     return (
-    //       value.topics.toLowerCase().replace(/[^a-zA-Z0-9]/g, "") ===
-    //       this.topic.toLowerCase().replace(/[^a-zA-Z0-9]/g, "")
-    //     );
-    //   });
 
-    //   this.foundationTabData = this.topicsResData
-    //     .filter((value) => {
-    //       return value.level === "初階 ";
-    //     })
-    //     .slice(0, 6);
-
-    //   this.renderList = [...this.topicsResData];
-    //   if (
-    //     this.renderList === undefined ||
-    //     this.foundationTabData === undefined
-    //   ) {
-    //     this.isLoading = true;
-    //   } else {
-    //     this.isLoading = false;
-    //   }
-    // },
     changeTabData(item) {
       this.foundationTabClassify = item;
     },
     filterResources() {
-      // console.log("filterResources is called");
-      // console.log(this.checkObj);
-      // console.log(typeof this.topicsResData, this.topicsResData);
-
       this.renderList = this.topicsResData.filter((resItem) => {
         let hasType = true;
         let hasLevel = true;
@@ -188,7 +117,7 @@ export default {
         }
 
         checkLang = resItem.lang.some((str) => {
-          console.log(str);
+          // console.log(str);
           if (this.checkObj.lang.length === 0) {
             return true;
           }
@@ -332,6 +261,7 @@ export default {
                 <div class="col-6">
                   <h4 class="ellipsis fs-7">
                     <router-link
+                      class="text-dark"
                       :to="`/resource/${resourceItem.id}`"
                       target="_blank"
                     >
@@ -340,8 +270,8 @@ export default {
                   </h4>
 
                   <star-component
-                    :commentSum="resourceItem.commentSum"
-                    :averageScore="resourceItem.averageScore"
+                    :commentSum="resourceItem?.commentSum"
+                    :averageScore="resourceItem?.averageScore.toString()"
                   ></star-component>
                 </div>
               </div>
@@ -466,16 +396,18 @@ export default {
             <div class="col-7">
               <h4 class="ellipsis fs-7">
                 <router-link
+                  class="text-dark"
                   :to="`/resource/${resourceItem.id}`"
                   target="_blank"
                 >
                   {{ resourceItem.title }}
                 </router-link>
               </h4>
+             
               <star-component
-                :commentSum="resourceItem.commentSum"
-                :averageScore="resourceItem.averageScore"
-              ></star-component>
+                    :commentSum="resourceItem?.commentSum"
+                    :averageScore="resourceItem?.averageScore.toString()"
+                  ></star-component>
             </div>
             <div class="col-3">
               <div class="d-flex">

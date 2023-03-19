@@ -10,24 +10,62 @@
     </div>
 
     <div
-      class="resourceContent container d-flex flex-lg-row flex-column-reverse flex-column mb-7"
+      class="resourceContent container d-md-flex flex-md-row flex-column-reverse mb-7"
     >
-      <div class="rightInfo mt-5 mt-lg-0">
+      <div class="leftRelated">
+        <div class="imageNBrief rounded-3 border p-3 bg-white">
+          <img
+            class="d-md-block"
+            :src="`/VueProjectLR/images/resources_cover/${theResourceData.imgUrl}`"
+            :alt="theResourceData.title"
+          />
+          <div class="mt-md-4 text-dark">
+            {{ theResourceData.intro }}
+          </div>
+        </div>
+
+        <!--related item-->
+        <div class="mt-7 d-none d-md-block py-6">
+          <h3
+            v-if="relatedResData.length != 0"
+            class="fs-5 fw-bold text-dark relatedTitle"
+          >
+            相關資源
+          </h3>
+          <div class="relatedResource">
+            <div
+              class="my-4"
+              v-for="resourceItem in relatedResData"
+              :key="resourceItem.id"
+            >
+              <div>
+                <h4 class="fs-7 mb-0">
+                  <router-link :to="`/resource/${resourceItem.id}`">
+                    {{ resourceItem.title }}
+                  </router-link>
+                </h4>
+
+                <star-component
+                  :commentSum="resourceItem.commentSum"
+                  :averageScore="resourceItem.averageScore"           
+                ></star-component>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--end leftRelated-->
+
+      <div class="rightInfo">
         <div class="d-flex align-items-center flex-md-row flex-column">
           <div class="titleBox">
             <h2 class="fs-5 fw-bold mt-md-0 mt-3">
               {{ theResourceData.title }}
             </h2>
-            <!-- <star-component
+            <star-component
               :commentSum="theResourceData.commentSum"
               :averageScore="theResourceData.averageScore"
               color="#ffde7d"
-            ></star-component> -->
-
-            <star-component
-              :commentSum="theResourceData?.commentSum"
-              :averageScore="theResourceData?.averageScore?.toString()"
-              color="#FAD816"
             ></star-component>
 
             <div class="classify fs-7">
@@ -58,13 +96,50 @@
               </ul>
             </div>
           </div>
+          <div class="btnBox d-flex flex-column justify-content-center">
+            <div class="btnResLink">
+              <a
+                :href="theResourceData.url"
+                type="button"
+                class="w-100 btn btn-sm btn- my-2 border border-2 bg-secondary text-white px-lg-4 py-2 fs-6"
+              >
+                前往資源網站
+              </a>
+            </div>
+            <div
+              class="d-flex justify-content-center flex-row flex-md-column flex-lg-row align-items-center"
+            >
+              <a
+                role="button"
+                class="btnBookmark d-flex align-items-center me-2"
+                @click.prevent="clickBookmark(theResourceData.id)"
+              >
+                <span v-if="bookmarkItem == undefined" class="d-flex me-2">
+                  <span class="material-icons">bookmark_border</span>
+                  <span>收藏</span></span
+                >
+                <span v-else class="d-flex me-2">
+                  <span class="material-icons text-yellowBrown">bookmark</span>
+                  <span class="text-yellowBrown">收藏</span>
+                </span>
+              </a>
+
+              <a href="#" role="button" class="d-flex align-items-center me-2">
+                <span class="material-icons material-icons-outlined"
+                  >feedback</span
+                >
+                <!-- <span class="material-icons">feedback</span> -->
+                <span>回報</span>
+              </a>
+            </div>
+          </div>
         </div>
 
         <!-- resourceComment -->
         <div class="resourceComment">
           <!--登入後顯示-->
           <div class="loginComment">
-            <!-- <button
+            <button
               class="btnComment btnHover btn btn-outline-primary w-100"
               data-bs-toggle="collapse"
               href="#collapseComment"
@@ -74,122 +149,9 @@
               @click="checkLoginComment"
             >
               立即評論
-            </button> -->
+            </button>
 
-            <!-- comment modal -->
             <div
-              v-if="isLogin"
-              ref="commentModal"
-              class="modal fade"
-              id="commentModal"
-              tabindex="-1"
-              role="dialog"
-              data-bs-backdrop="static"
-              data-bs-keyboard="false"
-              aria-labelledby="commentModalLabel"
-              aria-hidden="true"
-            >
-              <div class="modal-dialog modal-lg modal-dialog-centered">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="commentModalLabel">評論</h5>
-                    <button
-                      type="button"
-                      class="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    ></button>
-                  </div>
-                  <div class="modal-body">
-                    <div
-                      v-if="isLogin"
-                      class="commentContent border border-2 rounded-3 p-lg-4 my-2 p-2"
-                    >
-                      <div
-                        class="d-flex p-3 align-items-center justify-content-between"
-                      >
-                        <h3
-                          class="userInfo card-title fs-7 d-flex align-items-center"
-                        >
-                          <span
-                            class="userImg d-inline-block bg-primary px-2 py-2 rounded-circle fw-bold fs-7 lh-1 text-white text-center"
-                          >
-                            {{ userInfo?.firstName[0].toUpperCase() }}
-                          </span>
-                          <p class="mb-0 mx-2 text-start">
-                            {{ userInfo?.firstName }}<br />
-                            <span class="fs-9 text-gray">{{
-                              userInfo?.title
-                            }}</span>
-                          </p>
-                        </h3>
-                        <ul
-                          class="commentStar card-text d-flex align-items-center lh-1"
-                        >
-                          <li
-                            v-for="star in 5"
-                            :key="star"
-                            @click.prevent="rate(star)"
-                          >
-                            <a href="#" role="button" class="text-primary">
-                              <span
-                                v-if="star <= commentRating"
-                                class="material-icons material-icons-sharp"
-                                >star</span
-                              >
-                              <span
-                                v-else
-                                class="material-icons material-icons-sharp"
-                                >star_outline</span
-                              >
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                      <div class="d-flex flex-column">
-                        <div class="form-floating">
-                          <textarea
-                            class="form-control"
-                            placeholder=""
-                            id="commentTextarea"
-                            style="height: 100px"
-                            v-model="commentContent"
-                          ></textarea>
-                          <span
-                            v-if="
-                              commentContent.length < 20 &&
-                              commentContent.length > 0
-                            "
-                            class="message commentTextarea text-danger fs-8"
-                          >
-                            字數須超過20字
-                          </span>
-                          <span
-                            v-else-if="
-                              commentContent.length == 0 ||
-                              commentContent.length >= 20
-                            "
-                            class="message commentTextarea text-danger fs-8"
-                          ></span>
-                          <label for="commentTextarea">Comments</label>
-                        </div>
-                        <button
-                          role="button"
-                          class="btnCommentSubmit btn btn-primary text-white mt-4"
-                          @click="sendComment"
-                        >
-                          送出評論
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- end comment modal -->
-
-            <!-- 原本展開的用法 -->
-            <!-- <div
               v-if="isLogin"
               class="commentContent collapse border border-2 rounded-3 p-lg-4 my-2 p-2"
               id="collapseComment"
@@ -197,7 +159,7 @@
               <div
                 class="d-flex p-3 align-items-center justify-content-between"
               >
-               
+                <!--card card-body -->
                 <h3 class="userInfo card-title fs-7 d-flex align-items-center">
                   <span
                     class="userImg d-inline-block bg-primary px-2 py-2 rounded-circle fw-bold fs-7 lh-1 text-white text-center"
@@ -258,13 +220,12 @@
                   送出評論
                 </button>
               </div>
-            </div> -->
-            <!-- end 展開-->
+            </div>
           </div>
 
           <!--commentSort 排序-->
           <div class="row mt-5" v-if="theResCommentsData.length > 0">
-            <div class="col-9"></div>
+            <div class="col-10"></div>
             <div class="col input-group w-35 text-end mb-3">
               <select class="form-select form-select-sm" id="commentSort">
                 <option value="new">最新</option>
@@ -285,10 +246,7 @@
               class="col mb-3"
               style="z-index: 10"
             >
-              <div
-                class="card card-body position-relative text-dark"
-                style="z-index: 10"
-              >
+              <div class="card card-body position-relative" style="z-index: 10">
                 <div
                   class="d-flex align-items-lg-center flex-column flex-lg-row justify-content-between"
                 >
@@ -828,112 +786,6 @@
         <!--end resourceComment-->
       </div>
       <!--end rightInfo-->
-      <div class="leftRelated">
-        <div class="imageNBrief rounded-3 border p-3 p-md-4 bg-white">
-          <img
-            v-if="theResourceData.imgUrl != ''"
-            class="d-lg-block w-100"
-            :src="`/VueProjectLR/images/resources_cover/${theResourceData.imgUrl}`"
-            :alt="theResourceData.title"
-          />
-
-          <img
-            v-else
-            class="d-lg-block w-100"
-            :src="`/VueProjectLR/images/resources_cover/noimgCover.jpg`"
-            :alt="theResourceData.title"
-          />
-
-          <div class="btnBox w-100">
-            <div class="btnResLink mt-3">
-              <button
-                @click="checkLoginComment"
-                data-bs-toggle="modal"
-                role="button"
-                aria-expanded="false"
-                data-bs-target="#commentModal"
-                class="w-100 btn btn-sm my-2 bg-primary text-white px-lg-4 py-2 fs-6"
-              >
-                立即評論
-              </button>
-              <a
-                target="_blank"
-                type="button"
-                class="w-100 btn btn-sm my-2 bg-outline-primary border border-primary text-primary px-lg-4 py-2 fs-6"
-                @click="weblinkReminder"
-              >
-                資源網站
-              </a>
-            </div>
-            <div
-              class="d-flex justify-content-center flex-row flex--column flex-lg-row align-items-center"
-            >
-              <a
-                role="button"
-                class="btnBookmark d-flex align-items-center me-2"
-                @click.prevent="clickBookmark(theResourceData.id)"
-              >
-                <span
-                  v-if="bookmarkItem == undefined"
-                  class="d-flex text-dark me-2"
-                >
-                  <span class="material-icons">bookmark_border</span>
-                  <span>收藏</span></span
-                >
-                <span v-else class="d-flex me-2">
-                  <span class="material-icons text-primary">bookmark</span>
-                  <span class="text-primary">收藏</span>
-                </span>
-              </a>
-
-              <a href="#" role="button" class="d-flex align-items-center me-2">
-                <span class="text-dark material-icons material-icons-outlined"
-                  >feedback</span
-                >
-                <!-- <span class="material-icons">feedback</span> -->
-                <span class="text-dark">回報</span>
-              </a>
-            </div>
-          </div>
-          <div class="mt-md-4 text-dark">
-            {{ theResourceData.intro }}
-          </div>
-        </div>
-
-        <!--related item-->
-        <div class="mt-4 d-none d-lg-block py-6 d-sm-none">
-          <h3
-            v-if="relatedResData.length != 0"
-            class="fs-5 fw-bold text-dark relatedTitle"
-          >
-            相關資源
-          </h3>
-          <div class="relatedResource">
-            <div
-              class="my-4"
-              v-for="resourceItem in relatedResData"
-              :key="resourceItem.id"
-            >
-              <div>
-                <h4 class="fs-7 mb-0">
-                  <router-link
-                    class="text-dark"
-                    :to="`/resource/${resourceItem.id}`"
-                  >
-                    {{ resourceItem.title }}
-                  </router-link>
-                </h4>
-
-                <star-component
-                  :commentSum="resourceItem?.commentSum"
-                  :averageScore="resourceItem?.averageScore.toString()"
-                ></star-component>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!--end leftRelated-->
     </div>
   </router-view>
 </template>
@@ -990,20 +842,17 @@ export default {
     // ]),
   },
   watch: {
-    "$route.params": {
-      handler() {
-        this.theResourceId = this.$route.params.resourceId;
-        this.getTheResourceData();
-      },
-      deep: true,
-    },
-    theResourceData() {
+    resourcesData() {
+      console.log("theResourceData", this.theResourceData);
+      console.log("theResCommentsData", this.theResCommentsData);
+      console.log("relatedResData", this.relatedResData);
       if (
-        this.theResourceData !== undefined &&
-        this.theResCommentsData !== undefined &&
-        this.relatedResData &&
-        this.relatedResData.length > 0
+        this.theResourceData == undefined ||
+        this.theResCommentsData == undefined ||
+        (this.relatedResData && this.relatedResData.length < 0)
       ) {
+        this.isLoading = true;
+      } else {
         this.isLoading = false;
       }
     },
@@ -1020,7 +869,7 @@ export default {
         .get(`${VITE_API_PATH}/resources`)
         .then((res) => {
           this.resourcesData = res.data;
-          this.getTheResourceData();
+          this.getRelatedResData();
         })
         .catch(() => {
           //console.log(err);
@@ -1032,8 +881,8 @@ export default {
           `${VITE_API_PATH}/resources?id=${this.theResourceId}&&_expand=user`
         )
         .then((res) => {
+          //console.log(res.data);
           this.theResourceData = res.data[0];
-          this.getRelatedResData();
           this.getResCommentsData();
         })
         .catch(() => {
@@ -1052,17 +901,6 @@ export default {
         .catch(() => {
           //console.log(error);
         });
-    },
-    getRelatedResData() {
-      this.relatedResData = this.resourcesData
-        .filter((value) => {
-          return value.topics === this.theResourceData.topics;
-        })
-        // 比對出符合條件的值後，隨機產生5筆相關資源
-        .sort(() => 0.5 - Math.random())
-        .slice(0, 5);
-      // console.log("relatedResData", this.relatedResData);
-      // console.log("relatedResData length", this.relatedResData.length);
     },
     // getTheResAverScore() {
     //   //this.resourceScoreObj = {};
@@ -1138,6 +976,8 @@ export default {
       }
     },
     sendComment() {
+      //檢查留言字數
+      //檢查留言是否為空
       //檢查是否有評價
       if (this.commentRating == 0) {
         Swal.fire({
@@ -1148,7 +988,7 @@ export default {
           showConfirmButton: true,
         });
       }
-      //檢查留言是否為空
+
       if (this.commentContent == "") {
         Swal.fire({
           text: "請填寫評價內容",
@@ -1158,7 +998,7 @@ export default {
           showConfirmButton: true,
         });
       }
-      //檢查留言字數
+
       if (this.commentContent.length >= 20 && this.commentRating !== 0) {
         this.$http
           .post(
@@ -1188,20 +1028,18 @@ export default {
                 ).toFixed(1),
                 commentSum: this.theResourceData.commentSum + 1,
               })
-              .then(() => {
+              .then((res) => {
                 this.getResCommentsData();
                 this.getTheResourceData();
-                //console.log(res.data);
-                // this.commentContent = "";
-                // this.commentRating = 0;
+                console.log(res.data);
                 window.location.reload();
               })
-              .catch(() => {
-                //console.log(err);
+              .catch((err) => {
+                console.log(err);
               });
           })
-          .catch(() => {
-            //console.log(err);
+          .catch((err) => {
+            console.log(err);
           });
       } else {
         Swal.fire({
@@ -1212,6 +1050,17 @@ export default {
           showConfirmButton: true,
         });
       }
+    },
+    getRelatedResData() {
+      this.relatedResData = this.resourcesData
+        .filter((value) => {
+          return value.topics === this.theResourceData.topics;
+        })
+        // 比對出符合條件的值後，隨機產生5筆相關資源
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 5);
+      // console.log("relatedResData", this.relatedResData);
+      // console.log("relatedResData length", this.relatedResData.length);
     },
     // 取得這個用戶的收藏清單,取得 bookmarkItem
     getUserBookmarks() {
@@ -1232,23 +1081,6 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-    },
-    weblinkReminder() {
-      Swal.fire({
-        title: "即將前往外部網站",
-        text: "點擊「確定」將前往該網站，是否繼續？",
-        icon: "warning",
-        iconColor: "#4AA9B6",
-        showCancelButton: true,
-        confirmButtonColor: "#008C9E",
-        cancelButtonColor: "#FF8608",
-        confirmButtonText: "確定",
-        cancelButtonText: "取消",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          window.open(this.theResourceData.url, "_blank");
-        }
-      });
     },
     clickBookmark(itemId) {
       // 傳入 theResourceData.id
@@ -1298,7 +1130,7 @@ export default {
           Swal.fire({
             title: "您確定要取消收藏嗎?",
             icon: "warning",
-            iconColor: "#4AA9B6",
+            iconColor: "#F8B436",
             showCancelButton: true,
             confirmButtonColor: "#4AA9B6",
             cancelButtonColor: "#F8B436",
@@ -1339,6 +1171,7 @@ export default {
   created() {
     this.getResources();
     this.getUserData();
+    this.getTheResourceData();
     this.getUserBookmarks();
     if (this.userId) {
       this.isLogin = true;
@@ -1349,9 +1182,15 @@ export default {
       this.$router.push("/");
     }
     this.getResCommentsData();
-    document.title = "Eng!neer 程式學習資源網" + this.theResourceData.title;
-    //btn 關閉
-    //let commentModal = new bootstrap.Modal(document.getElementById("commentModal"));
+    if (
+      this.theResourceData === undefined ||
+      this.theResCommentsData === undefined ||
+      (this.relatedResData && this.relatedResData.length < 0)
+    ) {
+      this.isLoading = true;
+    } else {
+      this.isLoading = false;
+    }
   },
 };
 </script>

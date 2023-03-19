@@ -34,7 +34,6 @@ export default {
     class="bg-primary"
     v-model:active="localLoading"
     :can-cancel="true"
-    :on-cancel="onCancel"
     :is-full-page="fullPage"
   >
     <div class="loadingio-spinner-ellipsis-paeaz79wtuh">

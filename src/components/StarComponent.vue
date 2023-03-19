@@ -6,11 +6,13 @@
     </div>
     <div v-else class="d-flex align-items-center flex-wrap">
       <!-- 評價沒有小數點後的值時 -->
-      <span 
+      <span
         class="fs-7 fw-bold text-secondary me-1"
         v-if="averageScore !== undefined && commentSum !== 0"
       >
-        <span :style="{ color: color }" v-if="isNaN(parseInt(averageScore.toString().charAt(2)))"
+        <span
+          :style="{ color: color }"
+          v-if="isNaN(parseInt(averageScore.toString().charAt(2)))"
           >{{ averageScore }}.0</span
         >
         <span :style="{ color: color }" v-else>{{ averageScore }}</span>
@@ -82,9 +84,7 @@
         </li>
       </ul>
 
-      <span :style="{ color: color }" class="fs-8">
-        ( {{ commentSum }} )</span
-      >
+      <span :style="{ color: color }" class="fs-8"> ( {{ commentSum }} )</span>
     </div>
   </div>
   <!-- end star -->
@@ -98,12 +98,12 @@ export default {
       required: true,
     },
     averageScore: {
-      type: Number,
+      type: String,
       required: true,
     },
     color: {
       type: String,
-      default: "#c2873a",
+      default: "#FAA037", //"#c2873a",
     },
   },
 };

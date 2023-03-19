@@ -33,21 +33,21 @@ const router = createRouter({
           component: () => import("../views/front/UserHomeLayout.vue"),
           children: [
             {
-              path: "user-resources/:userid",
+              path: "user-resources/:userAccountId",
               component: () => import("../views/front/UserResourcesView.vue"),
             },
           ],
         },
         {
-          path: "user-info/:userId",
+          path: "user-info/:userAccountId",
           component: () => import("../views/front/UserInfoLayout.vue"),
           children: [
             {
-              path: "user-profile/:userId",
+              path: "user-profile/:userAccountId",
               component: () => import("../views/front/UserProfileView.vue"),
             },
             {
-              path: "user-account/:userId",
+              path: "user-account/:userAccountId",
               component: () => import("../views/front/UserAccount.vue"),
             },
           ],

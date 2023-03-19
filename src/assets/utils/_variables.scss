@@ -68,17 +68,17 @@ $colors: (
 
 // scss-docs-start theme-color-variables
 $primary:       #008c9e; // 4AA9B6//#1F3051; // $blue !default;
-$secondary:     #c2873a;// #d68100; //$gray-600 !default;  //F8B436
+$secondary:     #FF8608; //#A69308; //#A18F08; //#c2873a;// #d68100; //$gray-600 !default;  //F8B436
 $success:       $green !default;
-$info:          $cyan !default;
+$info:          #ED1885 ;//$cyan !default;
 $warning:       $yellow !default;
 $danger:        $red !default;
 $light:         $gray-200 !default;
 $dark:          $gray-700 !default;
 $gray :         $gray-500;
 $brown  : #AE9166;
-$yellowBrown : #ffde7d; // #DCC378;
-$tiffany : #8AC7D0;
+$yellowBrown : #FAD816;//#EDD418; // #DCC378;
+$tiffany : #00D1ED; //#8AC7D0;
 $darkTiffany : #006C7B;
 
 

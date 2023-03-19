@@ -303,7 +303,7 @@
                 <div class="col-6">
                   <h4 class="ellipsis">
                     <router-link
-                      class="text-black"
+                      class="text-dark"
                       :to="`/resource/${resourceItem.id}`"
                     >
                       {{ resourceItem.title }}
@@ -311,8 +311,8 @@
                   </h4>
 
                   <star-component
-                    :commentSum="resourceItem.commentSum"
-                    :averageScore="resourceItem.averageScore"
+                    :commentSum="resourceItem?.commentSum"
+                    :averageScore="resourceItem?.averageScore.toString()"
                   ></star-component>
                 </div>
               </div>
@@ -401,12 +401,17 @@
               </div>
 
               <div class="p-2">
-                <h4 class="fs-7 ellipsis">{{ resourceItem.title }}</h4>
+                <h4 class="fs-7 ellipsis text-dark">
+                  {{ resourceItem.title }}
+                </h4>
+                <!-- <star-component
+                  :commentSum="resourceItem.commentSum"
+                  :averageScore="resourceItem.averageScore"
+                ></star-component> -->
                 <star-component
-                    :commentSum="resourceItem.commentSum"
-                    :averageScore="resourceItem.averageScore"
-                  ></star-component>
-                
+                  :commentSum="resourceItem?.commentSum"
+                  :averageScore="resourceItem?.averageScore.toString()"
+                ></star-component>
               </div>
             </router-link>
           </div>
@@ -489,6 +494,7 @@ export default {
     changeTabData(blockItem, item) {
       if (blockItem === "goodRate") {
         this.goodRateClassify = item;
+        //this.$set(this, "goodRateClassify", item);
       } else if (blockItem === "free") {
         this.freeTabClassify = item;
       }
@@ -549,8 +555,6 @@ export default {
       .slice(0, 6);
 
     document.title = "Eng!neer 程式學習資源網";
-    // console.log("resourcesObj", this.resourcesObj);
-    // console.log("commentsData", this.resourcesData);
   },
 };
 </script>

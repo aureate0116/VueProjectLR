@@ -21,10 +21,8 @@ export default {
   watch: {
     userInfo() {
       if (this.userInfo === null || this.userInfo === undefined) {
-        //console.log("沒有登入資料");
         this.isLogin = false;
       } else {
-        //console.log("有登入資料");
         this.isLogin = true;
       }
     },
@@ -42,8 +40,6 @@ export default {
         .then((res) => {
           this.userInfo = res.data[0];
           this.isLogin = true;
-          // console.log("this.userid", this.userId);
-          console.log("this.userInfo", this.userInfo);
         })
         .catch(() => {
           //console.log(err);
@@ -99,11 +95,6 @@ export default {
                     aria-labelledby="resourceBrowse"
                   >
                     <li>
-                      <!-- <router-link
-                        class="dropdown-item"
-                        to="/resource-list/JavaScript"
-                        >JavaScript</router-link
-                      > -->
                       <a
                         class="dropdown-item"
                         href="/VueProjectLR#/resource-list/JavaScript"
@@ -111,11 +102,6 @@ export default {
                       >
                     </li>
                     <li>
-                      <!-- <router-link
-                        class="dropdown-item"
-                        to="/resource-list/HTML&CSS"
-                        >HTML/CSS</router-link
-                      > -->
                       <a
                         class="dropdown-item"
                         href="/VueProjectLR#/resource-list/HTML&CSS"
@@ -123,11 +109,6 @@ export default {
                       >
                     </li>
                     <li>
-                      <!-- <router-link
-                        class="dropdown-item"
-                        to="/resource-list/Python"
-                        >Pyton</router-link
-                      > -->
                       <a
                         class="dropdown-item"
                         href="/VueProjectLR#/resource-list/Python"
@@ -170,11 +151,11 @@ export default {
                       to="/login"
                       >登入</router-link
                     >
-                    <router-link
+                    <!-- <router-link
                       class="nav-link btn btn-secondary mx-lg-2 mx-2 px-2 text-white"
                       to="/signup"
                       >註冊</router-link
-                    >
+                    > -->
                   </li>
                 </ul>
               </div>
@@ -189,7 +170,7 @@ export default {
                   </li>
 
                   <li class="nav-item dropdown create">
-                    <a
+                    <!-- <a
                       class="nav-link dropdown-toggle"
                       href="#"
                       id="createItem"
@@ -206,7 +187,7 @@ export default {
                     <ul class="dropdown-menu" aria-labelledby="createItem">
                       <li><a class="dropdown-item" href="#">新增資源</a></li>
                       <li><a class="dropdown-item" href="#">新增募集</a></li>
-                    </ul>
+                    </ul> -->
                   </li>
                   <li class="nav-item dropdown">
                     <a
@@ -226,25 +207,19 @@ export default {
                     <ul class="dropdown-menu" aria-labelledby="accountMenu">
                       <li>
                         <ul class="accountMenu">
-                          <li>
+                          <!-- <li>
                             <router-link
                               class="dropdown-item"
                               :to="`/user-home/user-profile/${userInfo.id}`"
                               >個人資料</router-link
                             >
-                            <!-- <a class="dropdown-item" href="./acc_profile.html"
-                              >個人資料</a
-                            > -->
-                          </li>
+                          </li> -->
                           <li>
                             <router-link
                               class="dropdown-item"
                               :to="`/user-home/user-resources/${userInfo.id}`"
                               >我的資源</router-link
                             >
-                            <!-- <a class="dropdown-item" href="./acc_resources.html"
-                              >我的資源</a
-                            > -->
                           </li>
                           <!-- <li>
                             <a class="dropdown-item" href="#">我的募集</a>
@@ -267,32 +242,6 @@ export default {
                   </li>
                 </ul>
               </div>
-
-              <!-- 登入後顯示 mobile -->
-              <!-- <ul class="navbar-nav mobileMenu d-none"> -->
-              <!-- <li class="nav-item my-2">
-              <h3 class="fs-7">通知</h3>
-            </li> -->
-              <!-- <li class="nav-item my-2">
-              <h3 class="fs-7">新增</h3>
-              <ul class="ms-3">
-                <li class="nav-item"><a class="nav-link" href="#">新增資源</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">新增募集</a></li>
-              </ul>
-            </li>
-             
-            <li class="nav-item my-2">
-              <h3 class="fs-7">我的帳戶</h3>
-              <ul class="ms-3">
-                <li class="nav-item"><a class="nav-link" href="./acc_profile.html">個人資料</a></li>
-                <li class="nav-item"><a class="nav-link" href="./acc_resources.html">我的資源</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">我的募集</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">我的學習</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">設定</a></li>
-                <li class="nav-item"><a role="button" class="dropdown-item logOutMobile">登出</a></li>
-              </ul>
-            </li>            
-          </ul> -->
             </div>
           </div>
         </nav>
