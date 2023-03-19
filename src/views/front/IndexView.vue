@@ -17,19 +17,19 @@
                 前端工程師
               </span>
               <span
-                class="carousel-item bg-secondary rounded px-1"
+                class="carousel-item text-primary bg-white rounded px-1"
                 data-bs-interval="3000"
               >
                 後端工程師
               </span>
               <span
-                class="carousel-item bg-secondary rounded px-1"
+                class="carousel-item text-primary bg-white rounded px-1"
                 data-bs-interval="3000"
               >
                 全端工程師
               </span>
               <span
-                class="carousel-item bg-secondary rounded px-1"
+                class="carousel-item text-primary bg-white rounded px-1"
                 data-bs-interval="3000"
               >
                 資料工程師
