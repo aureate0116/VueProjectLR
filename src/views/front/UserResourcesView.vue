@@ -35,7 +35,7 @@ export default {
           this.isLogin = true;
           if (this.routerUserId != this.userId) {
             this.$router.push("/");
-            console.log("登入資訊與用戶存取頁不符");
+            //console.log("登入資訊與用戶存取頁不符");
           }
           // console.log("this.userInfo", this.userInfo.id);
           // console.log("this.userId", this.userId);
@@ -51,14 +51,14 @@ export default {
         )
         .then((res) => {
           this.userBookmarksData = res.data;
-          console.log("userBookmarksData", this.userBookmarksData);
+          //console.log("userBookmarksData", this.userBookmarksData);
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
+          //console.log(err);
         });
     },
     removeResourceItem(bookmarkId) {
-      console.log(bookmarkId);
+      //console.log(bookmarkId);
       Swal.fire({
         title: "您確定要取消收藏嗎?",
         icon: "warning",

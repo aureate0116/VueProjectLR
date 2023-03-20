@@ -16,7 +16,7 @@ export default {
   },
   watch: {
     user() {
-      console.log("user", this.user);
+      //console.log("user", this.user);
     },
   },
   mounted() {

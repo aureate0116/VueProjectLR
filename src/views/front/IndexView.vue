@@ -6,42 +6,39 @@
       class="bannerBlock container p-0 p-lg-8 p-md-4 d-flex align-items-center justify-content-center justify-content-lg-between"
     >
       <div class="bannerLeft">
-        <div class="text-white fs-2 d-flex flex-wrap align-items-center">
+        <div class="text-white fs-3 d-flex flex-wrap align-items-center">
           <span>幫助想成為</span>
           <span id="bannerText" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner px-1 text-center">
               <span
                 class="carousel-item active text-primary bg-white rounded px-1"
                 data-bs-interval="3000"
+                >前端工程師</span
               >
-                前端工程師
-              </span>
               <span
                 class="carousel-item text-primary bg-white rounded px-1"
                 data-bs-interval="3000"
+                >後端工程師</span
               >
-                後端工程師
-              </span>
               <span
                 class="carousel-item text-primary bg-white rounded px-1"
                 data-bs-interval="3000"
+                >全端工程師</span
               >
-                全端工程師
-              </span>
               <span
                 class="carousel-item text-primary bg-white rounded px-1"
                 data-bs-interval="3000"
+                >資料工程師</span
               >
-                資料工程師
-              </span>
             </div>
           </span>
           <span>的你</span>
         </div>
         <div class="text-white fs-2 my-2">
           <p>
-            輕鬆找到<span class="text-primary bg-white rounded"> 可靠的 </span
-            >學習資源 !
+            輕鬆找到
+            <span class="text-primary bg-white rounded">可靠的</span>
+            學習資源!
           </p>
         </div>
 
@@ -154,7 +151,7 @@
   </div>
 
   <!-- 3 solution -->
-  <div class="container-fluid p-0 bg-primary">
+  <div class="container-fluid p-0 bg-primary" style="overflow-x: hidden">
     <div class="solution container py-5 p-lg-8">
       <h3 class="fw-bold text-white text-center mb-6">
         解決你搜尋學習資源的困擾

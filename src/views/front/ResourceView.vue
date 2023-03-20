@@ -1226,11 +1226,11 @@ export default {
             return item.resourceId == this.theResourceId;
           });
 
-          console.log("theUserBookmarksData", this.theUserBookmarksData);
-          console.log("this.isBookmark ", this.bookmarkItem);
+          // console.log("theUserBookmarksData", this.theUserBookmarksData);
+          // console.log("this.isBookmark ", this.bookmarkItem);
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
+          //console.log(err);
         });
     },
     weblinkReminder() {
@@ -1263,7 +1263,7 @@ export default {
         // 判斷是否已收藏, 已收藏會取消收藏
         // 尚未收藏 會變為收藏
         if (this.bookmarkItem == undefined) {
-          console.log("this.isBookmark", this.isBookmark);
+          //console.log("this.isBookmark", this.isBookmark);
           this.$http
             .post(
               `${VITE_API_PATH}/bookmarks?userId=${this.userId}`,
@@ -1276,8 +1276,8 @@ export default {
                 Authorization: `Bearer ${this.accessToken}`,
               }
             )
-            .then((res) => {
-              console.log(res.data);
+            .then(() => {
+              //console.log(res.data);
               Swal.fire({
                 title: "已成功收藏",
                 icon: "success",
@@ -1286,8 +1286,8 @@ export default {
               });
               this.getUserBookmarks();
             })
-            .catch((err) => {
-              console.log(err.data);
+            .catch(() => {
+              //console.log(err.data);
               // console.log(err);
               // if (err?.response?.status === 401) {
               //     clearLocalStorage();
@@ -1330,8 +1330,8 @@ export default {
             .catch(() => {
               //console.log(err);
             });
-          console.log("this.isBookmark", this.isBookmark);
-          console.log("itemId", itemId);
+          // console.log("this.isBookmark", this.isBookmark);
+          // console.log("itemId", itemId);
         }
       }
     },
