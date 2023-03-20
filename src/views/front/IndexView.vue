@@ -151,7 +151,7 @@
   </div>
 
   <!-- 3 solution -->
-  <div class="container-fluid p-0 bg-primary" style="overflow-x: hidden">
+  <div class="container-fluid p-0 bg-primary" style="overflow-hidden">
     <div class="solution container py-5 p-lg-8">
       <h3 class="fw-bold text-white text-center mb-6">
         解決你搜尋學習資源的困擾
