@@ -254,7 +254,7 @@ export default {
       </main>
     </div>
 
-    <footer class="footer container-fluid py-5 p-lg-5 bg-primary">
+    <footer class="footer container-fluid mt-auto py-5 p-lg-5 bg-primary">
       <div
         class="container d-flex flex-md-row flex-column justify-content-between align-items-center"
       >

@@ -26,7 +26,7 @@ export default {
 </script>
 
 <template>
-  <div ref="LoginView" class="login container p-5 p-lg-8 p-md-4">
+  <div ref="LoginView" class="login container p-5 p-lg-8 p-md-4 bg-white">
     <form action="./login.html" method="post">
       <h3 class="fs-7 my-3">會員登入</h3>
       <div class="form-floating mb-3">
