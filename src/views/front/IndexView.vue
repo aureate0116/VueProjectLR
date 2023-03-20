@@ -6,10 +6,10 @@
       class="bannerBlock container p-0 p-lg-8 p-md-4 d-flex align-items-center justify-content-center justify-content-lg-between"
     >
       <div class="bannerLeft">
-        <div class="text-white fs-3 d-flex flex-wrap align-items-center">
+        <div class="text-white fs-4 d-flex flex-wrap align-items-center">
           <span>幫助想成為</span>
           <span id="bannerText" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner px-1 text-center">
+            <div class="carousel-inner fs-4 px-1 text-center">
               <span
                 class="carousel-item active text-primary bg-white rounded px-1"
                 data-bs-interval="3000"
@@ -34,11 +34,11 @@
           </span>
           <span>的你</span>
         </div>
-        <div class="text-white fs-2 my-2">
+        <div class="text-white fs-4 my-2">
           <p>
-            輕鬆找到
-            <span class="text-primary bg-white rounded">可靠的</span>
-            學習資源!
+            <span>輕鬆找到</span> 
+            <span class="text-primary mx-2 px-1 bg-white rounded">可靠的</span>
+            <span>學習資源!</span>
           </p>
         </div>
 
@@ -151,7 +151,7 @@
   </div>
 
   <!-- 3 solution -->
-  <div class="container-fluid p-0 bg-primary" style="overflow-hidden">
+  <div class="container-fluid p-0 bg-primary overflow-hidden">
     <div class="solution container py-5 p-lg-8">
       <h3 class="fw-bold text-white text-center mb-6">
         解決你搜尋學習資源的困擾
