@@ -128,8 +128,8 @@ export default {
               aria-label=".form-select-sm example"
             >
               <option selected>資源主題</option>
-              <option value="1">(我收藏的資源主題)</option>
-              <option value="2">(其他我收藏的資源)</option>
+              <!-- <option value="1">(我收藏的資源主題)</option>
+              <option value="2">(其他我收藏的資源)</option> -->
             </select>
           </div>
         </div>

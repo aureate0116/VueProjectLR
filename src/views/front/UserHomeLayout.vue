@@ -25,19 +25,19 @@ export default {};
         </div>
 
         <!-- Button trigger modal -->
-        <button
+        <!-- <button
           type="button"
           class="btn btn-secondary text-white"
           data-bs-toggle="modal"
           data-bs-target="#staticBackdrop"
         >
           + 新增資源
-        </button>
+        </button> -->
         <!-- <a href="./add_resource.html?userid=4"role="button" class="btn btn-secondary text-white" data-bs-toggle="" data-bs-target="#"> + 新增資源</a> -->
 
         <!-- Modal -->
         <div
-          class="modal fade"
+          class="modal fade d-none"
           id="staticBackdrop"
           data-bs-backdrop="static"
           data-bs-keyboard="false"
