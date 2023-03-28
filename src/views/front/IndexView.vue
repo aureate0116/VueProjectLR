@@ -383,13 +383,13 @@
             <router-link :to="`/resource/${resourceItem.id}`">
               <div class="text-center" v-if="resourceItem.imgUrl != ''">
                 <img
-                  :src="`/images/resources_cover/${resourceItem.imgUrl}`"
+                  :src="`../images/resources_cover/${resourceItem.imgUrl}`"
                   :alt="resourceItem.title"
                 />
               </div>
               <div class="text-center" v-else>
                 <img
-                  :src="`/images/resources_cover/noimgCover.jpg`"
+                  :src="`../images/resources_cover/noimgCover.jpg`"
                   :alt="resourceItem.title"
                 />
               </div>

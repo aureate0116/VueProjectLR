@@ -13,5 +13,6 @@ export default defineConfig({
     },
   },
   //base: "/VueProjectLR",
+  mode: "development", //production
   base: process.env.NODE_ENV === "production" ? "/VueProjectLR/" : "/",
 });
