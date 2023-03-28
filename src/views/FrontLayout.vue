@@ -217,7 +217,7 @@ export default {
                           <li>
                             <router-link
                               class="dropdown-item"
-                              :to="`/user-home/user-resources/${userInfo.id}`"
+                              :to="`/user-home/user-resources`"
                               >我的資源</router-link
                             >
                           </li>

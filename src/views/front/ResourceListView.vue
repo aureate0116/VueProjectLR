@@ -12,6 +12,7 @@ export default {
       topic: this.$route.params.resTopic,
       topicsResData: [], //保留該主題的資料
       foundationTabClassify: "初階",
+      //foundationTabData: [],
       renderList: [], //渲染清單
       filterGroup: {
         type: ["文章", "書籍", "線上課程", "實體課程", "第三方技術網站"],
@@ -71,12 +72,13 @@ export default {
           this.topic.toLowerCase().replace(/[^a-zA-Z0-9]/g, "")
         );
       });
+      this.foundationTabData;
 
-      this.foundationTabData = this.topicsResData
-        .filter((value) => {
-          return value.level === "初階 ";
-        })
-        .slice(0, 6);
+      // this.foundationTabData = this.topicsResData
+      //   .filter((value) => {
+      //     return value.level === "初階 ";
+      //   })
+      //   .slice(0, 6);
 
       this.renderList = [...this.topicsResData];
       if (
@@ -87,6 +89,12 @@ export default {
       } else {
         this.isLoading = false;
       }
+    },
+    foundationTabClassify(newValue) {
+      this.$nextTick(() => {
+        this.foundationTabClassify = newValue;
+        // this.getFoundationTabData();
+      });
     },
   },
   methods: {
@@ -145,6 +153,19 @@ export default {
       this.checkObj.lang.splice(0, this.checkObj.lang.length);
       this.filterResources();
     },
+    // getFoundationTabData() {
+    //   this.foundationTabData = this.topicsResData
+    //     .filter((value) => {
+    //       if (this.foundationTabClassify === "初階") {
+    //         return value.level === this.foundationTabClassify;
+    //       } else if (this.foundationTabClassify === "免費") {
+    //         return value.price === this.foundationTabClassify;
+    //       } else {
+    //         return this.topicsResData;
+    //       }
+    //     })
+    //     .slice(-6);
+    // },
   },
   components: {
     LoadingComponent,
@@ -156,18 +177,36 @@ export default {
       "commentsData",
       "resourcesObj",
     ]),
-    foundationTabData() {
-      return this.topicsResData
-        .filter((value) => {
-          if (this.foundationTabClassify === "初階") {
-            return value.level === this.foundationTabClassify;
-          } else if (this.foundationTabClassify === "免費") {
-            return value.price === this.foundationTabClassify;
-          } else {
-            return this.topicsResData;
-          }
-        })
-        .slice(-6);
+    // foundationTabData() {
+    //   return this.topicsResData
+    //     .filter((value) => {
+    //       if (this.foundationTabClassify === "初階") {
+    //         return value.level === this.foundationTabClassify;
+    //       } else if (this.foundationTabClassify === "免費") {
+    //         return value.price === this.foundationTabClassify;
+    //       } else {
+    //         return this.topicsResData;
+    //       }
+    //     })
+    //     .slice(-6);
+    // },
+    foundationTabData: {
+      get() {
+        return this.topicsResData
+          .filter((value) => {
+            if (this.foundationTabClassify === "初階") {
+              return value.level === this.foundationTabClassify;
+            } else if (this.foundationTabClassify === "免費") {
+              return value.price === this.foundationTabClassify;
+            } else {
+              return this.topicsResData;
+            }
+          })
+          .slice(-6);
+      },
+      set(value) {
+        this.topicsResData = value;
+      },
     },
   },
   created() {},
@@ -246,7 +285,7 @@ export default {
                 <div class="col-6" v-if="resourceItem.imgUrl != ''">
                   <img
                     :src="
-                      '/VueProjectLR/images/resources_cover/' +
+                      '/images/resources_cover/' +
                       resourceItem.imgUrl
                     "
                     :alt="resourceItem.title"
@@ -254,7 +293,7 @@ export default {
                 </div>
                 <div class="col-6" v-else>
                   <img
-                    :src="`/VueProjectLR/images/resources_cover/noimgCover.jpg`"
+                    :src="`/images/resources_cover/noimgCover.jpg`"
                     :alt="resourceItem.title"
                   />
                 </div>
@@ -378,7 +417,7 @@ export default {
               <router-link :to="`/resource/${resourceItem.id}`">
                 <img
                   :src="
-                    '/VueProjectLR/images/resources_cover/' +
+                    '/images/resources_cover/' +
                     resourceItem.imgUrl
                   "
                   :alt="resourceItem.title"
@@ -387,7 +426,7 @@ export default {
             <div class="col-2" v-else>
               <router-link :to="`/resource/${resourceItem.id}`">
                 <img
-                  :src="`/VueProjectLR/images/resources_cover/noimgCover.jpg`"
+                  :src="`/images/resources_cover/noimgCover.jpg`"
                   :alt="resourceItem.title"
                 />
               </router-link>
@@ -403,11 +442,11 @@ export default {
                   {{ resourceItem.title }}
                 </router-link>
               </h4>
-             
+
               <star-component
-                    :commentSum="resourceItem?.commentSum"
-                    :averageScore="resourceItem?.averageScore.toString()"
-                  ></star-component>
+                :commentSum="resourceItem?.commentSum"
+                :averageScore="resourceItem?.averageScore.toString()"
+              ></star-component>
             </div>
             <div class="col-3">
               <div class="d-flex">

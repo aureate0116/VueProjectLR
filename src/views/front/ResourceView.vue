@@ -833,14 +833,14 @@
           <img
             v-if="theResourceData.imgUrl != ''"
             class="d-lg-block w-100"
-            :src="`/VueProjectLR/images/resources_cover/${theResourceData.imgUrl}`"
+            :src="`/images/resources_cover/${theResourceData.imgUrl}`"
             :alt="theResourceData.title"
           />
 
           <img
             v-else
             class="d-lg-block w-100"
-            :src="`/VueProjectLR/images/resources_cover/noimgCover.jpg`"
+            :src="`/images/resources_cover/noimgCover.jpg`"
             :alt="theResourceData.title"
           />
 

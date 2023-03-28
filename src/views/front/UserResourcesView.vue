@@ -14,7 +14,7 @@ export default {
     return {
       isLoading: false,
       //userId: this.$route.query.userid,
-      routerUserId: this.$route.params.userAccountId,
+      //routerUserId: this.$route.params.userAccountId,
       userInfo: null,
       userId: localStorage.getItem("userId"),
       accessToken: localStorage.getItem("accessToken"),
@@ -33,10 +33,10 @@ export default {
         .then((res) => {
           this.userInfo = res.data[0];
           this.isLogin = true;
-          if (this.routerUserId != this.userId) {
-            this.$router.push("/");
-            //console.log("登入資訊與用戶存取頁不符");
-          }
+          // if (this.routerUserId != this.userId) {
+          //   this.$router.push("/");
+          //   //console.log("登入資訊與用戶存取頁不符");
+          // }
           // console.log("this.userInfo", this.userInfo.id);
           // console.log("this.userId", this.userId);
         })

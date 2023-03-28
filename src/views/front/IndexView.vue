@@ -36,7 +36,7 @@
         </div>
         <div class="text-white fs-4 my-2">
           <p>
-            <span>輕鬆找到</span> 
+            <span>輕鬆找到</span>
             <span class="text-primary mx-2 px-1 bg-white rounded">可靠的</span>
             <span>學習資源!</span>
           </p>
@@ -282,17 +282,14 @@
                 <div class="col-6" v-if="resourceItem.imgUrl != ''">
                   <router-link :to="`/resource/${resourceItem.id}`">
                     <img
-                      :src="
-                        '/VueProjectLR/images/resources_cover/' +
-                        resourceItem.imgUrl
-                      "
+                      :src="'/images/resources_cover/' + resourceItem.imgUrl"
                       :alt="resourceItem.title"
                   /></router-link>
                 </div>
                 <div class="col-6" v-else>
                   <router-link :to="`/resource/${resourceItem.id}`">
                     <img
-                      :src="`/VueProjectLR/images/resources_cover/noimgCover.jpg`"
+                      :src="`/images/resources_cover/noimgCover.jpg`"
                       :alt="resourceItem.title"
                     />
                   </router-link>
@@ -386,13 +383,13 @@
             <router-link :to="`/resource/${resourceItem.id}`">
               <div class="text-center" v-if="resourceItem.imgUrl != ''">
                 <img
-                  :src="`/VueProjectLR/images/resources_cover/${resourceItem.imgUrl}`"
+                  :src="`/images/resources_cover/${resourceItem.imgUrl}`"
                   :alt="resourceItem.title"
                 />
               </div>
               <div class="text-center" v-else>
                 <img
-                  :src="`/VueProjectLR/images/resources_cover/noimgCover.jpg`"
+                  :src="`/images/resources_cover/noimgCover.jpg`"
                   :alt="resourceItem.title"
                 />
               </div>
@@ -482,6 +479,12 @@ export default {
       freeTabClassify: "線上課程",
     };
   },
+  components: {
+    LoadingComponent,
+    Swiper,
+    SwiperSlide,
+    StarComponent,
+  },
   methods: {
     ...mapActions(resourcesStore, [
       "getResources",
@@ -506,15 +509,22 @@ export default {
         this.isLoading = true;
       } else {
         this.isLoading = false;
-        this.$router.push("/");
+        // this.$router.push("/");
       }
     },
-  },
-  components: {
-    LoadingComponent,
-    Swiper,
-    SwiperSlide,
-    StarComponent,
+    goodRateClassify(newVal) {
+      //this.goodRateClassify = newVal;
+      this.$nextTick(() => {
+        // 更改 goodRateClassify 觸發重新計算 goodRateTabData
+        this.goodRateClassify = newVal;
+      });
+    },
+    freeTabClassify(newVal) {
+      //this.freeTabClassify = newVal;
+      this.$nextTick(() => {
+        this.freeTabClassify = newVal;
+      });
+    },
   },
   computed: {
     ...mapState(resourcesStore, [
@@ -540,16 +550,16 @@ export default {
   mounted() {
     AOS.init();
     this.getResources();
-    this.goodRateTabData = this.resourcesData
-      .filter((value) => {
-        return value.topics === "JavaScript"; // && value.commentSum != 0
-      })
-      .slice(0, 6);
-    this.freeTabData = this.resourcesData
-      .filter((value) => {
-        return value.type === "線上課程" && value.price === "免費";
-      })
-      .slice(0, 6);
+    // this.goodRateTabData = this.resourcesData
+    //   .filter((value) => {
+    //     return value.topics === "JavaScript"; // && value.commentSum != 0
+    //   })
+    //   .slice(0, 6);
+    // this.freeTabData = this.resourcesData
+    //   .filter((value) => {
+    //     return value.type === "線上課程" && value.price === "免費";
+    //   })
+    //   .slice(0, 6);
 
     document.title = "Eng!neer 程式學習資源網";
   },
