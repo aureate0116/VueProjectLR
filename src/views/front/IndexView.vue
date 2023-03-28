@@ -282,7 +282,7 @@
                 <div class="col-6" v-if="resourceItem.imgUrl != ''">
                   <router-link :to="`/resource/${resourceItem.id}`">
                     <img
-                      :src="'/images/resources_cover/' + resourceItem.imgUrl"
+                      :src="`/images/resources_cover/${resourceItem.imgUrl}`"
                       :alt="resourceItem.title"
                   /></router-link>
                 </div>
@@ -451,6 +451,9 @@
 </template>
 
 <script>
+// import { process } from "process";
+// import { BASE_URL } from "@/vite.config";
+
 import { mapState, mapActions } from "pinia";
 import resourcesStore from "../../stores/resourcesStore";
 import LoadingComponent from "@/components/LoadingComponent.vue";

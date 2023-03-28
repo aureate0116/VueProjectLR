@@ -1,4 +1,4 @@
-/* global process */
+///* global process */
 import { fileURLToPath, URL } from "node:url";
 
 import { defineConfig } from "vite";
@@ -13,6 +13,7 @@ export default defineConfig({
     },
   },
   //base: "/VueProjectLR",
-  mode: "production", //production  //development
-  base: process.env.NODE_ENV === "production" ? "/VueProjectLR/" : "/",
+  mode: "development", //production  //development
+  //base: process.env.NODE_ENV === "production" ? "/VueProjectLR/" : "/",
+  base: "/",
 });
