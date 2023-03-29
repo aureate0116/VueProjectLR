@@ -1,6 +1,4 @@
 <script>
-// const { VITE_API_PATH } = import.meta.env;
-
 import { mapState, mapActions } from "pinia";
 import userStore from "../../stores/userStore";
 
@@ -13,14 +11,6 @@ export default {
   },
   methods: {
     ...mapActions(userStore, ["login"]),
-  },
-  watch: {
-    user() {
-      //console.log("user", this.user);
-    },
-  },
-  mounted() {
-    // console.log("user", this.user);
   },
 };
 </script>

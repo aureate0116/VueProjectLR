@@ -34,7 +34,6 @@ export default {
       handler() {
         this.topic = this.$route.params.resTopic;
         this.getResources();
-        //console.log("路由參數發生變化: ", this.$route.params.resTopic);
       },
       deep: true,
     },
@@ -125,7 +124,6 @@ export default {
         }
 
         checkLang = resItem.lang.some((str) => {
-          // console.log(str);
           if (this.checkObj.lang.length === 0) {
             return true;
           }
@@ -284,16 +282,13 @@ export default {
               <div class="row">
                 <div class="col-6" v-if="resourceItem.imgUrl != ''">
                   <img
-                    :src="
-                      '/images/resources_cover/' +
-                      resourceItem.imgUrl
-                    "
+                    :src="`./images/resources_cover/${resourceItem.imgUrl}`"
                     :alt="resourceItem.title"
                   />
                 </div>
                 <div class="col-6" v-else>
                   <img
-                    :src="`/images/resources_cover/noimgCover.jpg`"
+                    :src="`./images/resources_cover/noimgCover.jpg`"
                     :alt="resourceItem.title"
                   />
                 </div>
@@ -416,17 +411,14 @@ export default {
             <div class="col-2" v-if="resourceItem.imgUrl != ''">
               <router-link :to="`/resource/${resourceItem.id}`">
                 <img
-                  :src="
-                    '/images/resources_cover/' +
-                    resourceItem.imgUrl
-                  "
+                  :src="`./images/resources_cover/${resourceItem.imgUrl}`"
                   :alt="resourceItem.title"
               /></router-link>
             </div>
             <div class="col-2" v-else>
               <router-link :to="`/resource/${resourceItem.id}`">
                 <img
-                  :src="`/images/resources_cover/noimgCover.jpg`"
+                  :src="`./images/resources_cover/noimgCover.jpg`"
                   :alt="resourceItem.title"
                 />
               </router-link>

@@ -57,7 +57,9 @@ export default {
 </script>
 
 <template>
-  <div class="container-fluid p-0 bg-white">
+  <div
+    class="container-fluid p-0 bg-white d-flex flex-column justify-content-between"
+  >
     <header class="container-fluid p-lg-0">
       <div class="container p-lg-0">
         <nav class="navbar navbar-expand-lg navbar-light py-4">
@@ -124,6 +126,9 @@ export default {
                 <li class="nav-item">
                   <a class="nav-link text-black" href="#">募集中的資源</a>
                 </li>
+              </ul>
+
+              <ul class="navbar-nav d-lg-flex align-items-lg-center mx-3">
                 <li class="nav-item text-black">
                   <div
                     class="bg-light input-group input-group-sm rounded-3 my-3"
@@ -144,7 +149,7 @@ export default {
 
               <!-- 登入前 -->
               <div v-if="isLogin === false">
-                <ul class="navbar-nav beforeLogin ms-lg-3">
+                <ul class="navbar-nav beforeLogin">
                   <li class="nav-item d-flex">
                     <router-link
                       class="nav-link btn btn-primary mx-lg-2 px-2 text-white"
@@ -160,7 +165,7 @@ export default {
                 </ul>
               </div>
               <!-- 登入後 -->
-              <div v-else class="desktopMenu ms-lg-3">
+              <div v-else class="desktopMenu">
                 <ul
                   class="afterLogin justify-content-end navbar-nav d-lg-flex align-items-lg-center lh-1"
                 >
@@ -254,7 +259,7 @@ export default {
       </main>
     </div>
 
-    <footer class="footer container-fluid mt-auto py-5 p-lg-5 bg-primary">
+    <footer class="footer container-fluid py-5 p-lg-5 mt-auto bg-primary">
       <div
         class="container d-flex flex-md-row flex-column justify-content-between align-items-center"
       >

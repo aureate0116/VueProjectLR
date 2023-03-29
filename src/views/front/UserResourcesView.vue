@@ -81,7 +81,6 @@ export default {
                   confirmButtonColor: "#4AA9B6",
                 });
                 this.getUserBookmarks();
-                //console.log(res.data);
               })
               .catch(() => {
                 // if (err.request.status === 403) {
@@ -93,19 +92,14 @@ export default {
               });
           }
         })
-        .catch(() => {
-          //console.log(err);
-        });
+        .catch(() => {});
     },
   },
   created() {
     this.getUserData();
     this.getUserBookmarks();
   },
-  mounted() {
-    //console.log("userId", this.userId);
-    //console.log("userId-userinfo", userStore.userinfo);
-  },
+  mounted() {},
 };
 </script>
 <template>
@@ -144,7 +138,9 @@ export default {
             <label class="form-check-label fs-8 mx-1" for="selectAll"
               >全選</label
             >
-            <button class="btn btn-light fs-8 mx-1 text-dark">刪除</button>
+            <button type="button" class="btn btn-light fs-8 mx-1 text-dark">
+              刪除
+            </button>
           </div>
         </div>
         <div class="col-lg-4"></div>
@@ -234,7 +230,7 @@ export default {
               >
                 <router-link
                   class="btn btnHover btn-outline-primary my-lg-2 mx-lg-1"
-                  type="button"
+                  role="button"
                   :to="`/resource/${resourceItem.resource.id}`"
                   >查看評論</router-link
                 >

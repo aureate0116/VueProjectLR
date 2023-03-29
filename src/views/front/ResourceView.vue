@@ -174,7 +174,7 @@
                           <label for="commentTextarea">Comments</label>
                         </div>
                         <button
-                          role="button"
+                          type="button"
                           class="btnCommentSubmit btn btn-primary text-white mt-4"
                           @click="sendComment"
                         >
@@ -251,7 +251,7 @@
                   <label for="commentTextarea">Comments</label>
                 </div>
                 <button
-                  role="button"
+                  type="button"
                   class="btnCommentSubmit btn btn-primary text-white mt-4"
                   @click="sendComment"
                 >
@@ -473,7 +473,7 @@
                             <img
                               class="rounded-circle"
                               src="@/assets/images/icon_image.png"
-                              alt=""
+                              alt="photo"
                             />
                             <p class="mb-0 mx-2 text-start">
                               Jenny<br />
@@ -649,7 +649,7 @@
                             <img
                               class="rounded-circle"
                               src="@/assets/images/icon_image.png"
-                              alt=""
+                              alt="photo"
                             />
                             <p class="mb-0 mx-2 text-start">
                               Jenny<br />
@@ -833,14 +833,14 @@
           <img
             v-if="theResourceData.imgUrl != ''"
             class="d-lg-block w-100"
-            :src="`/images/resources_cover/${theResourceData.imgUrl}`"
+            :src="`./images/resources_cover/${theResourceData.imgUrl}`"
             :alt="theResourceData.title"
           />
 
           <img
             v-else
             class="d-lg-block w-100"
-            :src="`/images/resources_cover/noimgCover.jpg`"
+            :src="`./images/resources_cover/noimgCover.jpg`"
             :alt="theResourceData.title"
           />
 
@@ -1022,9 +1022,7 @@ export default {
           this.resourcesData = res.data;
           this.getTheResourceData();
         })
-        .catch(() => {
-          //console.log(err);
-        });
+        .catch(() => {});
     },
     getTheResourceData() {
       this.$http
@@ -1036,9 +1034,7 @@ export default {
           this.getRelatedResData();
           this.getResCommentsData();
         })
-        .catch(() => {
-          //console.log(err);
-        });
+        .catch(() => {});
     },
     getResCommentsData() {
       this.$http
@@ -1047,11 +1043,8 @@ export default {
         )
         .then((res) => {
           this.theResCommentsData = res.data;
-          //console.log("theResCommentsData", this.theResCommentsData);
         })
-        .catch(() => {
-          //console.log(error);
-        });
+        .catch(() => {});
     },
     getRelatedResData() {
       this.relatedResData = this.resourcesData
@@ -1061,8 +1054,6 @@ export default {
         // 比對出符合條件的值後，隨機產生5筆相關資源
         .sort(() => 0.5 - Math.random())
         .slice(0, 5);
-      // console.log("relatedResData", this.relatedResData);
-      // console.log("relatedResData length", this.relatedResData.length);
     },
     // getTheResAverScore() {
     //   //this.resourceScoreObj = {};
@@ -1117,12 +1108,8 @@ export default {
         })
         .then((res) => {
           this.userInfo = res.data[0];
-          // console.log("this.userid", this.userId);
-          //console.log("this.userInfo", this.userInfo);
         })
-        .catch(() => {
-          //console.log(err);
-        });
+        .catch(() => {});
     },
     rate(starNum) {
       this.commentRating = starNum;
@@ -1191,18 +1178,11 @@ export default {
               .then(() => {
                 this.getResCommentsData();
                 this.getTheResourceData();
-                //console.log(res.data);
-                // this.commentContent = "";
-                // this.commentRating = 0;
                 window.location.reload();
               })
-              .catch(() => {
-                //console.log(err);
-              });
+              .catch(() => {});
           })
-          .catch(() => {
-            //console.log(err);
-          });
+          .catch(() => {});
       } else {
         Swal.fire({
           text: "請確認填寫",
@@ -1213,7 +1193,6 @@ export default {
         });
       }
     },
-    // 取得這個用戶的收藏清單,取得 bookmarkItem
     getUserBookmarks() {
       this.$http
         .get(
@@ -1221,17 +1200,11 @@ export default {
         )
         .then((res) => {
           this.theUserBookmarksData = res.data;
-          // 如果這個資源存在在  theUserBookmarksData 就表示有被收藏
           this.bookmarkItem = this.theUserBookmarksData.find((item) => {
             return item.resourceId == this.theResourceId;
           });
-
-          // console.log("theUserBookmarksData", this.theUserBookmarksData);
-          // console.log("this.isBookmark ", this.bookmarkItem);
         })
-        .catch(() => {
-          //console.log(err);
-        });
+        .catch(() => {});
     },
     weblinkReminder() {
       Swal.fire({
@@ -1260,10 +1233,7 @@ export default {
           confirmButtonColor: "#4AA9B6",
         });
       } else {
-        // 判斷是否已收藏, 已收藏會取消收藏
-        // 尚未收藏 會變為收藏
         if (this.bookmarkItem == undefined) {
-          //console.log("this.isBookmark", this.isBookmark);
           this.$http
             .post(
               `${VITE_API_PATH}/bookmarks?userId=${this.userId}`,
@@ -1277,7 +1247,6 @@ export default {
               }
             )
             .then(() => {
-              //console.log(res.data);
               Swal.fire({
                 title: "已成功收藏",
                 icon: "success",
@@ -1286,13 +1255,7 @@ export default {
               });
               this.getUserBookmarks();
             })
-            .catch(() => {
-              //console.log(err.data);
-              // console.log(err);
-              // if (err?.response?.status === 401) {
-              //     clearLocalStorage();
-              // };
-            });
+            .catch(() => {});
         } else {
           // 取消收藏
           Swal.fire({
@@ -1327,11 +1290,7 @@ export default {
               }
               this.getUserBookmarks();
             })
-            .catch(() => {
-              //console.log(err);
-            });
-          // console.log("this.isBookmark", this.isBookmark);
-          // console.log("itemId", itemId);
+            .catch(() => {});
         }
       }
     },

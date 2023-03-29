@@ -50,7 +50,7 @@
             ></a
           >
           <input
-            class="form-control border-0 bg-light"
+            class="form-control border-0 bg-light p-0"
             type="text"
             placeholder="JavaScript"
           />
@@ -83,10 +83,6 @@
       </h3>
     </div>
     <div class="painpointRight mt-3 ms-xl-8 text-xl-start text-lg-center">
-      <!-- <h3 class="fw-bold text-primary mb-6">
-        找到具參考價值的學習資源前<br />往往需要經過一番 N 折?
-      </h3> -->
-
       <swiper
         :autoplay="{
           delay: 3000,
@@ -282,14 +278,14 @@
                 <div class="col-6" v-if="resourceItem.imgUrl != ''">
                   <router-link :to="`/resource/${resourceItem.id}`">
                     <img
-                      :src="`/images/resources_cover/${resourceItem.imgUrl}`"
+                      :src="`./images/resources_cover/${resourceItem.imgUrl}`"
                       :alt="resourceItem.title"
                   /></router-link>
                 </div>
                 <div class="col-6" v-else>
                   <router-link :to="`/resource/${resourceItem.id}`">
                     <img
-                      :src="`/images/resources_cover/noimgCover.jpg`"
+                      :src="`./images/resources_cover/noimgCover.jpg`"
                       :alt="resourceItem.title"
                     />
                   </router-link>
@@ -382,14 +378,15 @@
           >
             <router-link :to="`/resource/${resourceItem.id}`">
               <div class="text-center" v-if="resourceItem.imgUrl != ''">
+                <!-- 圖片放 public -->
                 <img
-                  :src="`../images/resources_cover/${resourceItem.imgUrl}`"
+                  :src="`./images/resources_cover/${resourceItem.imgUrl}`"
                   :alt="resourceItem.title"
                 />
               </div>
               <div class="text-center" v-else>
                 <img
-                  :src="`../images/resources_cover/noimgCover.jpg`"
+                  :src="`./images/resources_cover/noimgCover.jpg`"
                   :alt="resourceItem.title"
                 />
               </div>
@@ -398,10 +395,6 @@
                 <h4 class="fs-7 ellipsis text-dark">
                   {{ resourceItem.title }}
                 </h4>
-                <!-- <star-component
-                  :commentSum="resourceItem.commentSum"
-                  :averageScore="resourceItem.averageScore"
-                ></star-component> -->
                 <star-component
                   :commentSum="resourceItem?.commentSum"
                   :averageScore="resourceItem?.averageScore.toString()"
@@ -451,9 +444,6 @@
 </template>
 
 <script>
-// import { process } from "process";
-// import { BASE_URL } from "@/vite.config";
-
 import { mapState, mapActions } from "pinia";
 import resourcesStore from "../../stores/resourcesStore";
 import LoadingComponent from "@/components/LoadingComponent.vue";
@@ -516,14 +506,12 @@ export default {
       }
     },
     goodRateClassify(newVal) {
-      //this.goodRateClassify = newVal;
       this.$nextTick(() => {
         // 更改 goodRateClassify 觸發重新計算 goodRateTabData
         this.goodRateClassify = newVal;
       });
     },
     freeTabClassify(newVal) {
-      //this.freeTabClassify = newVal;
       this.$nextTick(() => {
         this.freeTabClassify = newVal;
       });
@@ -553,17 +541,6 @@ export default {
   mounted() {
     AOS.init();
     this.getResources();
-    // this.goodRateTabData = this.resourcesData
-    //   .filter((value) => {
-    //     return value.topics === "JavaScript"; // && value.commentSum != 0
-    //   })
-    //   .slice(0, 6);
-    // this.freeTabData = this.resourcesData
-    //   .filter((value) => {
-    //     return value.type === "線上課程" && value.price === "免費";
-    //   })
-    //   .slice(0, 6);
-
     document.title = "Eng!neer 程式學習資源網";
   },
 };
