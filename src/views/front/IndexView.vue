@@ -53,15 +53,11 @@
             class="form-control border-0 bg-light p-0"
             type="text"
             placeholder="JavaScript"
+            v-model="searchbarContent"
+            @keyup.enter="searchResources()"
+            @keydown.enter="searchResources()"
           />
         </div>
-
-        <!-- 推薦關鍵字 -->
-        <!-- <ul class="d-flex fs-7 text-center">
-                    <li class="me-2"><a href="#" class="text-light"> JavaScript </a></li>
-                    <li class="me-2"><a href="#" class="text-light"> Python </a></li>
-                    <li class="me-2"><a href="#" class="text-light"> HTML </a></li>
-                </ul> -->
       </div>
 
       <img
@@ -76,13 +72,12 @@
   <div
     class="painpoint container px-3 py-5 p-lg-8 d-flex align-items-center flex-column flex-xl-row"
   >
-    <div class="me-md-0 me-xl-5 text-xl-start text-center">
-      <!-- <img class="w-75" src="@/assets/images/banner02.png" alt="painpoint" /> -->
+    <div class="me-md-0 me-xl-1 text-xl-start text-center">
       <h3 class="fw-bold text-primary mb-lg-6">
         找到具參考價值的學習資源前<br />往往需要經過一番 N 折?
       </h3>
     </div>
-    <div class="painpointRight mt-3 ms-xl-8 text-xl-start text-lg-center">
+    <div class="painpointRight mt-3 ms-xl-5 text-xl-start text-lg-center">
       <swiper
         :autoplay="{
           delay: 3000,
@@ -470,6 +465,8 @@ export default {
       modules: [Autoplay, Navigation, Thumbs],
       goodRateClassify: "JavaScript",
       freeTabClassify: "線上課程",
+      searchbarContent: "",
+      searchText: "",
     };
   },
   components: {
@@ -494,6 +491,15 @@ export default {
     },
     setThumbsSwiper(swiper) {
       this.thumbsSwiper = swiper;
+    },
+    searchResources() {
+      if (this.searchbarContent) {
+        this.searchText = this.searchbarContent;
+        this.$router.push({
+          path: `/resource-list/search=${this.searchText}`,
+        });
+      }
+      this.searchbarContent = "";
     },
   },
   watch: {

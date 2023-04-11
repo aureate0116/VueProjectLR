@@ -11,6 +11,8 @@ export default {
       userInfo: null,
       userId: localStorage.getItem("userId"),
       accessToken: localStorage.getItem("accessToken"),
+      searchbarContent: "",
+      searchText: "",
     };
   },
   components: {
@@ -32,6 +34,11 @@ export default {
   },
   methods: {
     ...mapActions(userStore, ["login"]),
+    goHome() {
+      if (this.$route.name !== "home") {
+        this.$router.push({ path: "/" });
+      }
+    },
     getUserData() {
       this.$http
         .get(`${VITE_API_PATH}/users?id=${this.userId}`, {
@@ -42,7 +49,6 @@ export default {
           this.isLogin = true;
         })
         .catch(() => {
-          //console.log(err);
         });
     },
     logout() {
@@ -51,6 +57,15 @@ export default {
       localStorage.setItem("accessToken", "");
       localStorage.setItem("userId", "");
     },
+    searchResources() {
+      if (this.searchbarContent) {
+        this.searchText = this.searchbarContent;
+        this.$router.push({
+          path: `/resource-list/search=${this.searchText}`,
+        });
+      }
+      this.searchbarContent = "";
+    },
   },
   mounted() {},
 };
@@ -58,13 +73,17 @@ export default {
 
 <template>
   <div
-    class="container-fluid p-0 bg-white d-flex flex-column justify-content-between"
+    class="container-fluid p-0 bg-white min-vh-100 d-flex flex-column justify-content-between"
   >
     <header class="container-fluid p-lg-0">
       <div class="container p-lg-0">
         <nav class="navbar navbar-expand-lg navbar-light py-4">
           <div class="container-fluid p-0 d-lg-flex align-items-center">
-            <router-link class="navbar-brand mt-lg-2" to="/"></router-link>
+            <router-link
+              class="navbar-brand mt-lg-2"
+              :to="{ path: '/' }"
+              @click="goHome"
+            ></router-link>
             <button
               class="navbar-toggler"
               type="button"
@@ -120,12 +139,6 @@ export default {
                   </ul>
                 </li>
 
-                <li class="nav-item">
-                  <a class="nav-link text-black" href="#">探索學習路徑</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link text-black" href="#">募集中的資源</a>
-                </li>
               </ul>
 
               <ul class="navbar-nav d-lg-flex align-items-lg-center mx-3">
@@ -142,6 +155,9 @@ export default {
                       class="border-0 bg-light form-control"
                       type="text"
                       placeholder="JavaScript"
+                      v-model="searchbarContent"
+                      @keyup.enter="searchResources()"
+                      @keydown.enter="searchResources()"
                     />
                   </div>
                 </li>
@@ -156,11 +172,11 @@ export default {
                       to="/login"
                       >登入</router-link
                     >
-                    <!-- <router-link
+                    <router-link
                       class="nav-link btn btn-secondary mx-lg-2 mx-2 px-2 text-white"
                       to="/signup"
                       >註冊</router-link
-                    > -->
+                    >
                   </li>
                 </ul>
               </div>
@@ -169,31 +185,6 @@ export default {
                 <ul
                   class="afterLogin justify-content-end navbar-nav d-lg-flex align-items-lg-center lh-1"
                 >
-                  <li class="nav-item">
-                    <!-- <span class="material-icons text-danger">notifications</span> -->
-                    <!-- <span class="material-icons material-icons-outlined text-dark">notifications_none</span> -->
-                  </li>
-
-                  <li class="nav-item dropdown create">
-                    <!-- <a
-                      class="nav-link dropdown-toggle"
-                      href="#"
-                      id="createItem"
-                      role="button"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      <span
-                        class="material-icons material-icons-outlined text-dark"
-                      >
-                        add
-                      </span>
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="createItem">
-                      <li><a class="dropdown-item" href="#">新增資源</a></li>
-                      <li><a class="dropdown-item" href="#">新增募集</a></li>
-                    </ul> -->
-                  </li>
                   <li class="nav-item dropdown">
                     <a
                       class="nav-link dropdown-toggle accountMenuImg"
@@ -212,13 +203,6 @@ export default {
                     <ul class="dropdown-menu" aria-labelledby="accountMenu">
                       <li>
                         <ul class="accountMenu">
-                          <!-- <li>
-                            <router-link
-                              class="dropdown-item"
-                              :to="`/user-home/user-profile/${userInfo.id}`"
-                              >個人資料</router-link
-                            >
-                          </li> -->
                           <li>
                             <router-link
                               class="dropdown-item"
@@ -226,13 +210,6 @@ export default {
                               >我的資源</router-link
                             >
                           </li>
-                          <!-- <li>
-                            <a class="dropdown-item" href="#">我的募集</a>
-                          </li>
-                          <li>
-                            <a class="dropdown-item" href="#">我的學習</a>
-                          </li>
-                          <li><a class="dropdown-item" href="#">設定</a></li> -->
                         </ul>
                       </li>
                       <li>
@@ -255,29 +232,19 @@ export default {
 
     <div class="container-fluid p-lg-0">
       <main>
-        <router-view></router-view>
+        <keep-alive>
+          <router-view :search-text="searchText"></router-view>
+        </keep-alive>
       </main>
     </div>
 
-    <footer class="footer container-fluid py-5 p-lg-5 mt-auto bg-primary">
+    <footer class="footer container-fluid py-5 p-lg-5 bg-primary">
       <div
         class="container d-flex flex-md-row flex-column justify-content-between align-items-center"
       >
         <ul class="navbar-nav d-flex flex-row flex-wrap justify-content-start">
-          <li class="nav-item me-3 me-md-5 mb-3 mb-md-0">
+          <li class="nav-item me-md-5 mb-3 mb-md-0">
             <router-link class="footer-brand" to="/"></router-link>
-          </li>
-          <li class="nav-item me-2">
-            <a class="nav-link text-white">關於我們</a>
-          </li>
-          <li class="nav-item me-2">
-            <a class="nav-link text-white">聯絡我們</a>
-          </li>
-          <li class="nav-item me-2">
-            <a class="nav-link text-white">常見問題</a>
-          </li>
-          <li class="nav-item me-2">
-            <a class="nav-link text-white">隱私權政策</a>
           </li>
           <li class="nav-item me-2"><a class="nav-link text-white"></a></li>
         </ul>

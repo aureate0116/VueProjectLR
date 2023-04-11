@@ -6,6 +6,7 @@ const router = createRouter({
   routes: [
     {
       path: "/",
+      name: "home",
       component: () => import("../views/FrontLayout.vue"),
       children: [
         {
@@ -16,6 +17,12 @@ const router = createRouter({
           path: "resource-list/:resTopic",
           component: () => import("../views/front/ResourceListView.vue"),
         },
+        // {
+        //   path: "/resource-list/:searchText",
+        //   name: "ResourceListView",
+        //   component: () => import("../views/front/ResourceListView.vue"),
+        //   props: true,
+        // },
         {
           path: "resource/:resourceId",
           component: () => import("../views/front/ResourceView.vue"),
@@ -26,6 +33,7 @@ const router = createRouter({
         },
         {
           path: "signup",
+          name: "signup",
           component: () => import("../views/front/SignupView.vue"),
         },
         {

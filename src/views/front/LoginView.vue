@@ -53,9 +53,9 @@ export default {
         >
           登入
         </button>
-        <!-- <p class="fs-8 text-gray my-3">
-          <a href="#"> 忘記密碼 </a> | <a href="./signup.html"> 免費註冊</a>
-        </p> -->
+        <p class="fs-8 text-gray my-3">
+          <router-link to="signup" class="text-primary">免費註冊 </router-link>
+        </p>
       </div>
     </form>
   </div>

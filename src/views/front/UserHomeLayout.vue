@@ -15,12 +15,12 @@ export default {};
                 >我的資源</a
               >
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a class="nav-link text-white" href="#">我的募集</a>
             </li>
             <li class="nav-item">
               <a class="nav-link text-white" href="#">我的學習</a>
-            </li>
+            </li> -->
           </ul>
         </div>
 

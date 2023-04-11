@@ -1,7 +1,7 @@
 <template>
   <loading-component :is-loading="isLoading" />
 
-  <router-view @click="closeCollapse">
+  <router-view @click="closeCollapse" class="flex-column">
     <!-- banner  -->
     <div
       class="container-fluid py-5 p-lg-5 py-md-8 bg-primary d-none d-md-block"
@@ -18,11 +18,6 @@
             <h2 class="fs-5 fw-bold mt-md-0 mt-3">
               {{ theResourceData.title }}
             </h2>
-            <!-- <star-component
-              :commentSum="theResourceData.commentSum"
-              :averageScore="theResourceData.averageScore"
-              color="#ffde7d"
-            ></star-component> -->
 
             <star-component
               :commentSum="theResourceData?.commentSum"
@@ -64,18 +59,6 @@
         <div class="resourceComment">
           <!--登入後顯示-->
           <div class="loginComment">
-            <!-- <button
-              class="btnComment btnHover btn btn-outline-primary w-100"
-              data-bs-toggle="collapse"
-              href="#collapseComment"
-              role="button"
-              aria-expanded="false"
-              aria-controls="collapseComment"
-              @click="checkLoginComment"
-            >
-              立即評論
-            </button> -->
-
             <!-- comment modal -->
             <div
               v-if="isLogin"
@@ -187,89 +170,20 @@
               </div>
             </div>
             <!-- end comment modal -->
-
-            <!-- 原本展開的用法 -->
-            <!-- <div
-              v-if="isLogin"
-              class="commentContent collapse border border-2 rounded-3 p-lg-4 my-2 p-2"
-              id="collapseComment"
-            >
-              <div
-                class="d-flex p-3 align-items-center justify-content-between"
-              >
-               
-                <h3 class="userInfo card-title fs-7 d-flex align-items-center">
-                  <span
-                    class="userImg d-inline-block bg-primary px-2 py-2 rounded-circle fw-bold fs-7 lh-1 text-white text-center"
-                    >{{ userInfo?.firstName[0].toUpperCase() }}</span
-                  >
-                  <p class="mb-0 mx-2 text-start">
-                    {{ userInfo?.firstName }}<br />
-                    <span class="fs-9 text-gray">{{ userInfo?.title }}</span>
-                  </p>
-                </h3>
-                <ul
-                  class="commentStar card-text d-flex align-items-center lh-1"
-                >
-                  <li v-for="star in 5" :key="star" @click.prevent="rate(star)">
-                    <a href="#" role="button" class="text-primary">
-                      <span
-                        v-if="star <= commentRating"
-                        class="material-icons material-icons-sharp"
-                        >star</span
-                      >
-                      <span v-else class="material-icons material-icons-sharp"
-                        >star_outline</span
-                      >
-                    </a>
-                  </li>
-                </ul>
-              </div>
-
-              <div class="d-flex flex-column">
-                <div class="form-floating">
-                  <textarea
-                    class="form-control"
-                    placeholder=""
-                    id="commentTextarea"
-                    style="height: 100px"
-                    v-model="commentContent"
-                  ></textarea>
-                  <span
-                    v-if="
-                      commentContent.length < 20 && commentContent.length > 0
-                    "
-                    class="message commentTextarea text-danger fs-8"
-                    >字數須超過20字</span
-                  >
-                  <span
-                    v-else-if="
-                      commentContent.length == 0 || commentContent.length >= 20
-                    "
-                    class="message commentTextarea text-danger fs-8"
-                  ></span>
-                  <label for="commentTextarea">Comments</label>
-                </div>
-                <button
-                  type="button"
-                  class="btnCommentSubmit btn btn-primary text-white mt-4"
-                  @click="sendComment"
-                >
-                  送出評論
-                </button>
-              </div>
-            </div> -->
-            <!-- end 展開-->
           </div>
 
           <!--commentSort 排序-->
           <div class="row mt-5" v-if="theResCommentsData.length > 0">
             <div class="col-9"></div>
             <div class="col input-group w-35 text-end mb-3">
-              <select class="form-select form-select-sm" id="commentSort">
+              <select
+                class="form-select form-select-sm"
+                id="commentSort"
+                v-model="sortCommentList"
+              >
                 <option value="new">最新</option>
                 <option value="heightRate" selected>評價最高</option>
-                <option value="heightRate" selected>評價最低</option>
+                <!-- <option value="lowRate" selected>評價最低</option> -->
               </select>
             </div>
           </div>
@@ -346,8 +260,8 @@
                   class="d-flex justify-content-between fs-8 position-absolute bottom-0 mb-2"
                 >
                   <!-- 按讚數 -->
-                  <div class="d-flex align-items-center">
-                    <a href="#"
+                  <!-- <div class="d-flex align-items-center">
+                    <a href="#" type="button" @click="clickLike(comment.id)"
                       ><span class="material-icons-outlined fs-6"
                         >thumb_up_alt</span
                       ></a
@@ -359,7 +273,7 @@
                         >thumb_down_alt</span
                       ></a
                     ><span class="mx-2">{{ comment.dislikeNum }}</span>
-                  </div>
+                  </div> -->
 
                   <!-- <div>
                     <a
@@ -885,14 +799,6 @@
                   <span class="text-primary">收藏</span>
                 </span>
               </a>
-
-              <a href="#" role="button" class="d-flex align-items-center me-2">
-                <span class="text-dark material-icons material-icons-outlined"
-                  >feedback</span
-                >
-                <!-- <span class="material-icons">feedback</span> -->
-                <span class="text-dark">回報</span>
-              </a>
             </div>
           </div>
           <div class="mt-md-4 text-dark">
@@ -940,12 +846,9 @@
 
 <script>
 // 取得資源資料
-// import { mapState, mapActions } from "pinia";
-// import resourcesStore from "@/stores/resourcesStore";
 import LoadingComponent from "@/components/LoadingComponent.vue";
 import TimeStamp from "@/components/TimeStamp.vue";
 import StarComponent from "@/components/StarComponent.vue";
-// import userStore from "../../stores/userStore";
 import Swal from "sweetalert2";
 
 const { VITE_API_PATH } = import.meta.env;
@@ -961,7 +864,6 @@ export default {
       // the res data
       theResourceId: this.$route.params.resourceId,
       theResourceData: {}, //單一資源內容
-      // theAverageScore: this.theResourceData.averageScore.toString(),
       theResCommentsData: [], //取得該資源的評論
       //收藏
       theUserBookmarksData: [],
@@ -975,6 +877,7 @@ export default {
       commentRating: 0,
       commentContent: "",
       resourceScoreObj: {},
+      sortCommentList: "new",
     };
   },
   components: {
@@ -982,13 +885,7 @@ export default {
     TimeStamp,
     StarComponent,
   },
-  computed: {
-    // ...mapState(resourcesStore, [
-    //   "resourcesData",
-    //   "commentsData",
-    //   "resourcesObj",
-    // ]),
-  },
+  computed: {},
   watch: {
     "$route.params": {
       handler() {
@@ -1007,14 +904,16 @@ export default {
         this.isLoading = false;
       }
     },
+    sortCommentList(newValue) {
+      if (newValue === "new") {
+        this.sortCommentList = "new";
+      } else {
+        this.sortCommentList = "heightRate";
+      }
+      this.getResCommentsData();
+    },
   },
   methods: {
-    // ...mapActions(resourcesStore, [
-    //   "getResources",
-    //   "getComments",
-    //   "getAverageScore",
-    // ]),
-    // 取得所有資源
     getResources() {
       this.$http
         .get(`${VITE_API_PATH}/resources`)
@@ -1043,6 +942,15 @@ export default {
         )
         .then((res) => {
           this.theResCommentsData = res.data;
+          if (this.sortCommentList === "heightRate") {
+            this.theResCommentsData = this.theResCommentsData.sort((a, b) => {
+              return b.score - a.score;
+            });
+          } else if (this.sortCommentList === "new") {
+            this.theResCommentsData = this.theResCommentsData.sort((a, b) => {
+              return b.commentTime - a.commentTime;
+            });
+          }
         })
         .catch(() => {});
     },
@@ -1055,46 +963,6 @@ export default {
         .sort(() => 0.5 - Math.random())
         .slice(0, 5);
     },
-    // getTheResAverScore() {
-    //   //this.resourceScoreObj = {};
-    //   this.theResCommentsData.forEach((item) => {
-    //     if (this.resourceScoreObj[item.resourceId] === undefined) {
-    //       this.resourceScoreObj[item.resourceId] = {
-    //         commentSum: 1, // 留言資料初始化
-    //         scoreSum: item.score,
-    //         averageScore: item.score,
-    //       };
-    //       this.$http
-    //         .patch(`${VITE_API_PATH}/resources/${item.resourceId}`, {
-    //           averageScore: item.score,
-    //           commentSum: 1,
-    //         })
-    //         .then(() => {
-    //           console.log("resourceScoreObj", this.resourceScoreObj);
-    //         });
-    //     } else {
-    //       this.resourceScoreObj[item.resourceId].commentSum += 1;
-    //       this.resourceScoreObj[item.resourceId].scoreSum += item.score;
-    //       this.resourceScoreObj[item.resourceId].averageScore = (
-    //         this.resourceScoreObj[item.resourceId].scoreSum /
-    //         this.resourceScoreObj[item.resourceId].commentSum
-    //       ).toFixed(1);
-
-    //       this.$http
-    //         .patch(`${VITE_API_PATH}/resources/${item.resourceId}`, {
-    //           averageScore: parseFloat(
-    //             this.resourceScoreObj[item.resourceId].averageScore
-    //           ).toFixed(1),
-    //           commentSum: this.resourceScoreObj[item.resourceId].commentSum,
-    //         })
-    //         .then(() => {
-    //           console.log("resourceScoreObj", this.resourceScoreObj);
-    //           // console.log("res", res.data);
-    //           // console.log("更新後的資源資料", this.resourcesData);
-    //         });
-    //     }
-    //   });
-    // },
     closeCollapse() {
       const activeCollapse = document.querySelector(".offenseItem.show");
       if (activeCollapse) {
@@ -1309,8 +1177,6 @@ export default {
     }
     this.getResCommentsData();
     document.title = "Eng!neer 程式學習資源網" + this.theResourceData.title;
-    //btn 關閉
-    //let commentModal = new bootstrap.Modal(document.getElementById("commentModal"));
   },
 };
 </script>
