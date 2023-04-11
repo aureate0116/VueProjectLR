@@ -23,9 +23,11 @@ const userStore = defineStore("user", {
           //location.href = "/VueProjectLR";
           window.location.href = "/";
           //window.history.back();
+        })
+        .then(() => {
           setTimeout(() => location.reload(), 100); // 延遲 100ms 刷新頁面
         })
-        .catch((err) => {
+        .catch(() => {
           Swal.fire({
             text: `您輸入的帳號密碼有誤`,
             icon: "info",
@@ -34,7 +36,6 @@ const userStore = defineStore("user", {
             confirmButtonText: "確認",
           });
           localStorage.clear();
-          console.log(err);
           this.user.email = "";
           this.user.password = "";
         });
