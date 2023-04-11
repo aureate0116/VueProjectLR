@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useRouter } from "vue-router";
 
 const { VITE_API_PATH } = import.meta.env;
 
@@ -10,22 +11,18 @@ const userStore = defineStore("user", {
       email: "",
       password: "",
     },
-    //route: null,
   }),
   actions: {
     login() {
+      const router = useRouter();
+
       axios
         .post(`${VITE_API_PATH}/login`, this.user)
         .then((res) => {
           localStorage.setItem("accessToken", res.data.accessToken);
           localStorage.setItem("userId", res.data.user.id);
 
-          //location.href = "/VueProjectLR";
-          window.location.href = "/";
-          //window.history.back();
-        })
-        .then(() => {
-          setTimeout(() => location.reload(), 100); // 延遲 100ms 刷新頁面
+          router.push({ path: "/" });
         })
         .catch(() => {
           Swal.fire({
@@ -40,21 +37,6 @@ const userStore = defineStore("user", {
           this.user.password = "";
         });
     },
-    // getUserData() {
-    //   axios
-    //     .get(`${VITE_API_PATH}/users?id=${this.userId}`, {
-    //       Authorization: `Bearer ${this.accessToken}`,
-    //     })
-    //     .then((res) => {
-    //       this.userInfo = res.data[0];
-    //       this.isLogin = true;
-    //       //console.log("this.userInfo", this.userInfo);
-    //     })
-    //     .catch(() => {
-    //       //console.log(err);
-    //     });
-    //   return this.userInfo;
-    // },
   },
 });
 
