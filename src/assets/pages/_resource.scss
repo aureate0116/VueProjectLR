@@ -2,7 +2,7 @@
 //resourceContent
 .resourceContent{
     width: 100%;
-    @include media-breakpoint-up(md) { 
+    @include media-breakpoint-up(lg) { 
         width: 70%;
         margin-top: -200px;
     }
@@ -13,12 +13,6 @@
 .leftRelated{
     height: 100%;
     font-size: 14px;
-    // @include media-breakpoint-up(md) { 
-    //     width: 30%;
-    //     text-align: left;
-    //     margin-left: 30px;
-    //     font-size: 14px;
-    // }
     @include media-breakpoint-up(lg) { 
         width: 30%;
         font-size: 16px;

@@ -18,7 +18,7 @@ export default {
 <template>
   <div ref="LoginView" class="login container p-5 p-lg-8 p-md-4 bg-white">
     <form action="./login.html" method="post">
-      <h3 class="fs-7 my-3">會員登入</h3>
+      <h3 class="my-3 text-center text-primary fw-bold">會員登入</h3>
       <div class="form-floating mb-3">
         <input
           type="email"
@@ -45,7 +45,7 @@ export default {
         <label for="loginPw" class="text-gray">密碼</label>
       </div>
 
-      <div class="mt-6">
+      <div class="mt-6 text-center">
         <button
           type="submit"
           @click.prevent="login"

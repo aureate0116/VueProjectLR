@@ -84,7 +84,7 @@ export default {
 <template>
   <div class="signup container p-5 p-lg-8 p-md-4">
     <v-form class="signUpForm" v-slot="{ errors }" @submit="signUp()">
-      <h3 class="fs-7 my-3">會員註冊</h3>
+      <h3 class="my-3 text-center text-primary fw-bold">會員註冊</h3>
       <div class="form-floating mb-3">
         <v-field
           type="text"
@@ -165,7 +165,7 @@ export default {
         <label for="signupPwConfirm" class="text-gray">確認密碼</label>
       </div>
 
-      <div class="mt-6">
+      <div class="mt-6 text-center">
         <button type="submit" id="btnSignUp" class="btn btn-primary text-white">
           註冊
         </button>

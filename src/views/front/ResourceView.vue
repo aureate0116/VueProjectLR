@@ -4,7 +4,7 @@
   <router-view @click="closeCollapse" class="flex-column">
     <!-- banner  -->
     <div
-      class="container-fluid py-5 p-lg-5 py-md-8 bg-primary d-none d-md-block"
+      class="container-fluid py-5 p-lg-5 py-md-8 bg-primary d-none d-lg-block"
     >
       <div class="bannerBlock container p-0 p-lg-8 py-md-5"></div>
     </div>
@@ -13,9 +13,11 @@
       class="resourceContent container d-flex flex-lg-row flex-column-reverse flex-column mb-7"
     >
       <div class="rightInfo mt-5 mt-lg-0">
-        <div class="d-flex align-items-center flex-md-row flex-column">
+        <div
+          class="d-flex align-items-center flex-md-row flex-column bg-primary p-3"
+        >
           <div class="titleBox">
-            <h2 class="fs-5 fw-bold mt-md-0 mt-3">
+            <h2 class="text-white fs-5 fw-bold mt-md-0 mt-3">
               {{ theResourceData.title }}
             </h2>
 
@@ -23,9 +25,11 @@
               :commentSum="theResourceData?.commentSum"
               :averageScore="theResourceData?.averageScore?.toString()"
               color="#FAD816"
+              colorRelated="#E5E5E5"
             ></star-component>
+            <!-- FAD816 -->
 
-            <div class="classify fs-7">
+            <div class="classify fs-7 text-white">
               <ul class="d-flex">
                 <li>{{ theResourceData.topics }} /</li>
                 <li>{{ theResourceData.type }} /</li>
@@ -183,7 +187,6 @@
               >
                 <option value="new">最新</option>
                 <option value="heightRate" selected>評價最高</option>
-                <!-- <option value="lowRate" selected>評價最低</option> -->
               </select>
             </div>
           </div>
@@ -196,7 +199,7 @@
             <div
               v-for="comment in theResCommentsData"
               :key="comment.id"
-              class="col mb-3"
+              class="col-6 mb-3"
               style="z-index: 10"
             >
               <div
@@ -242,7 +245,7 @@
                     <p class="mb-0 text-end">
                       <time-stamp
                         class="fs-9 text-gray"
-                        :timespan="comment.commentTime"
+                        :timespan="parseInt(comment.commentTime)"
                       ></time-stamp>
                     </p>
                   </div>
@@ -255,489 +258,12 @@
                 </div>
 
                 <!-- bottom -->
-
-                <div
-                  class="d-flex justify-content-between fs-8 position-absolute bottom-0 mb-2"
-                >
-                  <!-- 按讚數 -->
-                  <!-- <div class="d-flex align-items-center">
-                    <a href="#" type="button" @click="clickLike(comment.id)"
-                      ><span class="material-icons-outlined fs-6"
-                        >thumb_up_alt</span
-                      ></a
-                    >
-                    <span class="mx-2">{{ comment.likeNum }}</span>
-
-                    <a href="#"
-                      ><span class="material-icons-outlined fs-6"
-                        >thumb_down_alt</span
-                      ></a
-                    ><span class="mx-2">{{ comment.dislikeNum }}</span>
-                  </div> -->
-
-                  <!-- <div>
-                    <a
-                      class="d-flex align-items-center text-gray"
-                      data-bs-toggle="collapse"
-                      :href="`#commentOffense${comment.id}`"
-                      role="button"
-                      aria-expanded="false"
-                      aria-controls="commentOffense"
-                      @click="closeCollapse"
-                    >
-                      <span class="material-icons-outlined">report</span>
-                      <span>檢舉</span>
-                    </a>
-
-                    <div
-                      class="offenseItem border bg-light rounded-3 p-3 collapse position-absolute end-0"
-                      :id="`commentOffense${comment.id}`"
-                      style="z-index: 0"
-                      @shown="closeCollapse"
-                    >
-                      <div class="form-check">
-                        <input
-                          class="form-check-input"
-                          type="radio"
-                          name="offenseItem"
-                          id="offenseItem1"
-                        />
-                        <label class="form-check-label" for="offenseItem1">
-                          偏離主題
-                        </label>
-                      </div>
-                      <div class="form-check">
-                        <input
-                          class="form-check-input"
-                          type="radio"
-                          name="offenseItem"
-                          id="offenseItem2"
-                        />
-                        <label class="form-check-label" for="offenseItem2">
-                          垃圾內容及廣告宣傳
-                        </label>
-                      </div>
-                      <div class="form-check">
-                        <input
-                          class="form-check-input"
-                          type="radio"
-                          name="offenseItem"
-                          id="offenseItem3"
-                        />
-                        <label class="form-check-label" for="offenseItem3">
-                          騷擾內容及不雅用語
-                        </label>
-                      </div>
-                      <button
-                        class="btn btn-primary btn-sm text-white"
-                        type="submit"
-                      >
-                        送出
-                      </button>
-                    </div>
-                  </div> -->
-                </div>
-                <!-- bottom -->
               </div>
               <!--end card-->
             </div>
             <!--end col-->
           </div>
           <!--row-->
-
-          <!-- comment read more Scrollable modal -->
-          <div>
-            <!-- Button trigger modal -->
-            <!-- <button type="button" class="btn btnReadMore btn-outline-primary" data-bs-toggle="modal" data-bs-target="#moreComment">
-                        瀏覽更多
-                    </button> -->
-
-            <!-- comment Modal -->
-            <div
-              class="modal fade"
-              id="moreComment"
-              data-bs-backdrop="static"
-              data-bs-keyboard="false"
-              tabindex="-1"
-              aria-labelledby="staticBackdropLabel"
-              aria-hidden="true"
-            >
-              <div class="modal-dialog modal-dialog-scrollable">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">
-                      3.2顆星 35個評價
-                    </h5>
-                    <button
-                      type="button"
-                      class="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    ></button>
-                  </div>
-                  <div class="modal-body">
-                    <div class="col mb-3">
-                      <div class="card card-body" style="z-index: 10">
-                        <div
-                          class="d-flex p-lg-3 align-items-lg-center flex-column flex-lg-row justify-content-between"
-                        >
-                          <h3
-                            class="card-title fs-7 d-flex align-items-center justify-content-lg-start justify-content-between"
-                          >
-                            <img
-                              class="rounded-circle"
-                              src="@/assets/images/icon_image.png"
-                              alt="photo"
-                            />
-                            <p class="mb-0 mx-2 text-start">
-                              Jenny<br />
-                              <span class="fs-9 text-gray">5 年前端工程師</span>
-                            </p>
-                          </h3>
-                          <div
-                            class="d-flex flex-lg-column justify-content-between"
-                          >
-                            <ul
-                              class="card-text d-flex align-items-center lh-1"
-                            >
-                              <li>
-                                <a href="#" role="button"
-                                  ><span
-                                    class="material-icons material-icons-sharp"
-                                    >star_outline</span
-                                  ></a
-                                >
-                              </li>
-                              <li>
-                                <a href="#" role="button"
-                                  ><span
-                                    class="material-icons material-icons-sharp"
-                                    >star_outline</span
-                                  ></a
-                                >
-                              </li>
-                              <li>
-                                <a href="#" role="button"
-                                  ><span
-                                    class="material-icons material-icons-sharp"
-                                    >star_outline</span
-                                  ></a
-                                >
-                              </li>
-                              <li>
-                                <a href="#" role="button"
-                                  ><span
-                                    class="material-icons material-icons-sharp"
-                                    >star_outline</span
-                                  ></a
-                                >
-                              </li>
-                              <li>
-                                <a href="#" role="button"
-                                  ><span
-                                    class="material-icons material-icons-sharp"
-                                    >star_outline</span
-                                  ></a
-                                >
-                              </li>
-                            </ul>
-                            <p class="mb-0 text-end">
-                              <span class="fs-9 text-gray">6 個月前</span>
-                            </p>
-                          </div>
-                        </div>
-
-                        <div class="d-flex flex-column">
-                          <div class="form-floating my-3">
-                            <p>
-                              留言內容顯示在這裡留言內容顯示在這裡留言內容顯示在這裡留言內容顯示在這裡
-                            </p>
-                          </div>
-                        </div>
-
-                        <div class="d-flex justify-content-between fs-8">
-                          <!-- like & dislike -->
-                          <div class="d-flex align-items-center">
-                            <a href="#">
-                              <span class="material-icons-outlined fs-6"
-                                >thumb_up_alt</span
-                              ></a
-                            >
-                            <span class="mx-2">35</span>
-                            <!-- <a href="#">
-                                                    <span class="material-icons fs-6">thumb_up_alt</span></a> -->
-
-                            <a href="#">
-                              <span class="material-icons-outlined fs-6"
-                                >thumb_down_alt</span
-                              ></a
-                            >
-                            <span class="mx-2">3</span>
-                            <!-- <a href="#">
-                                                        <span class="material-icons fs-6">thumb_down_alt</span></a> -->
-                          </div>
-
-                          <div class="position-relatvie">
-                            <a
-                              class="d-flex align-items-center"
-                              data-bs-toggle="collapse"
-                              href="#commentOffense3"
-                              role="button"
-                              aria-expanded="false"
-                              aria-controls="commentOffense"
-                            >
-                              <span class="material-icons-outlined"
-                                >report</span
-                              >
-                              <span>檢舉</span>
-                            </a>
-
-                            <div
-                              class="offenseItem border bg-light rounded-3 p-3 collapse position-absolute end-0"
-                              id="commentOffense3"
-                              style="z-index: 0"
-                            >
-                              <div class="form-check">
-                                <input
-                                  class="form-check-input"
-                                  type="radio"
-                                  name="offenseItem"
-                                  id="offenseItem1"
-                                />
-                                <label
-                                  class="form-check-label"
-                                  for="offenseItem1"
-                                >
-                                  偏離主題
-                                </label>
-                              </div>
-                              <div class="form-check">
-                                <input
-                                  class="form-check-input"
-                                  type="radio"
-                                  name="offenseItem"
-                                  id="offenseItem2"
-                                />
-                                <label
-                                  class="form-check-label"
-                                  for="offenseItem2"
-                                >
-                                  垃圾內容及廣告宣傳
-                                </label>
-                              </div>
-                              <div class="form-check">
-                                <input
-                                  class="form-check-input"
-                                  type="radio"
-                                  name="offenseItem"
-                                  id="offenseItem3"
-                                />
-                                <label
-                                  class="form-check-label"
-                                  for="offenseItem3"
-                                >
-                                  騷擾內容及不雅用語
-                                </label>
-                              </div>
-                              <button
-                                class="btn btn-primary btn-sm text-white"
-                                type="submit"
-                              >
-                                送出
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <!--end card-->
-                    </div>
-                    <!--end col-->
-                    <div class="col mb-3">
-                      <div class="card card-body" style="z-index: 10">
-                        <div
-                          class="d-flex p-lg-3 align-items-lg-center flex-column flex-lg-row justify-content-between"
-                        >
-                          <h3
-                            class="card-title fs-7 d-flex align-items-center justify-content-lg-start justify-content-between"
-                          >
-                            <img
-                              class="rounded-circle"
-                              src="@/assets/images/icon_image.png"
-                              alt="photo"
-                            />
-                            <p class="mb-0 mx-2 text-start">
-                              Jenny<br />
-                              <span class="fs-9 text-gray">5 年前端工程師</span>
-                            </p>
-                          </h3>
-                          <div
-                            class="d-flex flex-lg-column justify-content-between"
-                          >
-                            <ul
-                              class="card-text d-flex align-items-center lh-1"
-                            >
-                              <li>
-                                <a href="#" role="button"
-                                  ><span
-                                    class="material-icons material-icons-sharp"
-                                    >star_outline</span
-                                  ></a
-                                >
-                              </li>
-                              <li>
-                                <a href="#" role="button"
-                                  ><span
-                                    class="material-icons material-icons-sharp"
-                                    >star_outline</span
-                                  ></a
-                                >
-                              </li>
-                              <li>
-                                <a href="#" role="button"
-                                  ><span
-                                    class="material-icons material-icons-sharp"
-                                    >star_outline</span
-                                  ></a
-                                >
-                              </li>
-                              <li>
-                                <a href="#" role="button"
-                                  ><span
-                                    class="material-icons material-icons-sharp"
-                                    >star_outline</span
-                                  ></a
-                                >
-                              </li>
-                              <li>
-                                <a href="#" role="button"
-                                  ><span
-                                    class="material-icons material-icons-sharp"
-                                    >star_outline</span
-                                  ></a
-                                >
-                              </li>
-                            </ul>
-                            <p class="mb-0 text-end">
-                              <span class="fs-9 text-gray">6 個月前</span>
-                            </p>
-                          </div>
-                        </div>
-
-                        <div class="d-flex flex-column">
-                          <div class="form-floating my-3">
-                            <p>
-                              留言內容顯示在這裡留言內容顯示在這裡留言內容顯示在這裡留言內容顯示在這裡
-                            </p>
-                          </div>
-                        </div>
-
-                        <div class="d-flex justify-content-between fs-8">
-                          <!-- like & dislike -->
-                          <div class="d-flex align-items-center">
-                            <a href="#">
-                              <span class="material-icons-outlined fs-6"
-                                >thumb_up_alt</span
-                              ></a
-                            >
-                            <span class="mx-2">35</span>
-                            <!-- <a href="#">
-                                                    <span class="material-icons fs-6">thumb_up_alt</span></a> -->
-
-                            <a href="#">
-                              <span class="material-icons-outlined fs-6"
-                                >thumb_down_alt</span
-                              ></a
-                            >
-                            <span class="mx-2">3</span>
-                            <!-- <a href="#">
-                                                        <span class="material-icons fs-6">thumb_down_alt</span></a> -->
-                          </div>
-
-                          <div class="position-relatvie">
-                            <a
-                              class="d-flex align-items-center"
-                              data-bs-toggle="collapse"
-                              href="#commentOffense3"
-                              role="button"
-                              aria-expanded="false"
-                              aria-controls="commentOffense"
-                            >
-                              <span class="material-icons-outlined"
-                                >report</span
-                              >
-                              <span>檢舉</span>
-                            </a>
-
-                            <div
-                              class="offenseItem border bg-light rounded-3 p-3 collapse position-absolute end-0"
-                              id="commentOffense3"
-                              style="z-index: 0"
-                            >
-                              <div class="form-check">
-                                <input
-                                  class="form-check-input"
-                                  type="radio"
-                                  name="offenseItem"
-                                  id="offenseItem1"
-                                />
-                                <label
-                                  class="form-check-label"
-                                  for="offenseItem1"
-                                >
-                                  偏離主題
-                                </label>
-                              </div>
-                              <div class="form-check">
-                                <input
-                                  class="form-check-input"
-                                  type="radio"
-                                  name="offenseItem"
-                                  id="offenseItem2"
-                                />
-                                <label
-                                  class="form-check-label"
-                                  for="offenseItem2"
-                                >
-                                  垃圾內容及廣告宣傳
-                                </label>
-                              </div>
-                              <div class="form-check">
-                                <input
-                                  class="form-check-input"
-                                  type="radio"
-                                  name="offenseItem"
-                                  id="offenseItem3"
-                                />
-                                <label
-                                  class="form-check-label"
-                                  for="offenseItem3"
-                                >
-                                  騷擾內容及不雅用語
-                                </label>
-                              </div>
-                              <button
-                                class="btn btn-primary btn-sm text-white"
-                                type="submit"
-                              >
-                                送出
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <!--end card-->
-                    </div>
-                    <!--end col-->
-                  </div>
-                  <!--modal-body-->
-                  <!-- <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Understood</button>
-                                </div> -->
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
         <!--end resourceComment-->
       </div>
@@ -762,9 +288,9 @@
             <div class="btnResLink mt-3">
               <button
                 @click="checkLoginComment"
-                data-bs-toggle="modal"
                 role="button"
                 aria-expanded="false"
+                data-bs-toggle="modal"
                 data-bs-target="#commentModal"
                 class="w-100 btn btn-sm my-2 bg-primary text-white px-lg-4 py-2 fs-6"
               >
@@ -833,6 +359,7 @@
                 <star-component
                   :commentSum="resourceItem?.commentSum"
                   :averageScore="resourceItem?.averageScore.toString()"
+                  color="#FAA037"
                 ></star-component>
               </div>
             </div>
@@ -850,6 +377,7 @@ import LoadingComponent from "@/components/LoadingComponent.vue";
 import TimeStamp from "@/components/TimeStamp.vue";
 import StarComponent from "@/components/StarComponent.vue";
 import Swal from "sweetalert2";
+// import userStore from "../../stores/userStore";
 
 const { VITE_API_PATH } = import.meta.env;
 

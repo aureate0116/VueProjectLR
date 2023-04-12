@@ -5,7 +5,6 @@ import LoadingComponent from "@/components/LoadingComponent.vue";
 import StarComponent from "@/components/StarComponent.vue";
 
 export default {
-  // name: "ResourceListView",
   props: ["searchText"],
   data() {
     return {
@@ -103,10 +102,6 @@ export default {
               this.searchKey.toLowerCase().replace(/[^a-zA-Z0-9]/g, "")
             );
         });
-        console.log("searchResultData", this.searchResultData);
-        console.log("searchkey", this.searchKey);
-
-        console.log("router", this.$route.params.resTopic);
       } else {
         this.searchResultData = newValue.filter((value) => {
           return value.title
@@ -114,9 +109,6 @@ export default {
             .replace(/[^a-zA-Z0-9]/g, "")
             .includes(this.topic.toLowerCase().replace(/[^a-zA-Z0-9]/g, ""));
         });
-        console.log("searchResultData === ''", this.searchResultData);
-        console.log("searchKey === ''", this.searchKey);
-        console.log("router", this.$route.params.resTopic);
       }
 
       this.topicsResData = newValue.filter((value) => {
@@ -248,8 +240,7 @@ export default {
 
 <template>
   <loading-component :is-loading="isLoading" />
-  <div :key="componentKey">
-    <!-- banner-->
+  <div>
     <div class="container-fluid px-3 py-5 p-lg-0 bg-primary">
       <div v-if="renderList.length === 0"></div>
       <div v-else class="bannerBlock container p-0 p-lg-8 p-md-4">
@@ -342,7 +333,7 @@ export default {
                         {{ resourceItem.title }}
                       </router-link>
                     </h4>
-  
+
                     <star-component
                       :commentSum="resourceItem?.commentSum"
                       :averageScore="resourceItem?.averageScore.toString()"
@@ -357,13 +348,15 @@ export default {
       </div>
     </div>
     <!-- end  foundation  -->
-  
+
     <!-- filterList -->
     <div
       v-if="this.searchKey !== '' && searchResultData.length === 0"
       class="filterList container py-5 p-lg-8 pt-lg-4 text-center"
     >
-      <h1 class="fs-4 fw-bold">抱歉，我們找不到 " {{ searchKey }} " 相關結果</h1>
+      <h1 class="fs-4 fw-bold">
+        抱歉，我們找不到 " {{ searchKey }} " 相關結果
+      </h1>
       <div>
         請嘗試調整您的搜尋。以下是一些想法 :
         <ul class="list-group">
@@ -377,7 +370,7 @@ export default {
       class="filterList container py-5 p-lg-8 pt-lg-4 d-lg-flex border-bottom"
     >
       <h3 class="fs-5 fw-bold mb-4 d-lg-none">篩選</h3>
-  
+
       <div
         class="filter bg-white rounded-3 p-4 me-lg-4 d-flex flex-wrap flex-lg-column flex-column justify-content-between justify-content-lg-start flex-sm-row"
       >
@@ -414,7 +407,7 @@ export default {
         </div>
       </div>
       <!--filterList-->
-  
+
       <div class="resourceList">
         <div
           class="row d-lg-flex align-items-center mb-5 mb-lg-0 justify-content-between"
@@ -451,7 +444,7 @@ export default {
             </div>
           </div>
         </div>
-  
+
         <!-- 資源列表 -->
         <div class="row">
           <div class="col resourceItem" v-if="renderList.length === 0">
@@ -490,7 +483,7 @@ export default {
                     {{ resourceItem.title }}
                   </router-link>
                 </h4>
-  
+
                 <star-component
                   :commentSum="resourceItem?.commentSum"
                   :averageScore="resourceItem?.averageScore.toString()"
@@ -512,31 +505,11 @@ export default {
             <!--end row-->
           </div>
         </div>
-  
-        <!-- <div class="d-flex justify-content-center">
-            <nav aria-label="Page navigation me-auto">
-              <ul class="pagination">
-                <li class="page-item">
-                  <a class="page-link" href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                  </a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                  <a class="page-link" href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div> -->
       </div>
       <!--resourceList-->
     </div>
     <!-- end filterList -->
-  
+
     <!-- releative -->
     <div
       v-if="renderList.length === 0"

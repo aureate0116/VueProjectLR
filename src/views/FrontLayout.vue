@@ -1,61 +1,35 @@
 <script>
 import { RouterView, RouterLink } from "vue-router";
-const { VITE_API_PATH } = import.meta.env;
-import { mapActions } from "pinia";
+// const { VITE_API_PATH } = import.meta.env;
+import { mapActions, mapState } from "pinia";
 import userStore from "../stores/userStore";
+import LoadingComponent from "@/components/LoadingComponent.vue";
 
 export default {
   data() {
     return {
-      isLogin: false,
-      userInfo: null,
-      userId: localStorage.getItem("userId"),
-      accessToken: localStorage.getItem("accessToken"),
       searchbarContent: "",
       searchText: "",
+      isLoading: false,
+      // user: "",
     };
   },
   components: {
     RouterView,
     RouterLink,
+    LoadingComponent,
   },
-  computed: {},
-  watch: {
-    userInfo() {
-      if (this.userInfo === null || this.userInfo === undefined) {
-        this.isLogin = false;
-      } else {
-        this.isLogin = true;
-      }
-    },
+  computed: {
+    ...mapState(userStore, ["isLogin", "userInfo"]),
   },
-  created() {
-    this.getUserData();
-  },
+  watch: {},
+  created() {},
   methods: {
-    ...mapActions(userStore, ["login"]),
+    ...mapActions(userStore, ["login", "logout", "getUserData"]),
     goHome() {
       if (this.$route.name !== "home") {
         this.$router.push({ path: "/" });
       }
-    },
-    getUserData() {
-      this.$http
-        .get(`${VITE_API_PATH}/users?id=${this.userId}`, {
-          Authorization: `Bearer ${this.accessToken}`,
-        })
-        .then((res) => {
-          this.userInfo = res.data[0];
-          this.isLogin = true;
-        })
-        .catch(() => {
-        });
-    },
-    logout() {
-      this.isLogin = false;
-      this.$router.push("/");
-      localStorage.setItem("accessToken", "");
-      localStorage.setItem("userId", "");
     },
     searchResources() {
       if (this.searchbarContent) {
@@ -67,11 +41,13 @@ export default {
       this.searchbarContent = "";
     },
   },
-  mounted() {},
+  mounted() {
+  },
 };
 </script>
 
 <template>
+  <loading-component :is-loading="isLoading" />
   <div
     class="container-fluid p-0 bg-white min-vh-100 d-flex flex-column justify-content-between"
   >
@@ -97,7 +73,7 @@ export default {
             </button>
 
             <div
-              class="collapse navbar-collapse mt-3 mt-lg-0 d-lg-flex justify-content-end"
+              class="collapse navbar-collapse mt-3 d-lg-flex justify-content-end"
               id="navbarContent"
             >
               <ul class="navbar-nav d-lg-flex align-items-lg-center">
@@ -138,10 +114,8 @@ export default {
                     </li>
                   </ul>
                 </li>
-
               </ul>
-
-              <ul class="navbar-nav d-lg-flex align-items-lg-center mx-3">
+              <ul class="navbar-nav d-lg-flex align-items-lg-center mx-lg-3">
                 <li class="nav-item text-black">
                   <div
                     class="bg-light input-group input-group-sm rounded-3 my-3"
@@ -162,9 +136,8 @@ export default {
                   </div>
                 </li>
               </ul>
-
               <!-- 登入前 -->
-              <div v-if="isLogin === false">
+              <div v-if="isLogin === false || !userInfo">
                 <ul class="navbar-nav beforeLogin">
                   <li class="nav-item d-flex">
                     <router-link
@@ -181,8 +154,10 @@ export default {
                 </ul>
               </div>
               <!-- 登入後 -->
+
               <div v-else class="desktopMenu">
                 <ul
+                  v-if="userInfo"
                   class="afterLogin justify-content-end navbar-nav d-lg-flex align-items-lg-center lh-1"
                 >
                   <li class="nav-item dropdown">
@@ -196,8 +171,15 @@ export default {
                     >
                       <span
                         class="userImg d-inline-block bg-primary px-2 py-2 rounded-circle fw-bold fs-7 lh-1 text-white text-center"
-                        >{{ userInfo.firstName[0].toUpperCase() }}</span
                       >
+                        {{
+                          userInfo &&
+                          userInfo.firstName &&
+                          userInfo.firstName[0]
+                            ? userInfo.firstName[0].toUpperCase()
+                            : ""
+                        }}
+                      </span>
                     </a>
 
                     <ul class="dropdown-menu" aria-labelledby="accountMenu">
@@ -232,9 +214,7 @@ export default {
 
     <div class="container-fluid p-lg-0">
       <main>
-        <keep-alive>
-          <router-view :search-text="searchText"></router-view>
-        </keep-alive>
+        <router-view></router-view>
       </main>
     </div>
 

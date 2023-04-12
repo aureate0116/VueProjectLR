@@ -2,7 +2,14 @@
   <!-- star -->
   <div class="d-flex justify-content-between align-items-center">
     <div v-if="commentSum === 0 || commentSum === undefined">
-      <span class="fs-8 text-gray">尚無評價</span>
+      <span
+        class="fs-8"
+        style="color: #e5e5e5"
+        :style="{ color: colorRelated }"
+      >
+        尚無評價
+      </span>
+      <!-- <span class="fs-8" style="color: red">尚無評價</span> -->
     </div>
     <div v-else class="d-flex align-items-center flex-wrap">
       <!-- 評價沒有小數點後的值時 -->
@@ -94,16 +101,20 @@
 export default {
   props: {
     commentSum: {
-      type: Number,
+      //type: Number,
       required: true,
     },
     averageScore: {
-      type: String,
+      //type: String,
       required: true,
     },
     color: {
       type: String,
       default: "#FAA037", //"#c2873a",
+    },
+    colorRelated: {
+      type: String,
+      default: "#666", //"#c2873a",
     },
   },
 };
